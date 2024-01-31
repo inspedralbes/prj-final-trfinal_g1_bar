@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductesController;
 use App\Http\Controllers\IngredientsController;
+use App\Http\Controllers\TiquetsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,8 @@ Route::get('/restaurants/{id}/categories', [CategoriesController::class,'index']
 Route::get('/categories/{id}/productes', [ProductesController::class,'index']);
 // Get ingredients d'un producte en concret
 Route::get('/productes/{id}/ingredients', [IngredientsController::class,'index']);
+// Get tiquet d'un restaurant en concret
+Route::get('/tiquets/{id}', [TiquetsController::class,'show']);
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
