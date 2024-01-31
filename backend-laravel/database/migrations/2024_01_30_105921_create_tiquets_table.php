@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedInteger('nombre_taula');
-            $table->string('codi_qr', 1000)->unique();
+            $table->string('link_qr', 1000)->unique();
             $table->foreignId('restaurant_id')->constrained('restaurants');
         });
     }

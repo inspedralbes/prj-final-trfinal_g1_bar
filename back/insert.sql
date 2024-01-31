@@ -75,7 +75,7 @@ INSERT INTO INGREDIENTS(id, nom, gluten, lactosa, fruits_secs, vegetariana, vega
 (33, 'Nous', false, false, true, true, true),
 (34, 'Gelat de Vainilla', false, true, false, true, false);
 
-INSERT INTO TIQUETS(id, codi_qr, nombre_taula, restaurant_id) VALUES
+INSERT INTO TIQUETS(id, link_qr, nombre_taula, restaurant_id) VALUES
 (1, 'qr1', 1, 1), (2, 'qr2', 2, 1), (3, 'qr3', 3, 1),
 (4, 'qr4', 20, 2), (5, 'qr5', 21, 2), (6, 'qr6', 22, 2);
 
