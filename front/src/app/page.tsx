@@ -1,11 +1,10 @@
 import React from 'react';
-import Header from '../components/Header/Header';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App() {
   return (
     <div>
-      <Header />
-      {/* Other components or content */}
+      
     </div>
   );
 };
