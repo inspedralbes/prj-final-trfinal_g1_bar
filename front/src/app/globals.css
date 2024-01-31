@@ -26,6 +26,11 @@
     rgb(var(--background-start-rgb));
 }*/
 
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .item-categoria {
   width: 200px;
   aspect-ratio: 1;

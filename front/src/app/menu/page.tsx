@@ -36,10 +36,10 @@ export default function Menu({ id }) {
             ) : (
                 <div className="d-flex flex-column align-items-center">
                     {categories.map((category) => (
-                        <Link href="/qr">
+                        <Link href="/qr" className="link">
                             <div key={category.id} className='item-categoria m-2 bg-zinc-300 rounded shadow d-flex flex-column justify-content-end align-items-center'>
                                 <img src="/salad.png" alt="" />
-                                <div className='pb-3'>
+                                <div className='pb-3 text-uppercase'>
                                     {category.nom}
                                 </div>
                             </div>
