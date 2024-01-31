@@ -26,6 +26,16 @@
     rgb(var(--background-start-rgb));
 }*/
 
+.item-categoria {
+  width: 200px;
+  aspect-ratio: 1;
+}
+
+.item-categoria > img {
+  width: 70%;
+  aspect-ratio: 1;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
