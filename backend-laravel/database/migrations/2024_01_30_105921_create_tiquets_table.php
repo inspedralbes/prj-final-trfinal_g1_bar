@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('tiquets', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedInteger('numero-taula');
-            $table->string('qr', 1000)->unique();
+            $table->unsignedInteger('nombre_taula');
+            $table->string('codi_qr', 1000)->unique();
             $table->foreignId('restaurant_id')->constrained('restaurants');
         });
     }

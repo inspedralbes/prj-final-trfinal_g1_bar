@@ -39,7 +39,7 @@ INSERT INTO CATEGORIA_PRODUCTE(id, categoria_id, producte_id) VALUES
 (11, 3, 11), -- Tiramisú com a Postres
 (12, 3, 12); -- Pastís de Formatge com a Postres
 
-INSERT INTO INGREDIENTS(id, nom, gluten, lactosa, `fruits-secs`, vegetariana, vegana) VALUES
+INSERT INTO INGREDIENTS(id, nom, gluten, lactosa, fruits_secs, vegetariana, vegana) VALUES
 (1, "Vedella", false, false, false, false, false),
 (2, "Enciam", false, false, false, true, true),
 (3, "Tomàquet", false, false, false, true, true),
@@ -75,7 +75,7 @@ INSERT INTO INGREDIENTS(id, nom, gluten, lactosa, `fruits-secs`, vegetariana, ve
 (33, 'Nous', false, false, true, true, true),
 (34, 'Gelat de Vainilla', false, true, false, true, false);
 
-INSERT INTO TIQUETS(id, qr, `numero-taula`, restaurant_id) VALUES
+INSERT INTO TIQUETS(id, codi_qr, nombre_taula, restaurant_id) VALUES
 (1, 'qr1', 1, 1), (2, 'qr2', 2, 1), (3, 'qr3', 3, 1),
 (4, 'qr4', 20, 2), (5, 'qr5', 21, 2), (6, 'qr6', 22, 2);
 
