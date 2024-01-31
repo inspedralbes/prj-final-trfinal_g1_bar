@@ -10,6 +10,12 @@ class Tiquet extends Model
 {
     use HasFactory;
 
+    protected $appends = ['tiquets'];
+
+    public function getTiquetsAttribute() {
+        return $this->tiquets()->get();
+    }
+
     public function tiquets() {
         return $this->belongsToMany(Producte::class, 'item_tiquet')
             ->withPivot('quantitat', 'estat', 'user_id');
