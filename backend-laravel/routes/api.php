@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ProductesController;
+use App\Http\Controllers\IngredientsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +19,16 @@ use App\Http\Controllers\AuthController;
 */
 
 
-// Public routes
+// Auth routes
 Route::post('/register', [AuthController::class,'register']);
 Route::post('/login', [AuthController::class,'login']);
 
+// Get categories d'un restaurant en concret
+Route::get('/restaurants/{id}/categories', [CategoriesController::class,'index']);
+// Get productes d'una categoria en concret
+Route::get('/categories/{id}/productes', [ProductesController::class,'index']);
+// Get ingredients d'un producte en concret
+Route::get('/productes/{id}/ingredients', [IngredientsController::class,'index']);
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
