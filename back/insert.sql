@@ -7,9 +7,9 @@ INSERT INTO USERS(id, name, email, password, restaurant_id) VALUES
 (4, "David", "david@gmail.com", "$2y$12$2T2EIVOsx/l2ke3UvoeZ/Oko1rGo.SrFt3Rf.l0aV7//Vwn8bf0Xe", 2), -- password: david
 (5, "Miquel", "miquel@gmail.com", "$2y$12$4uWjEHnKQkju94mlhGlid.ieDPcjGNevI5wT0hI19txA83vIymeb6", NULL); -- password: miquel
 
-INSERT INTO CATEGORIAS(id, nom, restaurant_id) VALUES 
-(1, 'Entrants', 1), (2, 'Primers', 1), (3, 'Postres', 1),
-(4, 'Esmorzars', 2), (5, 'Dinars', 2), (6, 'Sopars', 2);
+INSERT INTO CATEGORIAS(id, nom, restaurant_id, imatge) VALUES 
+(1, 'Entrants', 1, "link_a_la_imatge.jpg"), (2, 'Primers', 1, "link_a_la_imatge.jpg"), (3, 'Postres', 1, "link_a_la_imatge.jpg"),
+(4, 'Esmorzars', 2, "link_a_la_imatge.jpg"), (5, 'Dinars', 2, "link_a_la_imatge.jpg"), (6, 'Sopars', 2, "link_a_la_imatge.jpg");
 
 INSERT INTO PRODUCTES(id, nom, descripcio, preu, imatge) VALUES
 (1, 'Hamburguesa Clàssica', 'Hamburguesa de vedella de 150g amb enciam, tomàquet, ceba, formatge cheddar i salsa especial. Acompanyada de patates fregides.', 8.50, 'hamburguesa_classica.jpg'),

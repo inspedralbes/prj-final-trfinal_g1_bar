@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('nom', 100)->unique();
+            $table->string('imatge', 1000);
             $table->foreignId('restaurant_id')->constrained('restaurants');
         });
     }
