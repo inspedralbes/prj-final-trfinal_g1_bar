@@ -10,7 +10,9 @@ export interface RestaurantIdState {
 const initialState: RestaurantIdState = {
   restaurant: {
     restaurantId: 2,
-    categoriaId: null
+    categoriaId: null,
+    productesCategoriaVisualitzada: [],
+    producteId: null
   },
 };
 
@@ -24,8 +26,14 @@ export const restaurantIdSlice = createSlice({
     setCategoriaId(state, action: PayloadAction<number>) {
       state.restaurant.categoriaId = action.payload;
     },
+    setProductesCategoriaVisualitzada(state, action: PayloadAction<number>) {
+      state.restaurant.productesCategoriaVisualitzada = action.payload;
+    },
+    setProducteId(state, action: PayloadAction<number>) {
+      state.restaurant.producteId = action.payload;
+    },
   },
 });
 
-export const { setRestaurantId, setCategoriaId } = restaurantIdSlice.actions;
+export const { setRestaurantId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId } = restaurantIdSlice.actions;
 export default restaurantIdSlice.reducer;

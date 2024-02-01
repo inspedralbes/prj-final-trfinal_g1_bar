@@ -1,11 +1,16 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { RootState } from "@/lib/store";
+import { useSelector, useDispatch } from 'react-redux';
 
-export default function Producte({ id }) {
+export default function Producte() {
+    
+    let productesCategoriaVisualitzada = useSelector((state: RootState) => state.restaurant.restaurant.productesCategoriaVisualitzada);
+    const producteId = useSelector((state: RootState) => state.restaurant.restaurant.producteId);
+    //let producteSeleccionat = productesCategoriaVisualitzada.find(producte => producte.id === producteId);
+    
     const i = 2;
-
     const [productes, setProductes] = useState([]);
     const [loading, setLoading] = useState(true);
     const url = `http://127.0.0.1:8000/api/categories/${i}/productes`;
@@ -28,7 +33,7 @@ export default function Producte({ id }) {
         };
 
         fetchData();
-    }, [i]);
+    }, []);
 
     return (
         <div className='pt-4 pb-5'>

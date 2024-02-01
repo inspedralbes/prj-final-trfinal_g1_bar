@@ -4,12 +4,12 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { RootState } from "@/lib/store";
 import { useSelector, useDispatch } from 'react-redux';
-import { setRestaurantId } from "@/lib/Features/getRestaurant";
+import { setCategoriaId } from "@/lib/Features/getRestaurant";
 
 export default function Menu() {
 
     /*PER ACCEDIR A LES DADES DE LA STORE */
-    const restaurantId = useSelector((state: RootState) => state.restaurant.restaurantId);
+    const restaurantId = useSelector((state: RootState) => state.restaurant.restaurant.restaurantId);
 
     /*PER GUARDAR DADES A LA STORE */
     const dispatch = useDispatch();
@@ -53,7 +53,7 @@ export default function Menu() {
                 <div className="d-flex flex-column align-items-center">
                     <p>ID RESTAURANT {restaurantId}</p>
                     {categories.map((category) => (
-                        <Link onClick={() => dispatch(setRestaurantId(category.id))} href="/menu/productes" className="link">
+                        <Link onClick={() => dispatch(setCategoriaId(category.id))} href="/menu/productes" className="link">
                             <div key={category.id} className='item-categoria m-2 bg-zinc-300 rounded shadow d-flex flex-column justify-content-end align-items-center'>
                                 <img className="img-producte" src="/salad.png" alt="" />
                                 <div className='pb-3 fw-bold text-uppercase'>
