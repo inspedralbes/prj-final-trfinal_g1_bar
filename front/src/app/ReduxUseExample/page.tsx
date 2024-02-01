@@ -3,12 +3,12 @@
 import { RootState } from "@/lib/store";
 import { useSelector, useDispatch } from "react-redux";
 import { increment, decrement, incrementByAmount } from "@/lib/Features/counterSlice";
+import socket from "@/sockets";
 
-export default function Home() {
+export default function ReduxEx() {
 
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
-
 
   return (
     <main>
