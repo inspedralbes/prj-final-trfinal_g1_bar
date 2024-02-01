@@ -35,7 +35,24 @@ Route::get('/tiquets/{id}', [TiquetsController::class,'show']);
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    // Fer logout
     Route::post('/logout', [AuthController::class,'logout']);
+
+    // Crear un nou tiquet
+    Route::post('/tiquets', [TiquetsController::class,'store']);
+    // Editar un tiquet
+    Route::put('/tiquets/{id}', [TiquetsController::class,'update']);
+    // Eliminar un tiquet
+    Route::delete('/tiquets/{id}', [TiquetsController::class,'destroy']);
+
+    // Crear un nou item al tiquet
+    Route::post('/tiquets/items', [TiquetsController::class,'addItem']);
+    // Editar un item al tiquet (modificar quantitat)
+    Route::put('/tiquets/items/{id}', [TiquetsController::class,'updateItem']);
+    // Editar un item al tiquet (modificar estat)
+    Route::put('/tiquets/items/{id}/estat', [TiquetsController::class,'updateItemEstat']);
+    // Eliminar un item al tiquet
+    Route::delete('/tiquets/items/{id}', [TiquetsController::class,'deleteItem']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
