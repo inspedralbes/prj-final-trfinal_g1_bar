@@ -34,6 +34,6 @@ services:
       - 8080:80
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/html/public
-    command: /bin/bash -c "composer install --no-interaction && chmod -R 755 storage && apache2-foreground"
+    command: /bin/bash -c "composer install --no-interaction && chmod -R 755 storage && chown -R www-data:www-data storage && apache2-foreground"
     depends_on:
       - db
