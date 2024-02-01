@@ -38,6 +38,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Fer logout
     Route::post('/logout', [AuthController::class,'logout']);
 
+    /***************/
+    /*   TIQUETS   */
+    /***************/
     // Crear un nou tiquet
     Route::post('/tiquets', [TiquetsController::class,'store']);
     // Editar un tiquet
@@ -45,6 +48,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Eliminar un tiquet
     Route::delete('/tiquets/{id}', [TiquetsController::class,'destroy']);
 
+    /*************/
+    /*   ITEMS   */
+    /*************/
     // Crear un nou item al tiquet
     Route::post('/tiquets/items', [TiquetsController::class,'addItem']);
     // Editar un item al tiquet (modificar quantitat)
@@ -53,6 +59,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/tiquets/items/{id}/estat', [TiquetsController::class,'updateItemEstat']);
     // Eliminar un item al tiquet
     Route::delete('/tiquets/items/{id}', [TiquetsController::class,'deleteItem']);
+
+    /******************/
+    /*   CATEGORIES   */
+    /******************/
+    // Crear una nova categoria
+    Route::post('/categories', [CategoriesController::class,'store']);
+    // Editar una categoria
+    Route::put('/categories/{id}', [CategoriesController::class,'update']);
+    // Eliminar una categoria
+    Route::delete('/categories/{id}', [CategoriesController::class,'destroy']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

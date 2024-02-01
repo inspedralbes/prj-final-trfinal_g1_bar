@@ -157,3 +157,52 @@ fetch(`http://localhost:8000/api/tiquets/items/${id}`, {
   },
 })
 ```
+
+#### Rutes administració
+
+*_només l'administrador del restaurant pot trucar les rutes d'administració_
+
+12. **Crear una categoria**
+
+```javascript
+fetch("http://localhost:8000/api/categories", {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${bearerToken}`,
+  },
+  body: JSON.stringify({
+    nom: "Ofertes",
+    imatge: "ruta_a_la_imatge.jpg",
+    restaurant_id: 1
+  }),
+})
+```
+
+13. **Actualitzar una categoria**
+
+```javascript
+fetch(`http://localhost:8000/api/categories/${id}`, {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${bearerToken}`,
+  },
+  body: JSON.stringify({
+    nom: "Sopars",
+    imatge: "ruta_actualitzada_a_la_imatge.jpg",
+  }),
+})
+```
+
+14. **Eliminar una categoria**
+
+```javascript
+fetch(`http://localhost:8000/api/categories/${id}`, {
+  method: 'DELETE',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${bearerToken}`,
+  }
+})
+```
