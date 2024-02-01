@@ -10,6 +10,8 @@ export default function ReduxEx() {
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
 
+  socket.emit('test', 'test');
+
   return (
     <main>
       <button onClick={() => dispatch(increment())}>

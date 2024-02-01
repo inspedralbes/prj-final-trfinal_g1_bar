@@ -2,6 +2,7 @@ const express = require('express');
 const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const { log } = require('node:console');
 
 const app = express();
 app.use(cors())
@@ -17,6 +18,10 @@ const io = new Server(server, {
 // Manejar conexiones de websockets
 io.on('connection', (socket) => {
     console.log('Usuario conectado:', socket.id);
+
+    socket.on('test', (data) => {
+        console.log('test de', data, socket.id);
+    });
 
     // Manejar desconexiones
     socket.on('disconnect', () => {
