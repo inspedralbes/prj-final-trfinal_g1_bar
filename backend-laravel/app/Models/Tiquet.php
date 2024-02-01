@@ -13,10 +13,10 @@ class Tiquet extends Model
     protected $appends = ['tiquets'];
 
     public function getTiquetsAttribute() {
-        return $this->tiquets()->get();
+        return $this->items()->get();
     }
 
-    public function tiquets() {
+    public function items() {
         return $this->belongsToMany(Producte::class, 'item_tiquet')
             ->withPivot('quantitat', 'estat', 'user_id');
     }

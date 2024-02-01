@@ -12,7 +12,7 @@ class Producte extends Model
 {
     use HasFactory;
 
-    public function tiquets() {
+    public function items() {
         return $this->belongsToMany(Tiquet::class, 'item_tiquet')
             ->withPivot('quantitat', 'estat', 'user_id');
     }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nom', 100)->unique();
             $table->boolean('gluten');
             $table->boolean('lactosa');
-            $table->boolean('fruits-secs');
+            $table->boolean('fruits_secs');
             $table->boolean('vegetariana');
             $table->boolean('vegana');
         });
