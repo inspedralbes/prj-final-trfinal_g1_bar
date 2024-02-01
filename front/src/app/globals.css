@@ -36,9 +36,99 @@
   aspect-ratio: 1;
 }
 
-.item-categoria > img {
+.img-producte {
   width: 70%;
   aspect-ratio: 1;
+}
+
+.item-producte {
+  width: 300px;
+  aspect-ratio: 1;
+}
+
+.px-6 {
+  padding-left: 3.5rem !important;
+  padding-right: 3.5rem !important;
+}
+
+.butonsSumaResta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 30px;
+  background: #fe5d43;
+  border-radius: 1px #fe5d43;
+}
+
+.butonsSumaResta>input {
+  width: 70%;
+  height: 100%;
+  border: 1px solid var(--black);
+  border-left-style: none;
+  border-right-style: none;
+  text-align: center;
+}
+
+.butonsSumaResta>button {
+  background-color: transparent;
+  border: 1px solid var(--black);
+  height: 100%;
+  width: 15%;
+
+}
+
+.butonsSumaResta>button:nth-child(1) {
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+}
+
+.butonsSumaResta>button:nth-child(3) {
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+}
+
+.botonsLandingLog {
+  width: 15%;
+}
+
+.botonsLandingLog {
+  color: var(--white);
+}
+
+.botonsLandingLog:disabled {
+  background-color: #666;
+}
+
+.inputN[type=number] {
+  width: 70%;
+  appearance: textfield;
+  background-color: white;
+  color: black;
+}
+
+.butonsSumaResta {
+  width: 40%;
+}
+
+.butonsSumaResta>input {
+  width: 70%;
+  height: 100%;
+}
+
+.butonsSumaResta>button {
+  height: 100%;
+  width: 15%;
+}
+
+.modificar-ingredients {
+  border-radius: 20px;
+}
+
+.modificar-ingredients > button{
+  display:block;
+  height: 1.75em;
+  width: 1.75em;
+  border-radius: 50%;
 }
 
 @layer utilities {
