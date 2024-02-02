@@ -61,9 +61,11 @@
 }
 
 .botonsSumaResta>input {
+  appearance: textfield;
+  background-color: white;
+  color: black;
   width: 70%;
   height: 100%;
-  border: 1px solid var(--black);
   border-left-style: none;
   border-right-style: none;
   text-align: center;
@@ -88,13 +90,6 @@
 
 .botonsSumaResta>button:disabled {
   background-color: #666;
-}
-
-.inputN[type=number] {
-  width: 70%;
-  appearance: textfield;
-  background-color: white;
-  color: black;
 }
 
 .modificar-ingredients {
