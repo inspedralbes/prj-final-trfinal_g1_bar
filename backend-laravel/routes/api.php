@@ -29,7 +29,9 @@ Route::get('/restaurants/{id}/categories', [CategoriesController::class,'index']
 // Get productes d'una categoria en concret
 Route::get('/categories/{id}/productes', [ProductesController::class,'index']);
 // Get ingredients d'un producte en concret
-Route::get('/productes/{id}/ingredients', [IngredientsController::class,'index']);
+Route::get('/productes/{id}/ingredients', [IngredientsController::class,'indexPerProducte']);
+// Get tots els ingredients
+Route::get('/ingredients', [IngredientsController::class,'index']);
 // Get tiquet d'un restaurant en concret
 Route::get('/tiquets/{id}', [TiquetsController::class,'show']);
 
@@ -79,6 +81,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/productes/{id}', [ProductesController::class,'update']);
     // Eliminar un producte
     Route::delete('/productes/{id}', [ProductesController::class,'destroy']);
+
+    /*******************/
+    /*   INGREDIENTS   */
+    /*******************/
+    // Crear un nou ingredient
+    Route::post('/ingredients', [IngredientsController::class,'store']);
+    // Editar un ingredient
+    Route::put('/ingredients/{id}', [IngredientsController::class,'update']);
+    // Eliminar un ingredient
+    Route::delete('/ingredients/{id}', [IngredientsController::class,'destroy']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

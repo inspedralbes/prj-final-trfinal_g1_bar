@@ -222,7 +222,8 @@ fetch("http://localhost:8000/api/productes", {
     preu: 10.50,
     imatge: "pizza_margarita.jpg",
     actiu: true,
-    categories: [1, 4]
+    categories: [1, 4],
+    ingredients: [3, 6, 8, 9]
   }),
 })
 ```
@@ -242,7 +243,8 @@ fetch(`http://localhost:8000/api/productes/${id}`, {
     preu: 13,
     imatge: "pizza_barbacue.jpg",
     actiu: false,
-    categories: [3]
+    categories: [3],
+    ingredients: [1, 7, 13, 4]
   }),
 })
 ```
@@ -251,6 +253,58 @@ fetch(`http://localhost:8000/api/productes/${id}`, {
 
 ```javascript
 fetch(`http://localhost:8000/api/productes/${id}`, {
+  method: 'DELETE',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${bearerToken}`,
+  }
+})
+```
+
+16. **Crear un ingredient**
+
+```javascript
+fetch("http://localhost:8000/api/ingredients", {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${bearerToken}`,
+  },
+  body: JSON.stringify({
+    nom: "Mozzarella",
+    gluten: false,
+    lactosa: true,
+    fruits_secs: false,
+    vegetariana: true,
+    vegana: false
+  }),
+})
+```
+
+17. **Actualitzar un ingredient**
+
+```javascript
+fetch(`http://localhost:8000/api/ingredients/${id}`, {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${bearerToken}`,
+  },
+  body: JSON.stringify({
+    nom: "Mozzarella",
+    gluten: false,
+    lactosa: true,
+    fruits_secs: false,
+    vegetariana: true,
+    vegana: false
+  }),
+})
+```
+
+18. **Eliminar un ingredient**
+
+```javascript
+fetch(`http://localhost:8000/api/ingredients/${id}`, {
   method: 'DELETE',
   headers: {
     'Content-Type': 'application/json',
