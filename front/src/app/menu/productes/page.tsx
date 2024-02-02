@@ -49,7 +49,6 @@ export default function Productes() {
                 <p>Loading...</p>
             ) : (
                 <div className="d-flex flex-column align-items-center">
-                    <p>ID CATEGORIA {categoriaId}</p>
                     {productes.map((producte) => (
                         <Link onClick={() => dispatch(setProducteId(producte.id))} href="/menu/productes/producte" className="link">
                             <div key={producte.id} className='item-categoria m-2 bg-zinc-300 rounded shadow d-flex flex-column justify-content-end align-items-center'>

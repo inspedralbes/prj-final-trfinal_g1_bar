@@ -51,7 +51,6 @@ export default function Menu() {
                 <p>Loading...</p>
             ) : (
                 <div className="d-flex flex-column align-items-center">
-                    <p>ID RESTAURANT {restaurantId}</p>
                     {categories.map((category) => (
                         <Link onClick={() => dispatch(setCategoriaId(category.id))} href="/menu/productes" className="link">
                             <div key={category.id} className='item-categoria m-2 bg-zinc-300 rounded shadow d-flex flex-column justify-content-end align-items-center'>
