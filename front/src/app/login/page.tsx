@@ -17,7 +17,10 @@ export default function Login() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({
+                email: email, 
+                password: password
+             })
         });
         const data = await response.json();
 
@@ -30,7 +33,6 @@ export default function Login() {
         }
 
         localStorage.setItem('user', JSON.stringify(user));
-        // handle response here
     };
 
     return (
