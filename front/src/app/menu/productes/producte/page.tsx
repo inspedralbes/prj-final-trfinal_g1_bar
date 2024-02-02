@@ -55,7 +55,7 @@ export default function Producte() {
                 <div className='mt-3 row'>
                     <div className="botonsSumaResta p-0">
                         <button onClick={resta}>-</button>
-                        <input type="number" value={quantitat}></input>
+                        <input type="number" readOnly value={quantitat}></input>
                         <button onClick={suma}>+</button>
                     </div>
                 </div>
