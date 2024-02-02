@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('categorias', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('nom', 100)->unique();
+            $table->string('nom', 100);
             $table->string('imatge', 1000);
             $table->foreignId('restaurant_id')->constrained('restaurants');
         });

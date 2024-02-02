@@ -79,13 +79,13 @@ INSERT INTO TIQUETS(id, link_qr, nombre_taula, restaurant_id) VALUES
 (1, 'qr1', 1, 1), (2, 'qr2', 2, 1), (3, 'qr3', 3, 1),
 (4, 'qr4', 20, 2), (5, 'qr5', 21, 2), (6, 'qr6', 22, 2);
 
-INSERT INTO ITEM_TIQUET(tiquet_id, producte_id, user_id, quantitat, estat) VALUES
-(1, 4, 1, 1, 'Pendent'), (1, 2, 3, 1, 'Pendent'), (1, 3, 3, 1, 'Pendent'), -- Tiquet 1 (restaurant 1) ha demanat pizza, ensalada i tapes (user 1 i 3)
-(2, 6, 4, 1, 'En Preparació'), (2, 8, 4, 1, 'En Preparació'), (2, 9, 4, 1, 'Entregat'), -- Tiquet 2 (restaurant 1) ha demanat steak, sushi i rissotto (user 4)
-(3, 10, 5, 1, 'Entregat'), (3, 11, 5, 1, 'Pagat'), (3, 12, 5, 1, 'Pagat'), -- Tiquet 3 (restaurant 1) ha demanat brownie, tiramisú i pastís de formatge (user 5)
-(4, 1, 2, 2, 'Entregat'), -- Tiquet 4 (restaurant 2) ha demanat dues hamburgueses (user 2)
-(5, 5, 2, 1, 'En Preparació'), -- Tiquet 5 (restaurant 2) ha demanat 1 paella (user 2)
-(6, 7, 2, 1, 'Pendent'); -- Tiquet 6 (restaurant 2) ha demanat 1 crema de carbassa (user 2)
+INSERT INTO ITEM_TIQUET(tiquet_id, producte_id, user_id, quantitat, estat, comentari) VALUES
+(1, 4, 1, 1, 'Pendent', "No formatge."), (1, 2, 3, 1, 'Pendent', null), (1, 3, 3, 1, 'Pendent', null), -- Tiquet 1 (restaurant 1) ha demanat pizza, ensalada i tapes (user 1 i 3)
+(2, 6, 4, 1, 'En Preparació', null), (2, 8, 4, 1, 'En Preparació', null), (2, 9, 4, 1, 'Entregat', null), -- Tiquet 2 (restaurant 1) ha demanat steak, sushi i rissotto (user 4)
+(3, 10, 5, 1, 'Entregat', null), (3, 11, 5, 1, 'Pagat', null), (3, 12, 5, 1, 'Pagat', null), -- Tiquet 3 (restaurant 1) ha demanat brownie, tiramisú i pastís de formatge (user 5)
+(4, 1, 2, 2, 'Entregat', "No cogombre."), -- Tiquet 4 (restaurant 2) ha demanat dues hamburgueses (user 2)
+(5, 5, 2, 1, 'En Preparació', "No gambes."), -- Tiquet 5 (restaurant 2) ha demanat 1 paella (user 2)
+(6, 7, 2, 1, 'Pendent', null); -- Tiquet 6 (restaurant 2) ha demanat 1 crema de carbassa (user 2)
 
 INSERT INTO PRODUCTE_INGREDIENT(producte_id, ingredient_id) VALUES
 (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), -- Hamburguesa clàsica amb vedella, enciam, tomàquet, ceba, formatge cheddar i patates

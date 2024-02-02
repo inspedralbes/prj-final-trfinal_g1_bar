@@ -143,7 +143,8 @@ class TiquetsController extends Controller
         $request->validate([
             'tiquet_id' => 'required|integer|min:1',
             'producte_id' => 'required|integer|min:1',
-            'quantitat' => 'required|integer|min:1'
+            'quantitat' => 'required|integer|min:1',
+            'comentari' => 'string|nullable'
         ]);
 
         // Comprovar que el tiquet i el producte existeixen
@@ -167,7 +168,8 @@ class TiquetsController extends Controller
         $tiquet->items()->attach($producte->id, [
             'quantitat' => $request->quantitat,
             'estat' => 'Pendent',
-            'user_id' => $user_id
+            'user_id' => $user_id,
+            'comentari' => $request->comentari
         ]);
 
         // Retorna només el item que s'ha creat
@@ -181,6 +183,7 @@ class TiquetsController extends Controller
             'tiquet_id' => 'required|integer|min:1',
             'producte_id' => 'required|integer|min:1',
             'quantitat' => 'required|integer|min:1',
+            'comentari' => 'string|nullable'
         ]);
 
         // Comprovar que el tiquet i el producte existeixen
@@ -226,7 +229,8 @@ class TiquetsController extends Controller
         $tiquet->items()->newPivotStatement()->where('id', $id)->update([
             'quantitat' => $request->quantitat,
             'estat' => 'Pendent',
-            'user_id' => $user_id
+            'user_id' => $user_id,
+            'comentari' => $request->comentari
         ]);
 
         // Retorna només el item que s'ha actualitzat
@@ -275,7 +279,8 @@ class TiquetsController extends Controller
 
         // Actualitzar l'item al tiquet
         $tiquet->items()->newPivotStatement()->where('id', $id)->update([
-            'quantitat' => $item->pivot->quantitat,
+            'quantitat' => $item->pivot->quantitat, // Mantenir la quantitat
+            'comentari' => $item->pivot->comentari, // Mantenir el comentari
             'estat' => $request->estat,
             'user_id' => $user_id
         ]);
