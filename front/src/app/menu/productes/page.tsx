@@ -28,7 +28,6 @@ export default function Productes() {
 
                 const data = await response.json();
                 setProductes(data);
-                dispatch(setProductesCategoriaVisualitzada(JSON.stringify(data)));
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
@@ -38,6 +37,11 @@ export default function Productes() {
 
         fetchData();
     }, []); // <- s'ha d'especificar una array buida com a segon argument de useEffect per a que només s'executi un cop. Si no s'especifica res el hook useEffect s'executarà de manera infinita
+
+
+    useEffect(() => {
+        dispatch(setProductesCategoriaVisualitzada(productes));
+    }, [productes]); // This useEffect logs and dispatches when productes changes
 
     return (
         <div className='pt-4 pb-5'>
