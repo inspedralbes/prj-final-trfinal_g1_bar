@@ -53,6 +53,11 @@ const Header = () => {
                                     TANCAR SESSIÓ
                                 </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link href="/comanda/comanda-alt" onClick={handleClose}>
+                                    COMANDA ALTERNATIVA
+                                </Link>
+                            </li>
                         </ul>
                     </nav>
                 </Offcanvas.Body>

@@ -4,15 +4,21 @@ import React, { useState, useEffect } from 'react';
 import { RootState } from "@/lib/store";
 import { useSelector, useDispatch } from 'react-redux';
 import { setTiquetIndividual } from "@/lib/Features/getRestaurant";
+import { useRouter } from 'next/navigation';
 
 export default function Producte() {
 
+    // GET AND SET STORE DATA
     const productesCategoriaSeleccionada = useSelector((state: RootState) => state.restaurant.restaurant.productesCategoriaVisualitzada);
     const producteId = useSelector((state: RootState) => state.restaurant.restaurant.producteId);
     const tiquetIndividual = useSelector((state: RootState) => state.restaurant.restaurant.tiquetIndividual);
-    let producteSeleccionat;
-
     const dispatch = useDispatch();
+
+    // NAVEGAR ENTRE PAGINES
+    const { push } = useRouter();   
+
+    //
+    let producteSeleccionat;
 
     for (let i = 0; i < productesCategoriaSeleccionada.length; i++) {
         if (productesCategoriaSeleccionada[i].id === producteId) {
@@ -20,7 +26,7 @@ export default function Producte() {
         }
     }
 
-    // Estat per gestionar la variable quantitat
+    // CONTROLAR QUANTITAT DE PRODUCTE
     const [quantitat, setQuantitat] = useState(1);
 
     function suma() {
@@ -33,16 +39,20 @@ export default function Producte() {
         }
     };
 
+    // AFEGIR PRODUCTE AL TIQUET INDIVIDUAL
     function afegirProducteTiquetIndividual() {
-        
+
         const producteTiquet = {
-          tiquet_id: 1,
-          producte_id: producteSeleccionat.id,
-          quantitat: quantitat
+            tiquet_id: 1,
+            producte_id: producteSeleccionat.id,
+            quantitat: quantitat
         };
 
+        // Enviem producteTiquet a node amb sockets. Serà el socket que farà la crida API
+        
         dispatch(setTiquetIndividual([producteTiquet]));
-      }
+        push('/menu/productes');
+    }
 
     return (
         <div className='pt-4 pb-5'>
