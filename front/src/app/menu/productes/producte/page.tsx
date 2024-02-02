@@ -8,7 +8,6 @@ export default function Producte() {
 
     let productesCategoriaSeleccionada = useSelector((state: RootState) => state.restaurant.restaurant.productesCategoriaVisualitzada);
     const producteId = useSelector((state: RootState) => state.restaurant.restaurant.producteId);
-
     let producteSeleccionat;
 
     for (let i = 0; i < productesCategoriaSeleccionada.length; i++) {
@@ -16,6 +15,20 @@ export default function Producte() {
             producteSeleccionat = productesCategoriaSeleccionada[i];
         }
     }
+
+    // Estat per gestionar la variable quantitat
+    const [quantitat, setQuantitat] = useState(1);
+
+    // Function to handle button click and update the count
+    const suma = () => {
+        setQuantitat(quantitat + 1);
+    };
+
+    const resta = () => {
+        if (quantitat > 1) {
+            setQuantitat(quantitat - 1);
+        }
+    };
 
     return (
         <div className='pt-4 pb-5'>
@@ -26,10 +39,10 @@ export default function Producte() {
                     </div>
                 </div>
                 <div className='mt-3 row'>
-                    <div className="butonsSumaResta p-0">
-                        <button className="botonsLandingLog">-</button>
-                        <input type="number" className="inputN"></input>
-                        <button className="botonsLandingLog">+</button>
+                    <div className="botonsSumaResta p-0">
+                        <button onClick={resta}>-</button>
+                        <input type="number" value={quantitat} className="inputN"></input>
+                        <button onClick={suma}>+</button>
                     </div>
                 </div>
                 <div className='row mt-3'>
