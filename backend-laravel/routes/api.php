@@ -69,6 +69,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/categories/{id}', [CategoriesController::class,'update']);
     // Eliminar una categoria
     Route::delete('/categories/{id}', [CategoriesController::class,'destroy']);
+
+    /*****************/
+    /*   PRODUCTES   */
+    /*****************/
+    // Crear un nou producte
+    Route::post('/productes', [ProductesController::class,'store']);
+    // Editar un producte
+    Route::put('/productes/{id}', [ProductesController::class,'update']);
+    // Eliminar un producte
+    Route::delete('/productes/{id}', [ProductesController::class,'destroy']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

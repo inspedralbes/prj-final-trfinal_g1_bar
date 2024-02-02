@@ -206,3 +206,55 @@ fetch(`http://localhost:8000/api/categories/${id}`, {
   }
 })
 ```
+
+15. **Crear un producte**
+
+```javascript
+fetch("http://localhost:8000/api/productes", {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${bearerToken}`,
+  },
+  body: JSON.stringify({
+    nom: "Pizza Margarita",
+    descripcio: "Pizza tradicional italiana amb salsa de tomàquet, mozzarella fresca i fulles de basilic, sobre una massa fina i cruixent.",
+    preu: 10.50,
+    imatge: "pizza_margarita.jpg",
+    actiu: true,
+    categories: [1, 4]
+  }),
+})
+```
+
+15. **Actualitzar un producte**
+
+```javascript
+fetch(`http://localhost:8000/api/productes/${id}`, {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${bearerToken}`,
+  },
+  body: JSON.stringify({
+    nom: "Pizza Barbacos",
+    descripcio: "Pizza barbacoa rara de cojones.",
+    preu: 13,
+    imatge: "pizza_barbacue.jpg",
+    actiu: false,
+    categories: [3]
+  }),
+})
+```
+
+15. **Eliminar un producte**
+
+```javascript
+fetch(`http://localhost:8000/api/productes/${id}`, {
+  method: 'DELETE',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${bearerToken}`,
+  }
+})
+```
