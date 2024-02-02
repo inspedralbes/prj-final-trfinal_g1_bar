@@ -101,7 +101,8 @@ fetch("http://localhost:8000/api/tiquets/items", {
   body: JSON.stringify({
     tiquet_id: 1,
     producte_id: 1,
-    quantitat: 2
+    quantitat: 2,
+    comentari: "No cogombre. No ensalada."
   }),
 })
 ```
@@ -121,6 +122,7 @@ fetch(`http://localhost:8000/api/tiquets/items/${id}`, {
     tiquet_id: 1,
     producte_id: 1,
     quantitat: 6,
+    comentari: "No cogombre. No ensalada."
   }),
 })
 ```

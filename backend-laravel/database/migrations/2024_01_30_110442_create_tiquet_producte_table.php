@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('producte_id')->constrained('productes')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->unsignedInteger('quantitat');
-            $table->string('estat')->default('pendent');           
+            $table->string('estat')->default('pendent');
+            $table->text('comentari')->nullable();  
         });
     }
 
