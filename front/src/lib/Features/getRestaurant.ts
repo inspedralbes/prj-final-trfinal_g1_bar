@@ -12,8 +12,10 @@ const initialState: RestaurantIdState = {
     restaurantId: 2,
     categoriaId: null,
     productesCategoriaVisualitzada: [],
-    producteId: null
+    producteId: null,
+    tiquetIndividual: []
   },
+  
 };
 
 export const restaurantIdSlice = createSlice({
@@ -32,8 +34,11 @@ export const restaurantIdSlice = createSlice({
     setProducteId(state, action: PayloadAction<number>) {
       state.restaurant.producteId = action.payload;
     },
+    setTiquetIndividual(state, action: PayloadAction<object[]>) {
+      state.restaurant.tiquetIndividual.push(...action.payload);
+    },
   },
 });
 
-export const { setRestaurantId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId } = restaurantIdSlice.actions;
+export const { setRestaurantId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, setTiquetIndividual } = restaurantIdSlice.actions;
 export default restaurantIdSlice.reducer;
