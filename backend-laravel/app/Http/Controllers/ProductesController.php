@@ -13,7 +13,7 @@ class ProductesController extends Controller
      */
     public function index($id)
     {
-        $productes = Categoria::find($id)->productes;
+        $productes = Categoria::find($id)->productes->load('categories', 'ingredients');
         return response()->json($productes);
     }
 
@@ -30,6 +30,7 @@ class ProductesController extends Controller
             'imatge' => 'required|string',
             'actiu' => 'required|boolean',
             'categories' => 'required|array',
+            'ingredients' => 'required|array',
         ]);
 
         // Validar que l'usuari sigui administrador del restaurant
@@ -58,6 +59,9 @@ class ProductesController extends Controller
         // Afegir el producte a les categories
         $producte->categories()->attach($request->categories);
 
+        // Afegir els ingredients al producte
+        $producte->ingredients()->attach($request->ingredients);
+
         return response()->json($producte, 201);
     }
 
@@ -82,6 +86,7 @@ class ProductesController extends Controller
             'imatge' => 'required|string',
             'actiu' => 'required|boolean',
             'categories' => 'required|array',
+            'ingredients' => 'required|array',
         ]);
 
         // Validar que l'usuari sigui administrador del restaurant
@@ -108,6 +113,9 @@ class ProductesController extends Controller
 
         // Actualitzar les categories del producte
         $producte->categories()->sync($request->categories);
+
+        // Actualitzar els ingredients del producte
+        $producte->ingredients()->sync($request->ingredients);
 
         return response()->json($producte, 200);
     }
