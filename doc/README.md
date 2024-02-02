@@ -14,33 +14,67 @@ Alguns dels punts que han de quedar explicats:
 
 ### Rutes API
 
-1. **GET categories per restaurant**
+- [1. GET categories per restaurant](#1-get-categories-per-restaurant)
+- [2. GET productes per categoria](#2-get-productes-per-categoria)
+- [3. GET ingredients per producte](#3-get-ingredients-per-producte)
+- [4. GET tiquet amb els seus items](#4-get-tiquet-amb-els-seus-items)
+- [5. Crear un nou tiquet](#5-crear-un-nou-tiquet)
+- [6. Actualitzar un tiquet](#6-actualitzar-un-tiquet)
+- [7. Eliminar un tiquet](#7-eliminar-un-tiquet)
+- [8. Crear un nou item al tiquet](#8-crear-un-nou-item-al-tiquet)
+- [9. Actualitzar un nou item al tiquet (quantitat)](#9-actualitzar-un-nou-item-al-tiquet-quantitat)
+- [10. Actualitzar l'estat d'un item al tiquet](#10-actualitzar-lestat-dun-item-al-tiquet)
+- [11. Eliminar un item al tiquet](#11-eliminar-un-item-al-tiquet)
+
+### Rutes Administració
+
+- [12. Crear una categoria](#12-crear-una-categoria)
+- [13. Actualitzar una categoria](#13-actualitzar-una-categoria)
+- [14. Eliminar una categoria](#14-eliminar-una-categoria)
+- [15. Crear un producte](#15-crear-un-producte)
+- [16. Actualitzar un producte](#16-actualitzar-un-producte)
+- [17. Eliminar un producte](#17-eliminar-un-producte)
+- [18. Crear un ingredient](#18-crear-un-ingredient)
+- [19. Actualitzar un ingredient](#19-actualitzar-un-ingredient)
+- [20. Eliminar un ingredient](#20-eliminar-un-ingredient)
+
+
+
+####  1. Get categories per restaurant
+
+_Obté totes les categories disponibles per a un restaurant específic._
 
 ```
 http://localhost:8000/api/restaurants/{id}/categories
 ```
 
-2. **GET productes per categoria**
+####  2. Get productes per categoria
+
+_Llista tots els productes disponibles dins d'una categoria específica._
 
 ```
 http://localhost:8000/api/categories/{id}/productes
 ```
 
-3. **GET ingredients per producte**
+####  3. Get ingredients per producte
+
+_Detalla tots els ingredients que componen un producte específic._
 
 ```
 http://localhost:8000/api/productes/{id}/ingredients
 ```
 
-4. **GET tiquet amb els seus items**
+####  4. Get tiquet amb els seus items
+
+_Consulta la informació d'un tiquet específic juntament amb tots els seus items._
 
 ```
 http://localhost:8000/api/tiquets/{id}
 ```
 
-5. **Crear un nou tiquet**
+####  5. Crear un nou tiquet
 
-*_només l'administrador d'un restaurant pot crear un tiquet_
+_Permet a l'administrador d'un restaurant crear un nou tiquet._
 
 ```javascript
 fetch("http://localhost:8000/api/tiquets", {
@@ -57,9 +91,9 @@ fetch("http://localhost:8000/api/tiquets", {
 })
 ```
 
-6. **Actualitzar un tiquet**
+####  6. Actualitzar un tiquet
 
-*_només l'administrador d'un restaurant pot actualitzar un tiquet_
+_Permet a l'administrador d'un restaurant actualitzar la informació d'un tiquet existent._
 
 ```javascript
 fetch(`http://localhost:8000/api/tiquets/${id}`, {
@@ -75,9 +109,9 @@ fetch(`http://localhost:8000/api/tiquets/${id}`, {
 })
 ```
 
-7. **Eliminar un tiquet**
+####  7. Eliminar un tiquet
 
-*_només l'administrador d'un restaurant pot eliminar un tiquet_
+_Permet a l'administrador d'un restaurant eliminar un tiquet existent._
 
 ```javascript
 fetch(`http://localhost:8000/api/tiquets/${id}`, {
@@ -89,7 +123,9 @@ fetch(`http://localhost:8000/api/tiquets/${id}`, {
 })
 ```
 
-8. **Crear un nou item al tiquet**
+####  8. Crear un nou item al tiquet
+
+_Afegeix un nou item a un tiquet existent._
 
 ```javascript
 fetch("http://localhost:8000/api/tiquets/items", {
@@ -107,9 +143,9 @@ fetch("http://localhost:8000/api/tiquets/items", {
 })
 ```
 
-9. **Actualitzar un nou item al tiquet (quantitat)**
+####  9. Actualitzar un nou item al tiquet (quantitat)
 
-*_només el creador d'un item pot editar la quantitat un item_
+_Permet a l'usuari que ha creat un item modificar-ne la quantitat._
 
 ```javascript
 fetch(`http://localhost:8000/api/tiquets/items/${id}`, {
@@ -127,9 +163,9 @@ fetch(`http://localhost:8000/api/tiquets/items/${id}`, {
 })
 ```
 
-10. **Actualitzar l'estat d'un item al tiquet**
+####  10. Actualitzar l'estat d'un item al tiquet
 
-*_només l'administrador del restaurant pot actualitzar l'estat un item_
+_Permet a l'administrador d'un restaurant canviar l'estat d'un item d'un tiquet._
 
 ```javascript
 fetch(`http://localhost:8000/api/tiquets/items/${id}/estat`, {
@@ -146,9 +182,9 @@ fetch(`http://localhost:8000/api/tiquets/items/${id}/estat`, {
 })
 ```
 
-11. **Eliminar un item al tiquet**
+####  11. Eliminar un item al tiquet
 
-*_només el creador d'un item pot eliminar-ho_
+_Permet a l'usuari que ha creat un item eliminar-lo del tiquet._
 
 ```javascript
 fetch(`http://localhost:8000/api/tiquets/items/${id}`, {
@@ -160,11 +196,10 @@ fetch(`http://localhost:8000/api/tiquets/items/${id}`, {
 })
 ```
 
-#### Rutes administració
+####  12. Crear una categoria
 
-*_només l'administrador del restaurant pot trucar les rutes d'administració_
+_Permet a l'administrador d'un restaurant afegir una nova categoria._
 
-12. **Crear una categoria**
 
 ```javascript
 fetch("http://localhost:8000/api/categories", {
@@ -181,7 +216,9 @@ fetch("http://localhost:8000/api/categories", {
 })
 ```
 
-13. **Actualitzar una categoria**
+####  13. Actualitzar una categoria
+
+_Permet a l'administrador d'un restaurant actualitzar una categoria existent._
 
 ```javascript
 fetch(`http://localhost:8000/api/categories/${id}`, {
@@ -197,7 +234,9 @@ fetch(`http://localhost:8000/api/categories/${id}`, {
 })
 ```
 
-14. **Eliminar una categoria**
+####  14. Eliminar una categoria
+
+_Permet a l'administrador d'un restaurant eliminar una categoria existent._
 
 ```javascript
 fetch(`http://localhost:8000/api/categories/${id}`, {
@@ -209,7 +248,9 @@ fetch(`http://localhost:8000/api/categories/${id}`, {
 })
 ```
 
-15. **Crear un producte**
+####  15. Crear un producte
+
+_Permet a l'administrador d'un restaurant afegir un nou producte al catàleg._
 
 ```javascript
 fetch("http://localhost:8000/api/productes", {
@@ -230,7 +271,9 @@ fetch("http://localhost:8000/api/productes", {
 })
 ```
 
-15. **Actualitzar un producte**
+####  16. Actualitzar un producte
+
+_Permet a l'administrador d'un restaurant actualitzar les dades d'un producte existent._
 
 ```javascript
 fetch(`http://localhost:8000/api/productes/${id}`, {
@@ -251,7 +294,9 @@ fetch(`http://localhost:8000/api/productes/${id}`, {
 })
 ```
 
-15. **Eliminar un producte**
+####  17. Eliminar un producte
+
+_Permet a l'administrador d'un restaurant eliminar un producte del catàleg._
 
 ```javascript
 fetch(`http://localhost:8000/api/productes/${id}`, {
@@ -263,7 +308,9 @@ fetch(`http://localhost:8000/api/productes/${id}`, {
 })
 ```
 
-16. **Crear un ingredient**
+####  18. Crear un ingredient
+
+_Permet a l'administrador d'un restaurant introduir un nou ingredient a la base de dades._
 
 ```javascript
 fetch("http://localhost:8000/api/ingredients", {
@@ -283,7 +330,9 @@ fetch("http://localhost:8000/api/ingredients", {
 })
 ```
 
-17. **Actualitzar un ingredient**
+#### 19. Actualitzar un ingredient
+
+_Permet a l'administrador d'un restaurant modificar les propietats d'un ingredient existent._
 
 ```javascript
 fetch(`http://localhost:8000/api/ingredients/${id}`, {
@@ -303,7 +352,9 @@ fetch(`http://localhost:8000/api/ingredients/${id}`, {
 })
 ```
 
-18. **Eliminar un ingredient**
+####  20. Eliminar un ingredient
+
+_Permet a l'administrador d'un restaurant eliminar un ingredient de la base de dades._
 
 ```javascript
 fetch(`http://localhost:8000/api/ingredients/${id}`, {
