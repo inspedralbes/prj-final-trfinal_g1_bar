@@ -31,6 +31,10 @@
   color: inherit;
 }
 
+.items-container {
+  overflow: hidden
+}
+
 .item-categoria {
   width: 200px;
   aspect-ratio: 1;
