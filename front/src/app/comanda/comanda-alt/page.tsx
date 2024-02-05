@@ -61,17 +61,17 @@ export default function ComandaAlternativa() {
     return (
         <div className='pt-4 pb-5 px-6'>
             <div className="d-flex flex-column">
-                {arrayUsuaris.map((usuari) => (
-                    <div className='mb-2'>
+                {arrayUsuaris.map((usuari, i) => (
+                    <div key={i} className='mb-2'>
                         <div className='position-relative mb-4'>
                             <div className='user-name-decoration position-absolute'></div>
                             <p className='user-name position-absolute bg-white px-2'>ID_USUARI: {usuari}</p>
                         </div>
                         <div className='d-flex flex-row gap-4 horizontal-scroll-container py-4'>
-                            {tiquet.tiquets.map((producte, index) => (
+                            {tiquet.tiquets.map((producte, j) => (
                                 // Renderitza la informació del producte sempre i quan usuari sigui igual a product.pivot.user_id
                                 usuari === producte.pivot.user_id && (
-                                    <div key={index} className='item-categoria bg-zinc-300 rounded shadow d-flex flex-column justify-content-end align-items-center'>
+                                    <div key={j} className='item-categoria bg-zinc-300 rounded shadow d-flex flex-column justify-content-end align-items-center'>
                                         <img className="img-producte" src="/salad.png" alt="" />
                                         <div className='pb-3 text-center fw-bold text-uppercase'>
                                             {producte.nom}
