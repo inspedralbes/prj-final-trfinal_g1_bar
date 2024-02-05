@@ -11,7 +11,6 @@ socket.on('connect', () => {
 });
 
 socket.on('QRGenerated', (data: any) => {
-    
     console.log('QRGenerated', data);
 });
 
