@@ -10,6 +10,7 @@ export default function ComandaAlternativa() {
     const url = `http://localhost:8000/api/tiquets/${id}`;
     const [arrayUsuaris, setArrayUsuaris] = useState([]);
 
+    // Obtenció de les dades associades a un tiquet
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -32,15 +33,17 @@ export default function ComandaAlternativa() {
         fetchData();
     }, []); // <- s'ha d'especificar una array buida com a segon argument de useEffect per a que només s'executi un cop. Si no s'especifica res el hook useEffect s'executarà de manera infinita
 
+    // Quan hem obtingut les dades associades a un tiquet...
     useEffect(() => {
-        // Call formatUsuaris only when tiquet.tiquets is defined
         if (tiquet.tiquets) {
             const formattedUsers = formatUsuaris();
             setArrayUsuaris(formattedUsers);
         }
     }, [tiquet]);
 
-
+    /*
+    * return arrayUsuaris retorna un array de valors únics integer, els identificadors de tots els usuaris inclosos en un tiquet
+    */
     function formatUsuaris() {
         let arrayUsuaris = [];
         let producteTiquet;
