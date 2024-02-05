@@ -10,6 +10,10 @@ socket.on('connect', () => {
     console.log('Connected to server');
 });
 
+socket.on('QRGenerated', (data: any) => {
+    console.log('QRGenerated', data);
+});
+
 // Handle disconnection event
 socket.on('disconnect', () => {
     console.log('Disconnected from server');
