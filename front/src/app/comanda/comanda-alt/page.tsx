@@ -62,9 +62,12 @@ export default function ComandaAlternativa() {
         <div className='pt-4 pb-5 px-6'>
             <div className="d-flex flex-column">
                 {arrayUsuaris.map((usuari) => (
-                    <div className='mb-5'>
-                        <p className='position-relative'>ID_USUARI: {usuari}</p>
-                        <div className='d-flex flex-row gap-4 items-container'>
+                    <div className='mb-2'>
+                        <div className='position-relative mb-4'>
+                            <div className='user-name-decoration position-absolute'></div>
+                            <p className='user-name position-absolute bg-white px-2'>ID_USUARI: {usuari}</p>
+                        </div>
+                        <div className='d-flex flex-row gap-4 horizontal-scroll-container py-4'>
                             {tiquet.tiquets.map((producte, index) => (
                                 // Renderitza la informació del producte sempre i quan usuari sigui igual a product.pivot.user_id
                                 usuari === producte.pivot.user_id && (

@@ -26,18 +26,34 @@
     rgb(var(--background-start-rgb));
 }*/
 
+.modal-delete {
+  width: 50vw;
+}
+
 .link {
   text-decoration: none;
   color: inherit;
 }
 
-.items-container {
-  overflow: hidden
+.user-name-decoration {
+  top: 0.75em;
+  width: 100%;
+  height: 4px;
+  background-color: #fe5d43;
+}
+
+.user-name {
+  left: 20px;
+}
+
+.horizontal-scroll-container {
+  overflow: auto;
+  white-space: nowrap;
 }
 
 .item-categoria {
   width: 200px;
-  aspect-ratio: 1;
+  height: 200px;
 }
 
 .img-producte {
