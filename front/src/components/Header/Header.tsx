@@ -49,7 +49,17 @@ const Header = () => {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link href="/menu" onClick={handleClose}>
+                                <Link href="/login" onClick={handleClose}>
+                                    LOGIN
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link href="/register" onClick={handleClose}>
+                                    REGISTRAR
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link href="/logout" onClick={handleClose}>
                                     TANCAR SESSIÓ
                                 </Link>
                             </li>
