@@ -18,6 +18,6 @@ class Tiquet extends Model
 
     public function items() {
         return $this->belongsToMany(Producte::class, 'item_tiquet')
-            ->withPivot('quantitat', 'estat', 'user_id', 'comentari');
+            ->withPivot('quantitat', 'estat', 'user_id', 'comentari', 'id');
     }
 }
