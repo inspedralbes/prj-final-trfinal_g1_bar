@@ -40,7 +40,7 @@ class TiquetsController extends Controller
         // Comprovar que l'usuari està autoritzat per crear un tiquet per aquest restaurant
         if ($request->user()->restaurant_id != $request->restaurant_id) {
             return response()->json([
-                'message' => 'User is not the administrator of this restaurant'
+                'error' => 'User is not the administrator of this restaurant'
             ], 401);
         }
 
@@ -63,7 +63,7 @@ class TiquetsController extends Controller
         // Si el tiquet no existeix, retornem un error 404
         if (!$tiquet) {
             return response()->json([
-                'message' => 'Tiquet not found'
+                'error' => 'Tiquet not found'
             ], 404);
         }
 
@@ -91,14 +91,14 @@ class TiquetsController extends Controller
         $tiquet = Tiquet::find($id);
         if (!$tiquet) {
             return response()->json([
-                'message' => 'Tiquet not found'
+                'error' => 'Tiquet not found'
             ], 404);
         }
 
         // Comprovar que l'usuari està autoritzat per editar el tiquet
         if ($request->user()->restaurant_id != $tiquet->restaurant_id) {
             return response()->json([
-                'message' => 'User is not the administrator of this restaurant'
+                'error' => 'User is not the administrator of this restaurant'
             ], 401);
         }
 
@@ -118,14 +118,14 @@ class TiquetsController extends Controller
         $tiquet = Tiquet::find($id);
         if (!$tiquet) {
             return response()->json([
-                'message' => 'Tiquet not found'
+                'error' => 'Tiquet not found'
             ], 404);
         }
 
         // Comprovar que l'usuari està autoritzat per eliminar el tiquet
         if ($request->user()->restaurant_id != $tiquet->restaurant_id) {
             return response()->json([
-                'message' => 'User is not the administrator of this restaurant'
+                'error' => 'User is not the administrator of this restaurant'
             ], 401);
         }
 
@@ -151,13 +151,13 @@ class TiquetsController extends Controller
         $tiquet = Tiquet::find($request->tiquet_id);
         if (!$tiquet) {
             return response()->json([
-                'message' => 'Tiquet not found'
+                'error' => 'Tiquet not found'
             ], 404);
         }
         $producte = Producte::find($request->producte_id);
         if (!$producte) {
             return response()->json([
-                'message' => 'Producte not found'
+                'error' => 'Producte not found'
             ], 404);
         }
 
@@ -190,13 +190,13 @@ class TiquetsController extends Controller
         $tiquet = Tiquet::find($request->tiquet_id);
         if (!$tiquet) {
             return response()->json([
-                'message' => 'Tiquet not found'
+                'error' => 'Tiquet not found'
             ], 404);
         }
         $producte = Producte::find($request->producte_id);
         if (!$producte) {
             return response()->json([
-                'message' => 'Producte not found'
+                'error' => 'Producte not found'
             ], 404);
         }
 
@@ -204,14 +204,14 @@ class TiquetsController extends Controller
         $item = $tiquet->items()->where('item_tiquet.id', $id)->first();
         if (!$item) {
             return response()->json([
-                'message' => 'Item not found'
+                'error' => 'Item not found'
             ], 404);
         }
 
         // Comprovar que el item està en estat 'Pendent'
         if ($item->pivot->estat != 'Pendent') {
             return response()->json([
-                'message' => 'Item is not in state \'Pendent\''
+                'error' => 'Item is not in state \'Pendent\''
             ], 400);
         }
 
@@ -221,7 +221,7 @@ class TiquetsController extends Controller
         // Comprovar que l'usuari està autoritzat per editar el item
         if ($user_id != $item->pivot->user_id) {
             return response()->json([
-                'message' => 'User is not the owner of this item'
+                'error' => 'User is not the owner of this item'
             ], 401);
         }
 
@@ -249,13 +249,13 @@ class TiquetsController extends Controller
         $tiquet = Tiquet::find($request->tiquet_id);
         if (!$tiquet) {
             return response()->json([
-                'message' => 'Tiquet not found'
+                'error' => 'Tiquet not found'
             ], 404);
         }
         $producte = Producte::find($request->producte_id);
         if (!$producte) {
             return response()->json([
-                'message' => 'Producte not found'
+                'error' => 'Producte not found'
             ], 404);
         }
 
@@ -263,7 +263,7 @@ class TiquetsController extends Controller
         $item = $tiquet->items()->where('item_tiquet.id', $id)->first();
         if (!$item) {
             return response()->json([
-                'message' => 'Item not found'
+                'error' => 'Item not found'
             ], 404);
         }
 
@@ -273,7 +273,7 @@ class TiquetsController extends Controller
         // Comprovar que l'usuari està autoritzat per editar el item
         if ($request->user()->restaurant_id != $tiquet->restaurant_id) {
             return response()->json([
-                'message' => 'User is not the administrator of this restaurant'
+                'error' => 'User is not the administrator of this restaurant'
             ], 401);
         }
 
@@ -295,21 +295,21 @@ class TiquetsController extends Controller
         $item = DB::table('item_tiquet')->where('id', $id)->first();
         if (!$item) {
             return response()->json([
-                'message' => 'Item not found'
+                'error' => 'Item not found'
             ], 404);
         }
 
         // Comprovar que l'usuari està autoritzat per eliminar el item
         if ($request->user()->id != $item->user_id) {
             return response()->json([
-                'message' => 'User is not the owner of this item'
+                'error' => 'User is not the owner of this item'
             ], 401);
         }
 
         // Comprovar que el item està en estat 'Pendent'
         if ($item->estat != 'Pendent') {
             return response()->json([
-                'message' => 'Item is not in state \'Pendent\''
+                'error' => 'Item is not in state \'Pendent\''
             ], 400);
         }
 
