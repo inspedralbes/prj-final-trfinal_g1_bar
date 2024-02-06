@@ -1,15 +1,16 @@
 <template>
-    <div>
+    <div class="border-round">
         <h1>TAULES</h1>
-        <div v-for="(actual,index) in getTaules()">
-            <h2>Taula {{actual.numero}}</h2>
-            <p>Capacitat: {{actual.capacitat}}</p>
-            <p>Clients:</p>
-            <ul>
-                <li v-for="client in actual.clients">{{client.nom}}</li>
-            </ul>
+        <div class="taules-container">
+            <div v-for="(actual,index) in getTaules()" @click="enterTable(actual.id)" >
+                <h2>Taula {{actual.numero}}</h2>
+                <p>Capacitat: {{actual.capacitat}}</p>
+                <p class="clientsTitle">Clients:</p>
+                <ul>
+                    <li v-for="client in actual.clients">{{client.nom}}</li>
+                </ul>
+            </div>
         </div>
-
     </div>
 </template>
 
@@ -132,6 +133,52 @@ export default {
                             nom: 'Clara',
                         }
                     ]
+                },
+                {
+                    id: 6,
+                    numero: 6,
+                    capacitat: 2,
+                    clients: [
+                        {
+                            id: 21,
+                            nom: 'Pablo',
+                        },
+                        {
+                            id: 22,
+                            nom: 'Lola',
+                        },
+                        {
+                            id: 23,
+                            nom: 'Jordina',
+                        },
+                        {
+                            id: 24,
+                            nom: 'Clara',
+                        }
+                    ]
+                },
+                {
+                    id: 7,
+                    numero: 7,
+                    capacitat: 6,
+                    clients: [
+                        {
+                            id: 25,
+                            nom: 'Pablo',
+                        },
+                        {
+                            id: 26,
+                            nom: 'Lola',
+                        },
+                        {
+                            id: 27,
+                            nom: 'Jordina',
+                        },
+                        {
+                            id: 28,
+                            nom: 'Clara',
+                        }
+                    ]
                 }
             ]
         }
@@ -139,10 +186,54 @@ export default {
     methods: {
         getTaules(){
             return this.taules;
+        },
+        enterTable(id){
+            this.$router.push(`/taula/${id}`);
         }
     }
 }
 </script>
 
 <style scoped>
+.border-round {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.taules-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.taules-container > div {
+    background-color: black;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.15);
+    padding: 20px;
+    width: 200px;
+    transition: all 0.3s ease;
+}
+
+.taules-container > div:hover {
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+    transform: translateY(-10px);
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
+.clientsTitle {
+    margin-bottom: 0px;
+}
+ul {
+    margin-top: 5px;
+    /* list-style-type: none;
+    padding: 0; */
+}
 </style>
