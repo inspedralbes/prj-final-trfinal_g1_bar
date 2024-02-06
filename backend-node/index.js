@@ -85,9 +85,9 @@ io.on('connection', (socket) => {
         console.log('Usuario', socket.id, 'ha abandonado la sala', room);
     });
 
-    socket.on('generateQR', async () => {
-        let ruta = 'https://localhost:3000/restaurant1/taula2';
-        const qrCode = await generateQRCode(ruta);
+    socket.on('generateQR', async (idRest, numTaula) => {
+        let ruta = 'https://localhost:3000';
+        const qrCode = await generateQRCode(`${ruta}/${idRest}/${numTaula}`);
         socket.emit('QRGenerated', qrCode);
     });
 
