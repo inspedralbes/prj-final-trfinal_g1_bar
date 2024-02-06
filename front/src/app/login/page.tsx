@@ -36,20 +36,20 @@ export default function Login() {
     };
 
     return (
-        <div className='login-container'>
-            <h1>Login</h1>
-            <form onSubmit={loginApiFetch}>
-                <label>
+        <div className='login-container w-80 mx-auto mt-5 border rounded p-4'>
+            <h1 className='text-center mb-4'>Login</h1>
+            <form onSubmit={loginApiFetch} className='d-flex flex-column'>
+                <label className='mb-3'>
                     Email:
-                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} required className='w-100 p-2 border rounded'/>
                 </label>
-                <label>
+                <label className='mb-3'>
                     Password:
-                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} required className='w-100 p-2 border rounded'/>
                 </label>
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Submit" className='p-2 bg-primary rounded border-0 text-white pe-auto'/>
             </form>
-            <p className='register-link'>No t'has registrat? <Link href='/register'>Registrat</Link></p>
+            <p className='text-center mt-3'>No t'has registrat? <Link href='/register'>Registrat</Link></p>
         </div>
     );
 }
