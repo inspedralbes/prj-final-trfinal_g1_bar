@@ -4,7 +4,7 @@
         <form @submit.prevent="loginFetch">
             <label for="formEmail">Email</label>
             <PrimeInputText class="formEmail" name="formEmail" type="email" v-model="email" required />
-            <label for="formPasswd">Password</label>
+            <label for="formPasswd">Contrasenya</label>
             <PrimeInputText class="formPasword" name="formPasswd" type="password" v-model="password" required />
             <PrimeButton class="formSubmit" type="submit">Login</PrimeButton>
         </form>
@@ -33,7 +33,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 98vh;
 }
 .login-container form{
     display: flex;
@@ -60,6 +60,6 @@ export default {
     font-weight: bold;
 }
 .register-link .linkA:hover{
-    color: blue;
+    color: turquoise;
 }
 </style>
