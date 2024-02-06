@@ -2,7 +2,7 @@
     <div>
         <p>Aquest és el contingut de la pàgina Compartir QR</p>
         <input type="text" id="taula" v-model="Ntaula" />
-        <button @click="generarQR">Generar qr</button>
+        <PrimeButton @click="generarQR">Generar qr</PrimeButton>
         <img :src="genQR">
     </div>
 </template>
