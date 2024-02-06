@@ -122,16 +122,21 @@ export default function Pagament() {
             return false;
         }
 
-        const totalCheckboxes = arrayUsuaris.reduce((acc, usuari) => {
-            return (
-                acc +
-                tiquet.tiquets.filter((producte, j) => isCheckboxChecked(`it-${j}_u-${usuari}`)).length
-            );
-        }, 0);
+        let totalCheckboxes = 0;
+        
+        for (let i = 0; i < arrayUsuaris.length; i++) {
+            for (let j = 0; j < tiquet.tiquets.length; j++) {
+                if (arrayUsuaris[i] === tiquet.tiquets[j].pivot.user_id){
+                    if (isCheckboxChecked(`it-${j}_u-${arrayUsuaris[i]}`)) {
+                        totalCheckboxes++;
+                    }
+                }
+            }
+        }
 
-        console.log("TOT")
+        /*console.log("TOT")
         console.log("checkbox emplenades", totalCheckboxes)
-        console.log("productes totals", tiquet.tiquets.length)
+        console.log("productes totals", tiquet.tiquets.length)*/
         return totalCheckboxes === tiquet.tiquets.length;
     };
 
@@ -158,28 +163,27 @@ export default function Pagament() {
             }
         }
 
-        console.log("EL MEU ID")
+        /*console.log("EL MEU ID")
         console.log("checkbox emplenades", totalCheckboxesForMyID)
-        console.log("productes totals", totalProductsForMyID)
-        return totalCheckboxesForMyID === tiquet.tiquets.length;
+        console.log("productes totals", totalProductsForMyID)*/
+        return totalCheckboxesForMyID === totalProductsForMyID;
     };
 
     const updateRadioButtons = () => {
         
         if (isAllCheckboxesChecked()) {
-            setSeleccioProductesState('els-meus-productes');
-            console.log("ENTRO A TOTS ELS PRODUCTES")
-        } else if (isAllCheckedForMyID()) {
             setSeleccioProductesState('tot');
-            console.log("ENTRO A ELS MEUS PRODUCTES")
+            //console.log("ENTRO A TOTS ELS PRODUCTES")
+        } else if (isAllCheckedForMyID()) {
+            setSeleccioProductesState('els-meus-productes');
+            //console.log("ENTRO A ELS MEUS PRODUCTES")
         } else {
             setSeleccioProductesState('personalitzat');
-            console.log("ENTRO A PERSONALITZAT")
+            //console.log("ENTRO A PERSONALITZAT")
         }
     };
 
     useEffect(() => {
-        console.log("CANVI DETECTAT")
         updateRadioButtons();
     }, [checkboxState]);
 
@@ -203,7 +207,7 @@ export default function Pagament() {
                                 name='forma-pagament'
                                 id='els-meus-productes'
                                 label='Els meus productes'
-                                checked={seleccioProductes === "els-meus-productes"}
+                                checked={seleccioProductes === 'els-meus-productes'}
                                 onChange={canviSeleccioProducte}
                             />
                             <Form.Check
@@ -211,7 +215,7 @@ export default function Pagament() {
                                 name='forma-pagament'
                                 id='tot'
                                 label='Tot'
-                                checked={seleccioProductes === "tot"}
+                                checked={seleccioProductes === 'tot'}
                                 onChange={canviSeleccioProducte}
                             />
                             <Form.Check
@@ -219,7 +223,7 @@ export default function Pagament() {
                                 name='forma-pagament'
                                 id='personalitzat'
                                 label='Personalitzat'
-                                checked={seleccioProductes === "personalitzat"}
+                                checked={seleccioProductes === 'personalitzat'}
                                 onChange={canviSeleccioProducte}
                             />
                         </div>
@@ -263,7 +267,7 @@ export default function Pagament() {
                                 <input className="metode-pagament" type="radio" name="forma-pagament" value="visa" checked />
                                 <img src="/visa-logo.png" alt="Option 1" width="100" height="100" />
                             </label>
-                            <label>
+                            <label className='d-none'>
                                 <input className="metode-pagament" type="radio" name="forma-pagament" value="crypto" checked />
                                 <img src="/bizum-logo.webp" alt="Option 1" width="100" height="100" />
                             </label>
