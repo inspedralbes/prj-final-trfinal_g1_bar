@@ -9,9 +9,9 @@ import { } from "@/lib/Features/getRestaurant";
 
 export default function QR() {
 
-    const categoriaId = useSelector((state: RootState) => state.restaurant.restaurant.restaurantId);
+    const restaurantId = useSelector((state: RootState) => state.restaurant.restaurant.restaurantId);
 
-    console.log(categoriaId);
+    console.log(restaurantId);
 
     //ntaula es el valor del input del html
     const [ntaula, setNtaula] = useState('');
@@ -30,7 +30,7 @@ export default function QR() {
 
         console.log(inputValue.value);
 
-        socket.emit('generateQR', categoriaId, inputValue.value);
+        socket.emit('generateQR', restaurantId, inputValue.value);
 
     }
 
