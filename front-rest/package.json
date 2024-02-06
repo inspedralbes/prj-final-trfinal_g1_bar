@@ -12,7 +12,11 @@
   "dependencies": {
     "nuxt": "^3.10.0",
     "pinia": "^2.0.0-rc.10",
+    "primevue": "^3.48.0",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "nuxt-primevue": "^0.2.2"
   }
 }
