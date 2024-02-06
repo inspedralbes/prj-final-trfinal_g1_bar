@@ -71,10 +71,12 @@ export default function ComandaAlternativa() {
                             {tiquet.tiquets.map((producte, j) => (
                                 // Renderitza la informació del producte sempre i quan usuari sigui igual a product.pivot.user_id
                                 usuari === producte.pivot.user_id && (
-                                    <div key={j} className='item-categoria bg-zinc-300 rounded shadow d-flex flex-column justify-content-end align-items-center'>
-                                        <img className="img-producte" src="/salad.png" alt="" />
-                                        <div className='pb-3 text-center fw-bold text-uppercase'>
-                                            {producte.nom}
+                                    <div>
+                                        <div key={j} className='item-categoria bg-zinc-300 rounded shadow d-flex flex-column justify-content-end align-items-center'>
+                                            <img className="img-producte" src="/salad.png" alt="" />
+                                            <div className='pb-3 text-center fw-bold text-uppercase'>
+                                                {producte.nom}
+                                            </div>
                                         </div>
                                     </div>
                                 )
