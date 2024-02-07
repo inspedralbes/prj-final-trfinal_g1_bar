@@ -3,7 +3,7 @@
         <h1>TAULES</h1>
         <div class="taules-container">
             <div v-for="(actual,index) in getTaules()" @click="enterTable(actual.id)" >
-                <h2>Taula {{actual.numero}}</h2>
+                <h2>Taula {{actual.nombre_taula}}</h2>
                 <p>Capacitat: {{actual.capacitat}}</p>
                 <p class="clientsTitle">Clients:</p>
                 <ul>
@@ -21,7 +21,7 @@ export default {
             taules:[
                 {
                     id: 1,
-                    numero: 1,
+                    nombre_taula: 1,
                     capacitat: 4,
                     clients: [
                         {
@@ -44,7 +44,7 @@ export default {
                 },
                 {
                     id: 2,
-                    numero: 2,
+                    nombre_taula: 2,
                     capacitat: 2,
                     clients: [
                         {
@@ -67,7 +67,7 @@ export default {
                 },
                 {
                     id: 3,
-                    numero: 3,
+                    nombre_taula: 3,
                     capacitat: 6,
                     clients: [
                         {
@@ -90,7 +90,7 @@ export default {
                 },
                 {
                     id: 4,
-                    numero: 4,
+                    nombre_taula: 4,
                     capacitat: 8,
                     clients: [
                         {
@@ -113,7 +113,7 @@ export default {
                 },
                 {
                     id: 5,
-                    numero: 5,
+                    nombre_taula: 5,
                     capacitat: 4,
                     clients: [
                         {
@@ -136,7 +136,7 @@ export default {
                 },
                 {
                     id: 6,
-                    numero: 6,
+                    nombre_taula: 6,
                     capacitat: 2,
                     clients: [
                         {
@@ -159,7 +159,7 @@ export default {
                 },
                 {
                     id: 7,
-                    numero: 7,
+                    nombre_taula: 7,
                     capacitat: 6,
                     clients: [
                         {
@@ -188,7 +188,23 @@ export default {
             return this.taules;
         },
         enterTable(id){
+            console.log(id);
             this.$router.push(`/taula/${id}`);
+        }
+    },
+    created() {
+        socket.emit('getTaules');
+        
+        // servidor respon amb les taules
+        // socket.on('taules', (taules) => {
+        //     this.taules = taules;
+        // });
+    },
+    computed: {
+        taula() {
+            // get taula from pinia
+            const taula = {}
+            return taula;
         }
     }
 }
