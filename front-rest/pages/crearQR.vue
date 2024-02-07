@@ -1,9 +1,15 @@
 <template>
-    <div>
-        <p>Aquest és el contingut de la pàgina Compartir QR</p>
-        <input type="text" id="taula" v-model="Ntaula" />
-        <PrimeButton @click="generarQR">Generar qr</PrimeButton>
-        <img :src="genQR">
+    <div class="flex-column cont">
+        <div class="flex-column fgap">
+            <PrimeInputNumber placeholder="Escriu num taula" id="taula" v-model="Ntaula" />
+            <PrimeButton @click="generarQR">Generar QR</PrimeButton>
+        </div>
+        <div v-if="!genQR" class="imgCont">
+
+        </div>
+        <div v-else class="imgCont">
+            <img :src="genQR">
+        </div>
     </div>
 </template>
 
@@ -35,8 +41,33 @@ export default {
             return this.store.getQr();
         }
     },
-
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.fgap {
+    gap: 20px;
+}
+
+.cont {
+    height: 99vh;
+}
+
+.imgCont{
+    height: 200px;
+    width: 200px;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+</style>

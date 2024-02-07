@@ -78,6 +78,7 @@ io.on('connection', (socket) => {
     socket.on('joinRoom', (room) => {
         socket.join(taules.find(t => t.socketN === room));
         console.log('Usuario', socket.id, 'se ha unido a la sala', room);
+        
     });
 
     socket.on('leaveRoom', (room) => {
