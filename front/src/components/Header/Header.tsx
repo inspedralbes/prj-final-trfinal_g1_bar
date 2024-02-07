@@ -24,6 +24,7 @@ const Header = () => {
         // Si existeix una sessió d'usuari, guardar a la store
         const userSession = localStorage.getItem('user');
         if (userSession) {
+            console.log("userSession: ", JSON.parse(userSession));
             dispatch(login(JSON.parse(userSession)));
         }
     }, [])
@@ -55,25 +56,18 @@ const Header = () => {
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link href="/comanda" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
-                                        La Nostra Comanda
-                                    </Link>
-                                </div>
-                                <div>
-                                    <Link href="/pagament" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
-                                        Pagament
-                                    </Link>
-                                </div>
-                                <div>
                                     <Link href="/qr" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
                                         Compartir QR
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link href="/comanda/comanda-alt" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
-                                        Comanda Alternativa
+                                    <Link href="/comanda" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
+                                        Comanda
                                     </Link>
                                 </div>
+                                <Button variant="success" className='link-underline  link-underline-opacity-0 mt-2'>
+                                    <Link href="/pagament" onClick={handleClose} className='link-underline  link-underline-opacity-0 text-white'>Pagament</Link>
+                                </Button>
                                 <Button variant="secondary" className='link-underline  link-underline-opacity-0 mt-2'>
                                     <Link href="/logout" onClick={handleClose} className='link-underline  link-underline-opacity-0 text-white'>Tancar Sessió</Link>
                                 </Button>
