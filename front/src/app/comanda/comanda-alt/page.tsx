@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 export default function ComandaAlternativa() {
 
     const id = 1; // HARDCODED ID TICKET
-    const [tiquet, setTiquet] = useState([]);
+    const [tiquet, setTiquet] = useState<any>([]);
     const [loading, setLoading] = useState(true);
     const url = `http://localhost:8000/api/tiquets/${id}`;
     const [arrayUsuaris, setArrayUsuaris] = useState([]);
@@ -36,7 +36,7 @@ export default function ComandaAlternativa() {
     // Quan hem obtingut les dades associades a un tiquet...
     useEffect(() => {
         if (tiquet.tiquets) {
-            const formattedUsers = formatUsuaris();
+            const formattedUsers : any = formatUsuaris();
             setArrayUsuaris(formattedUsers);
         }
     }, [tiquet]);
@@ -45,8 +45,8 @@ export default function ComandaAlternativa() {
     * return arrayUsuaris retorna un array de valors únics integer, els identificadors de tots els usuaris inclosos en un tiquet
     */
     function formatUsuaris() {
-        let arrayUsuaris = [];
-        let producteTiquet;
+        let arrayUsuaris : Array<number> = [];
+        let producteTiquet : any;
 
         for (let i = 0; i < tiquet.tiquets.length; i++) {
             producteTiquet = tiquet.tiquets[i];
@@ -68,7 +68,7 @@ export default function ComandaAlternativa() {
                             <p className='user-name position-absolute bg-white px-2'>ID_USUARI: {usuari}</p>
                         </div>
                         <div className='d-flex flex-row gap-4 horizontal-scroll-container py-4'>
-                            {tiquet.tiquets.map((producte, j) => (
+                            {tiquet.tiquets.map((producte: any, j : number) => (
                                 // Renderitza la informació del producte sempre i quan usuari sigui igual a product.pivot.user_id
                                 usuari === producte.pivot.user_id && (
                                     <div>

@@ -7,12 +7,12 @@ import './pagament.modules.css'
 export default function Pagament() {
     const id = 1; // HARDCODED ID TICKET
     const myID = 3;
-    const [tiquet, setTiquet] = useState([]);
+    const [tiquet, setTiquet] = useState<any>([]);
     const [loading, setLoading] = useState(true);
     const url = `http://localhost:8000/api/tiquets/${id}`;
     const [arrayUsuaris, setArrayUsuaris] = useState([]);
     const [seleccioProductes, setSeleccioProductesState] = useState('els-meus-productes');
-    const [checkboxState, setCheckboxState] = useState({});
+    const [checkboxState, setCheckboxState] = useState<any>({});
 
     // Obtenció de les dades associades a un tiquet
     useEffect(() => {
@@ -40,7 +40,7 @@ export default function Pagament() {
     // Quan hem obtingut les dades associades a un tiquet...
     useEffect(() => {
         if (tiquet.tiquets) {
-            const formattedUsers = formatUsuaris();
+            const formattedUsers : any = formatUsuaris();
             setArrayUsuaris(formattedUsers);
         }
     }, [tiquet]);
@@ -49,8 +49,8 @@ export default function Pagament() {
     * return arrayUsuaris retorna un array de valors únics integer, els identificadors de tots els usuaris inclosos en un tiquet
     */
     function formatUsuaris() {
-        let arrayUsuaris = [];
-        let producteTiquet;
+        let arrayUsuaris  : Array<number> = [];
+        let producteTiquet : any;
 
         for (let i = 0; i < tiquet.tiquets.length; i++) {
             producteTiquet = tiquet.tiquets[i];
@@ -62,7 +62,7 @@ export default function Pagament() {
         return arrayUsuaris;
     }
 
-    const canviSeleccioProducte = (event) => {
+    const canviSeleccioProducte = (event : any) => {
 
         setSeleccioProductesState(event.target.id);
         uncheckAllCheckboxes();
@@ -81,18 +81,18 @@ export default function Pagament() {
         setCheckboxState({});
     };
 
-    const handleCheckboxChange = (id) => {
-        setCheckboxState((prevState) => ({
+    const handleCheckboxChange = (id : any) => {
+        setCheckboxState((prevState : any) => ({
             ...prevState,
             [id]: !prevState[id],
         }));
     };
 
     // Funció que marca tots els meus productes del ticket
-    function marcaElsMeusProductes(usuari_id) {
-        const updatedCheckboxState = {};
+    function marcaElsMeusProductes(usuari_id : number) {
+        const updatedCheckboxState : any = {};
 
-        tiquet.tiquets.forEach((producte, j) => {
+        tiquet.tiquets.forEach((producte : any, j : number) => {
             const checkboxId = `it-${j}_u-${usuari_id}`;
             updatedCheckboxState[checkboxId] = true;
         });
@@ -102,10 +102,10 @@ export default function Pagament() {
 
     // Funció que marca tots els productes del ticket
     function marcaTotsElsProductes() {
-        const updatedCheckboxState = {};
+        const updatedCheckboxState : any = {};
 
         arrayUsuaris.forEach((usuari) => {
-            tiquet.tiquets.forEach((producte, j) => {
+            tiquet.tiquets.forEach((producte : any, j : number) => {
                 const checkboxId = `it-${j}_u-${usuari}`;
                 updatedCheckboxState[checkboxId] = true;
             });
@@ -114,7 +114,7 @@ export default function Pagament() {
         setCheckboxState(updatedCheckboxState);
     };
 
-    const isCheckboxChecked = (id) => checkboxState[id] || false;
+    const isCheckboxChecked = (id : any) => checkboxState[id] || false;
 
     const isAllCheckboxesChecked = () => {
 
@@ -149,7 +149,7 @@ export default function Pagament() {
             return (
                 acc +
                 tiquet.tiquets.filter(
-                    (producte, j) => isCheckboxChecked(`it-${j}_u-${usuari}`) && usuari === myID
+                    (producte : any, j : number) => isCheckboxChecked(`it-${j}_u-${usuari}`) && usuari === myID
                 ).length
             );
         }, 0);
@@ -236,7 +236,7 @@ export default function Pagament() {
                         <div key={i} className='mb-2'>
                             <p>ID_USUARI: {usuari}</p>
                             <div>
-                                {tiquet.tiquets.map((producte, j) => (
+                                {tiquet.tiquets.map((producte: any, j : number) => (
                                     // Renderitza la informació del producte sempre i quan usuari sigui igual a product.pivot.user_id
                                     usuari === producte.pivot.user_id && (
                                         <div key={j}>
@@ -244,9 +244,9 @@ export default function Pagament() {
                                                 className='text-uppercase'
                                                 type='checkbox'
                                                 id={`it-${j}_u-${usuari}`}
-                                                label={`${producte.nom} ${producte.preu} * ${producte.pivot.quantitat} ${parseFloat(
+                                                label={`${producte.nom} ${producte.preu} * ${producte.pivot.quantitat} ${(
                                                     producte.preu * producte.pivot.quantitat
-                                                ).toFixed(2)}`}
+                                                  ).toFixed(2)}`}
                                                 checked={checkboxState[`it-${j}_u-${usuari}`] || false}
                                                 onChange={() => handleCheckboxChange(`it-${j}_u-${usuari}`)}
                                             />
