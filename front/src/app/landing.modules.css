@@ -2,6 +2,14 @@
     height: 90vh;
 }
 
+.landing-carousel {
+    background-color: #fe5d43;
+    bottom: 0;
+    width: 100%;
+    height: 45vh;
+    border-radius: 50% 50% 0 0;
+}
+
 .landing-background {
     width: 100%;
 }
