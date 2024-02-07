@@ -9,6 +9,7 @@ import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
+import GlobalConfig from '../app.config'
 
 export default function Comanda() {
     const [comanda, setComanda] = useState<any>({});
@@ -17,13 +18,15 @@ export default function Comanda() {
     const [showAlert, setShowAlert] = useState(false)
     const [userId, setUserId] = useState(3);
     const [bearerToken, setBearerToken] = useState('bSVQHmC3AM18V3gDE0czkg90RiPklr5ush0mFzFU802167fe');
+    let id: number = 1;
+    const url = GlobalConfig.link + `/api/tiquets/${id}`;
 
     useEffect(() => {
-        let id: number = 1;
+        
         async function fetchComanda() {
             setLoading(true);
             try {
-                const response = await fetch(`http://localhost:8000/api/tiquets/${id}`);
+                const response = await fetch(url);
                 const result = await response.json();
                 console.log(result)
                 if (!result.error) {

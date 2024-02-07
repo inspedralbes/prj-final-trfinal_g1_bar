@@ -8,13 +8,14 @@ import { RootState } from '@/lib/store';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
+import GlobalConfig from '../app.config'
 
 export default function Productes() {
     const router = useRouter();
     const dispatch = useDispatch();
     const userToken = useSelector((state: RootState) => state.user.token);
 
-    let url = 'http://localhost:8000/api/logout';
+    const url = GlobalConfig.link + "/api/logout";
 
     const [loading, setLoading] = useState(false);
 
