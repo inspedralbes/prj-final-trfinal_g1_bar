@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { RootState } from "@/lib/store";
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoriaId } from "@/lib/Features/getRestaurant";
+import GlobalConfig from '../app.config'
 
 export default function Menu() {
 
@@ -23,7 +24,7 @@ export default function Menu() {
 
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
-    const url = `http://127.0.0.1:8000/api/restaurants/${restaurantId}/categories`;
+    const url = GlobalConfig.link + `/api/restaurants/${restaurantId}/categories`;
     useEffect(() => {
         const fetchData = async () => {
             try {

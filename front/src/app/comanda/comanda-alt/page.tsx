@@ -1,13 +1,14 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
+import GlobalConfig from '../../app.config'
 
 export default function ComandaAlternativa() {
 
     const id = 1; // HARDCODED ID TICKET
     const [tiquet, setTiquet] = useState<any>([]);
     const [loading, setLoading] = useState(true);
-    const url = `http://localhost:8000/api/tiquets/${id}`;
+    const url = GlobalConfig.link + `/api/tiquets/${id}`;
     const [arrayUsuaris, setArrayUsuaris] = useState([]);
 
     // Obtenció de les dades associades a un tiquet

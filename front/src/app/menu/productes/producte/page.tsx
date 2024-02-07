@@ -70,9 +70,9 @@ export default function Producte() {
                     </div>
                 </div>
                 <div className='row mt-3'>
-                    <h2 className="p-0 fw-bold text-uppercase">{producteSeleccionat.nom}</h2>
-                    <h3 className="p-0">{producteSeleccionat.preu} &euro;</h3>
-                    <p className="p-0 font-italic">{producteSeleccionat.descripcio}</p>
+                    <h2 className="p-0 fw-bold text-uppercase">{producteSeleccionat?.nom}</h2>
+                    <h3 className="p-0">{producteSeleccionat?.preu} &euro;</h3>
+                    <p className="p-0 font-italic">{producteSeleccionat?.descripcio}</p>
                 </div>
                 <div className='mt-3 row'>
                     <button onClick={afegirProducteTiquetIndividual} type="button" className="col-6 btn btn-primary float-right">AFEGIR A LA COMANDA</button>

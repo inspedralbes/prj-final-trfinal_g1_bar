@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { RootState } from "@/lib/store";
 import { useSelector, useDispatch } from 'react-redux';
 import { setProductesCategoriaVisualitzada, setProducteId } from "@/lib/Features/getRestaurant";
+import GlobalConfig from '../../app.config'
 
 export default function Productes() {
 
@@ -16,7 +17,7 @@ export default function Productes() {
 
     const [productes, setProductes] = useState<any>([]);
     const [loading, setLoading] = useState(true);
-    const url = `http://127.0.0.1:8000/api/categories/${categoriaId}/productes`;
+    const url = GlobalConfig.link + `/api/categories/${categoriaId}/productes`;
     useEffect(() => {
         const fetchData = async () => {
             try {

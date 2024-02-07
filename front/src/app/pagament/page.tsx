@@ -3,13 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import './pagament.modules.css'
+import GlobalConfig from '../app.config'
 
 export default function Pagament() {
     const id = 1; // HARDCODED ID TICKET
     const myID = 3;
     const [tiquet, setTiquet] = useState<any>([]);
     const [loading, setLoading] = useState(true);
-    const url = `http://localhost:8000/api/tiquets/${id}`;
+    const url = GlobalConfig.link +  `/api/tiquets/${id}`;
     const [arrayUsuaris, setArrayUsuaris] = useState([]);
     const [seleccioProductes, setSeleccioProductesState] = useState('els-meus-productes');
     const [checkboxState, setCheckboxState] = useState<any>({});

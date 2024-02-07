@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { login } from "@/lib/Features/userSlice";
 import { useRouter } from 'next/navigation';
 import Spinner from 'react-bootstrap/Spinner';
+import GlobalConfig from '../app.config'
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -19,8 +20,9 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [loading, setLoading] = useState(false);
-    const url = "http://localhost:8000/api/login";
 
+    const url = GlobalConfig.link + "/api/login";
+    
     const loginApiFetch = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // no recarrega la pagina
         setLoading(true);

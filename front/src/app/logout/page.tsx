@@ -6,13 +6,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from "@/lib/Features/userSlice";
 import { RootState } from '@/lib/store';
 import Spinner from 'react-bootstrap/Spinner';
+import GlobalConfig from '../app.config'
 
 export default function Productes() {
     const router = useRouter();
     const dispatch = useDispatch();
     const userState = useSelector((state: RootState) => state.user);
 
-    let url = 'http://localhost:8000/api/logout';
+    const url = GlobalConfig.link + "/api/logout";
 
     const [loading, setLoading] = useState(true);
 
