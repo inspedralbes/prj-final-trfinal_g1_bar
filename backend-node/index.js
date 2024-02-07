@@ -8,27 +8,10 @@ const { log } = require('node:console');
 const app = express();
 app.use(cors())
 
-
-// taula = {
-//     id: 1,
-//     numTaula: 1,
-//     restaurant: 1,
-//     ocupants: 0,
-//     ocupantsUsr: [{
-//         id: 1,
-//         nom: "Pepito",
-//         email: "",
-//         carrito: [{
-//             prducteid: 1,
-//             producteNom: "Coca Cola",
-//             preu: 1.5,
-//             quantitat: 2,
-//             observacions: "Sense sucre",
-//         }],
-//     }],
-//     qr: '',
-// };
-
+const salaAdmin = {
+    nomSala: 'admin',
+    users: [],
+};
 const taules = [];
 
 const server = createServer(app);
@@ -43,10 +26,17 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
     console.log('Usuario conectado:', socket.id);
 
+
+    socket.on('joinAdmin', () => {
+        socket.join(salaAdmin);
+        salaAdmin.users.push(socket.id);
+        console.log('Usuario', socket.id, 'se ha unido a la sala', salaAdmin.nomSala);
+    });
+
     //crear rooms de sockets
     socket.on('crear-sala', (numTaula, idRest) => {
         // Comprovar si ja existeix una sala amb el mateix nom
-        if (sales.find(s => s.nomSala === sala.nom)) {
+        if (taules.find(s => s.socketN === `${idRest}/${numTaula}`)) {
             return;
         }
 
@@ -57,16 +47,17 @@ io.on('connection', (socket) => {
             numTaula: null,
             restaurant: null,
             ocupants: 0,
-            ocupantsUsr: [{
+            clients: [{
                 id: null,
                 nom: null,
                 email: null,
-                carrito: [{
+                productes: [{
                     prducteid: null,
                     producteNom: null,
                     preu: null,
                     quantitat: null,
-                    observacions: null,
+                    comentari: null,
+                    estat: null,
                 }],
             }],
             qr: null,
@@ -74,15 +65,16 @@ io.on('connection', (socket) => {
         taules.push(novaTaula);
         io.emit('sala-creada', novaTaula);
     });
-
+    
     socket.on('joinRoom', (room) => {
-        socket.join(taules.find(t => t.socketN === room));
+        let jroom = taules.find(t => t.socketN === room);
+        socket.join(jroom.socketN);
         console.log('Usuario', socket.id, 'se ha unido a la sala', room);
-        
     });
 
     socket.on('leaveRoom', (room) => {
-        socket.leave(taules.find(t => t.socketN === room));
+        let lroom = taules.find(t => t.socketN === room);
+        socket.leave(lroom.socketN);
         console.log('Usuario', socket.id, 'ha abandonado la sala', room);
     });
 
