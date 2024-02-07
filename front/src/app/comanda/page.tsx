@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react';
+import { RootState } from '@/lib/store';
+import { useSelector, useDispatch } from 'react-redux';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Spinner from 'react-bootstrap/Spinner';
@@ -12,12 +14,13 @@ import Alert from 'react-bootstrap/Alert';
 import GlobalConfig from '../app.config'
 
 export default function Comanda() {
+    const userState = useSelector((state: RootState) => state.user);
+    const tiquetId = useSelector((state: RootState) => state.restaurant.tiquetId);
+
     const [comanda, setComanda] = useState<any>({});
     const [mevaComanda, setMevaComanda] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAlert, setShowAlert] = useState(false)
-    const [userId, setUserId] = useState(3);
-    const [bearerToken, setBearerToken] = useState('bSVQHmC3AM18V3gDE0czkg90RiPklr5ush0mFzFU802167fe');
     let id: number = 1;
     const url = GlobalConfig.link + `/api/tiquets/${id}`;
 
@@ -30,7 +33,8 @@ export default function Comanda() {
                 const result = await response.json();
                 console.log(result)
                 if (!result.error) {
-                    let mevaComanda = result.tiquets.filter((tiquet: any) => tiquet.pivot.user_id === userId);
+                    console.log("user  id", userState.id)
+                    let mevaComanda = result.tiquets.filter((tiquet: any) => tiquet.pivot.user_id === userState.id);
                     setComanda(result);
                     setMevaComanda(mevaComanda);
                 } else {
@@ -44,7 +48,7 @@ export default function Comanda() {
         }
 
         fetchComanda();
-    }, [])
+    }, [userState])
 
     const sumarQuantitat = (tiquet: any) => {
         return () => {
@@ -68,7 +72,7 @@ export default function Comanda() {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${bearerToken}`,
+                    'Authorization': `Bearer ${userState.token}`,
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
@@ -94,7 +98,7 @@ export default function Comanda() {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${bearerToken}`,
+                    'Authorization': `Bearer ${userState.token}`,
                 },
             })
             const result = await response.json();
@@ -160,7 +164,7 @@ export default function Comanda() {
                                                     </Accordion.Header>
                                                     <Accordion.Body className='p-2 pt-3 d-flex flex-column gap-2 bg-primary-subtle rounded-bottom'>
                                                         <div className='text-center'>ESTAT: <b>{tiquet.pivot.estat}</b></div>
-                                                        {tiquet.pivot.estat === 'Pendent' && tiquet.pivot.user_id === userId ? (
+                                                        {tiquet.pivot.estat === 'Pendent' && tiquet.pivot.user_id === userState.id ? (
                                                             <div className='d-flex flex-column gap-2'>
                                                                 <div className='d-flex w-auto border border-2 rounded-3'>
                                                                     <Button variant="secondary" onClick={restarQuantitat(tiquet)}> - </Button>
