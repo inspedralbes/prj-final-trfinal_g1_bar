@@ -4,7 +4,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface RestaurantIdState {
   //restaurantId: number;
-  restaurant: object
+  restaurant: any
+    
+  
 }
 
 const initialState: RestaurantIdState = {

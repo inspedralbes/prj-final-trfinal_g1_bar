@@ -18,7 +18,7 @@ export default function Producte() {
     const { push } = useRouter();   
 
     //
-    let producteSeleccionat;
+    let producteSeleccionat : any;
 
     for (let i = 0; i < productesCategoriaSeleccionada.length; i++) {
         if (productesCategoriaSeleccionada[i].id === producteId) {

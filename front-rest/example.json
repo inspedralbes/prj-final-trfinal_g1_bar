@@ -1,0 +1,86 @@
+{
+    "taula": {
+        "Ntaula": 1,
+        "tiquetGen": [
+            {
+                "tiquetIn": {
+                    "mail": "correo1@example.com",
+                    "nom": "Nombre Apellido",
+                    "prods": [
+                        {
+                            "id": 1,
+                            "nom": "Producto 1",
+                            "preu": 10,
+                            "quant": 2
+                        },
+                        {
+                            "id": 2,
+                            "nom": "Producto 2",
+                            "preu": 15,
+                            "quant": 1
+                        },
+                        {
+                            "id": 3,
+                            "nom": "Producto 3",
+                            "preu": 8,
+                            "quant": 3
+                        }
+                    ]
+                }
+            },
+            {
+                "tiquetIn": {
+                    "mail": "correo2@example.com",
+                    "nom": "Nombre Apellido",
+                    "prods": [
+                        {
+                            "id": 4,
+                            "nom": "Producto 4",
+                            "preu": 20,
+                            "quant": 1
+                        },
+                        {
+                            "id": 5,
+                            "nom": "Producto 5",
+                            "preu": 12,
+                            "quant": 2
+                        },
+                        {
+                            "id": 6,
+                            "nom": "Producto 6",
+                            "preu": 6,
+                            "quant": 4
+                        }
+                    ]
+                }
+            },
+            {
+                "tiquetIn": {
+                    "mail": "correo3@example.com",
+                    "nom": "Nombre Apellido",
+                    "prods": [
+                        {
+                            "id": 7,
+                            "nom": "Producto 7",
+                            "preu": 18,
+                            "quant": 2
+                        },
+                        {
+                            "id": 8,
+                            "nom": "Producto 8",
+                            "preu": 10,
+                            "quant": 3
+                        },
+                        {
+                            "id": 9,
+                            "nom": "Producto 9",
+                            "preu": 5,
+                            "quant": 1
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+    
+}

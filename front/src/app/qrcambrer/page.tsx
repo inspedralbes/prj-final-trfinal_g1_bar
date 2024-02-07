@@ -17,11 +17,11 @@ export default function QR() {
     const [ntaula, setNtaula] = useState('');
 
     //inputRef és el valor del input del html
-    const inputRef = useRef();
+    const inputRef : any = useRef();
 
     const peticioQR = () => {
 
-        const inputValue = inputRef.current;
+        const inputValue : any = inputRef.current;
 
         if (!inputValue.value) {
             alert('Introdueix un número de taula');
