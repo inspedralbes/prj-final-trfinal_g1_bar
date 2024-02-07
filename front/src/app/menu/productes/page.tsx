@@ -14,7 +14,7 @@ export default function Productes() {
     /*PER GUARDAR DADES A LA STORE */
     const dispatch = useDispatch();
 
-    const [productes, setProductes] = useState([]);
+    const [productes, setProductes] = useState<any>([]);
     const [loading, setLoading] = useState(true);
     const url = `http://127.0.0.1:8000/api/categories/${categoriaId}/productes`;
     useEffect(() => {
@@ -49,7 +49,7 @@ export default function Productes() {
                 <p>Loading...</p>
             ) : (
                 <div className="d-flex flex-column align-items-center">
-                    {productes.map((producte) => (
+                    {productes.map((producte : any) => (
                         <Link key={producte.id} onClick={() => dispatch(setProducteId(producte.id))} href="/menu/productes/producte" className="link">
                             <div className='item-categoria m-2 bg-zinc-300 rounded shadow d-flex flex-column justify-content-end align-items-center'>
                                 <img className="img-producte" src="/salad.png" alt="" />
