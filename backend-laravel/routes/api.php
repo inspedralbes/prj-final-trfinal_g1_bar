@@ -32,7 +32,7 @@ Route::get('/categories/{id}/productes', [ProductesController::class,'index']);
 Route::get('/productes/{id}/ingredients', [IngredientsController::class,'indexPerProducte']);
 // Get tots els ingredients
 Route::get('/ingredients', [IngredientsController::class,'index']);
-// Get tiquet d'un restaurant en concret
+// Get d'un tiquet en concret
 Route::get('/tiquets/{id}', [TiquetsController::class,'show']);
 
 // Protected routes

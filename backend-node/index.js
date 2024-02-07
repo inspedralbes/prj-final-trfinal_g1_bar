@@ -5,6 +5,8 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 const { log } = require('node:console');
 
+import comunicationManager from './comunicationManager';
+
 const app = express();
 app.use(cors())
 
@@ -65,7 +67,7 @@ io.on('connection', (socket) => {
         taules.push(novaTaula);
         io.emit('sala-creada', novaTaula);
     });
-    
+
     socket.on('joinRoom', (room) => {
         let jroom = taules.find(t => t.socketN === room);
         socket.join(jroom.socketN);
@@ -82,6 +84,31 @@ io.on('connection', (socket) => {
         let ruta = 'https://localhost:3000';
         const qrCode = await generateQRCode(`${ruta}/${idRest}/${numTaula}`);
         socket.emit('QRGenerated', qrCode);
+    });
+
+    socket.on('getTiquet', async (idTiquet) => {
+        let tiquet = await comunicationManager.getTiquet(idTiquet);
+        socket.emit('tiquet', tiquet);
+    });
+
+    socket.on('getCategories', async (idRest) => {
+        let categories = await comunicationManager.getCategories(idRest);
+        socket.emit('categories', categories);
+    });
+
+    socket.on('getProductes', async (idCat) => {
+        let productes = await comunicationManager.getProductes(idCat);
+        socket.emit('productes', productes);
+    });
+
+    socket.on('getIngredients', async (idProd) => {
+        let ingredients = await comunicationManager.getIngredients(idProd);
+        socket.emit('ingredients', ingredients);
+    });
+
+    socket.on('getAllIngredients', async () => {
+        let ingredients = await comunicationManager.getAllIngredients();
+        socket.emit('allIngredients', ingredients);
     });
 
     // Manejar desconexiones

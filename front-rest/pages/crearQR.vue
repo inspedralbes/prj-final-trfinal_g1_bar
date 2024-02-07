@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import socket from '~/socket';
-import useAppStore from '~/stores/index.js';
+import socket from '@/socket';
+import useAppStore from '@/stores/index.js';
 
 export default {
     data() {
