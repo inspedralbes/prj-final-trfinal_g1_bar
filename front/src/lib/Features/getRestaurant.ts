@@ -2,42 +2,45 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface RestaurantIdState {
-  //restaurantId: number;
-  restaurant: any
-    
-  
+interface InitialStateType {
+  restaurantId: number;
+  tiquetId: number;
+  categoriaId: number;
+  productesCategoriaVisualitzada: number[];
+  producteId: number;
+  tiquetIndividual: any[];
 }
 
-const initialState: RestaurantIdState = {
-  restaurant: {
-    restaurantId: 2,
-    categoriaId: null,
-    productesCategoriaVisualitzada: [],
-    producteId: null,
-    tiquetIndividual: []
-  },
-  
-};
+const initialState: InitialStateType = {
+  restaurantId: 1,
+  tiquetId: 1,
+  categoriaId: 0,
+  productesCategoriaVisualitzada: [],
+  producteId: 0,
+  tiquetIndividual: []
+}
 
 export const restaurantIdSlice = createSlice({
   name: 'restaurant',
   initialState,
   reducers: {
     setRestaurantId(state, action: PayloadAction<number>) {
-      state.restaurant.restaurantId = action.payload;
+      state.restaurantId = action.payload;
+    },
+    setTiquetId(state, action: PayloadAction<number>) {
+      state.tiquetId = action.payload;
     },
     setCategoriaId(state, action: PayloadAction<number>) {
-      state.restaurant.categoriaId = action.payload;
+      state.categoriaId = action.payload;
     },
-    setProductesCategoriaVisualitzada(state, action: PayloadAction<number>) {
-      state.restaurant.productesCategoriaVisualitzada = action.payload;
+    setProductesCategoriaVisualitzada(state, action: PayloadAction<number[]>) {
+      state.productesCategoriaVisualitzada = action.payload;
     },
     setProducteId(state, action: PayloadAction<number>) {
-      state.restaurant.producteId = action.payload;
+      state.producteId = action.payload;
     },
     setTiquetIndividual(state, action: PayloadAction<object[]>) {
-      state.restaurant.tiquetIndividual.push(...action.payload);
+      state.tiquetIndividual.push(...action.payload);
     },
   },
 });
