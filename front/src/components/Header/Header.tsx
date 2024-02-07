@@ -29,7 +29,7 @@ const Header = () => {
     }, [])
 
     return (
-        <header className="p-3 flex justify-between items-center bg-zinc-300">
+        <header className="header p-3 flex justify-between items-center bg-zinc-300">
             <Link href="/">
                 <img className="rounded" src="/paypart.png" alt="" width="50px" height="50px" />
             </Link>

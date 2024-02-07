@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { RootState } from "@/lib/store";
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoriaId } from "@/lib/Features/getRestaurant";
+import { setCategoriaId } from "@/lib/Features/restaurantSlice";
 import GlobalConfig from '../app.config'
 
 export default function Menu() {
 
     /*PER ACCEDIR A LES DADES DE LA STORE */
-    const restaurantId = useSelector((state: RootState) => state.restaurant.restaurant.restaurantId);
+    const restaurantId = useSelector((state: RootState) => state.restaurant.restaurantId);
 
     /*PER GUARDAR DADES A LA STORE */
     const dispatch = useDispatch();

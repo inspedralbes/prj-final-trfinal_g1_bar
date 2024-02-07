@@ -3,15 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import { RootState } from "@/lib/store";
 import { useSelector, useDispatch } from 'react-redux';
-import { setTiquetIndividual } from "@/lib/Features/getRestaurant";
+import { setTiquetIndividual } from "@/lib/Features/restaurantSlice";
 import { useRouter } from 'next/navigation';
 
 export default function Producte() {
 
     // GET AND SET STORE DATA
-    const productesCategoriaSeleccionada = useSelector((state: RootState) => state.restaurant.restaurant.productesCategoriaVisualitzada);
-    const producteId = useSelector((state: RootState) => state.restaurant.restaurant.producteId);
-    const tiquetIndividual = useSelector((state: RootState) => state.restaurant.restaurant.tiquetIndividual);
+    const productesCategoriaSeleccionada = useSelector((state: RootState) => state.restaurant.productesCategoriaVisualitzada);
+    const producteId = useSelector((state: RootState) => state.restaurant.producteId);
+    const tiquetIndividual = useSelector((state: RootState) => state.restaurant.tiquetIndividual);
     const dispatch = useDispatch();
 
     // NAVEGAR ENTRE PAGINES

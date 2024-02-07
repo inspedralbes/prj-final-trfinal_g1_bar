@@ -5,11 +5,11 @@ import { useRef } from 'react';
 import socket from "@/sockets";
 import { useSelector } from 'react-redux';
 import { RootState } from "@/lib/store";
-import { } from "@/lib/Features/getRestaurant";
+import { } from "@/lib/Features/restaurantSlice";
 
 export default function QR() {
 
-    const restaurantId = useSelector((state: RootState) => state.restaurant.restaurant.restaurantId);
+    const restaurantId = useSelector((state: RootState) => state.restaurant.restaurantId);
 
     console.log(restaurantId);
 

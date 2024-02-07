@@ -20,7 +20,7 @@ const initialState: InitialStateType = {
   tiquetIndividual: []
 }
 
-export const restaurantIdSlice = createSlice({
+export const restaurantSlice = createSlice({
   name: 'restaurant',
   initialState,
   reducers: {
@@ -45,5 +45,5 @@ export const restaurantIdSlice = createSlice({
   },
 });
 
-export const { setRestaurantId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, setTiquetIndividual } = restaurantIdSlice.actions;
-export default restaurantIdSlice.reducer;
+export const { setRestaurantId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, setTiquetIndividual } = restaurantSlice.actions;
+export default restaurantSlice.reducer;
