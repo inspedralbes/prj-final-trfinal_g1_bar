@@ -1,8 +1,11 @@
 .landing-wrapper {
+    position: relative;
     height: 90vh;
+
 }
 
 .landing-carousel {
+    position: absolute;
     background-color: #fe5d43;
     bottom: 0;
     width: 100%;
@@ -11,12 +14,18 @@
 }
 
 .landing-background {
-    width: 100%;
+    position: absolute;
+    top: 0
 }
 
-.landing-info{
-    background-color: #fe5d43;
-    bottom: 0;
-    height: 45vh;
-    border-radius: 50% 50% 0 0;
-  }
+.landing-titles {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 15em;
+    top: 15%;
+    text-transform: uppercase;
+    background-color: rgba(255, 255, 255, 0.8);
+ }
