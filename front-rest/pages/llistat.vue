@@ -2,7 +2,7 @@
     <div class="border-round">
         <h1>TAULES</h1>
         <div class="taules-container">
-            <div v-for="(actual,index) in getTaules()" @click="enterTable(actual.id)" >
+            <div v-for="(actual,index) in taules" @click="enterTable(actual.id)" :key=index >
                 <h2>Taula {{actual.nombre_taula}}</h2>
                 <p>Capacitat: {{actual.capacitat}}</p>
                 <p class="clientsTitle">Clients:</p>
@@ -184,12 +184,7 @@ export default {
         }
     },
     methods: {
-        getTaules(){
-            return this.taules;
-        },
         enterTable(id){
-            console.log(id);
-            // this.$router.push(`/taula/${id}`);
             this.$router.push(`/taula/${id}`,{params: {id: id}});
         }
     },
@@ -223,6 +218,7 @@ export default {
     padding: 20px;
     width: 200px;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .taules-container > div:hover {
