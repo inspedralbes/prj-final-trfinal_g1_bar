@@ -5,7 +5,7 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 const { log } = require('node:console');
 
-import comunicationManager from './comunicationManager';
+const { comunicationManager } = require('./comunicationManager');
 
 const app = express();
 app.use(cors())
@@ -88,26 +88,31 @@ io.on('connection', (socket) => {
 
     socket.on('getTiquet', async (idTiquet) => {
         let tiquet = await comunicationManager.getTiquet(idTiquet);
+        console.log("getTiquet" + JSON.stringify(tiquet));
         socket.emit('tiquet', tiquet);
     });
 
     socket.on('getCategories', async (idRest) => {
         let categories = await comunicationManager.getCategories(idRest);
+        console.log("getCategories" + JSON.stringify(categories));
         socket.emit('categories', categories);
     });
 
     socket.on('getProductes', async (idCat) => {
         let productes = await comunicationManager.getProductes(idCat);
+        console.log("getProductes" + JSON.stringify(productes));
         socket.emit('productes', productes);
     });
 
     socket.on('getIngredients', async (idProd) => {
         let ingredients = await comunicationManager.getIngredients(idProd);
+        console.log("getIngredients" + JSON.stringify(ingredients));
         socket.emit('ingredients', ingredients);
     });
 
     socket.on('getAllIngredients', async () => {
         let ingredients = await comunicationManager.getAllIngredients();
+        console.log("getAllIngredients", JSON.stringify(ingredients));
         socket.emit('allIngredients', ingredients);
     });
 

@@ -1,12 +1,12 @@
 const baseUrl = 'http://localhost:8000';
-const token = token;
+// const token = token;
 
 async function fetchCall(url, method, body) {
     const response = await fetch(`${baseUrl}${url}`, {
         method: method,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            // 'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(body)
     });
@@ -72,4 +72,4 @@ const comunicationManager = {
 };
 
 
-export default { comunicationManager };
+module.exports = { comunicationManager };
