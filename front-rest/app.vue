@@ -108,23 +108,36 @@
 
     </template>
 
-    <template #end></template>
+    <template #end>
+      <div v-if="$route.path === '/llistat'" class="flex align-items-center gap-2">
+          <PrimeInputText v-model="searchQuery" placeholder="Buscador" type="text" class="w-8rem sm:w-auto" />
+      </div>
+    </template>
   </PrimeToolbar>
 
   <NuxtPage />
 </template>
 
 <script>
+import useAppStore from './stores';
 export default {
   data() {
     return {
-      visible: false
+      store: useAppStore(),
+      visible: false,
+      searchQuery: ''
+
     }
   },
   methods: {
     Rpush(path) {
       this.visible = false
       this.$router.push(path)
+    }
+  },
+  watch: {
+    searchQuery(newVal) {
+      this.store.setBuscadorQuery(newVal)
     }
   }
 }
