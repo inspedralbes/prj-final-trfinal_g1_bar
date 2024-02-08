@@ -189,23 +189,13 @@ export default {
         },
         enterTable(id){
             console.log(id);
-            this.$router.push(`/taula/${id}`);
+            // this.$router.push(`/taula/${id}`);
+            this.$router.push(`/taula/${id}`,{params: {id: id}});
         }
     },
     created() {
-        socket.emit('getTaules');
-        
-        // servidor respon amb les taules
-        // socket.on('taules', (taules) => {
-        //     this.taules = taules;
-        // });
     },
     computed: {
-        taula() {
-            // get taula from pinia
-            const taula = {}
-            return taula;
-        }
     }
 }
 </script>

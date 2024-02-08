@@ -23,6 +23,7 @@
                 <li>
                   <a v-ripple
                     class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                    <div @click="Rpush('/crearQR')">
                     <div class="sidebarItem">
                       <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-qrcode" width="44"
                         height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff" fill="none"
@@ -41,13 +42,15 @@
                         <path d="M17 17l3 0" />
                         <path d="M20 17l0 3" />
                       </svg>
-                      <span class="font-medium">Generar QR</span>
+                      <span class="font-medium text-decoration-none">Generar QR</span>
                     </div>
+                  </div>
                   </a>
                 </li>
                 <li>
                   <a v-ripple
                     class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                    <div @click="Rpush('llistat')">
                     <div class="sidebarItem">
                       <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clipboard-list"
                         width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff" fill="none"
@@ -60,8 +63,9 @@
                         <path d="M9 16l.01 0" />
                         <path d="M13 16l2 0" />
                       </svg>
-                      <span class="font-medium">Llistat de taules</span>
+                      <span class="font-medium text-decoration-none">Llistat de taules</span>
                     </div>
+                  </div>
                   </a>
                 </li>
               </ul>
@@ -98,6 +102,12 @@ export default {
   data() {
     return {
       visible: false
+    }
+  },
+  methods: {
+    Rpush(path) {
+      this.visible = false
+      this.$router.push(path)
     }
   }
 }
@@ -168,10 +178,13 @@ body {
   cursor: pointer;
   padding: 5px;
 }
+.text-decoration-none {
+  text-decoration: none;
+}
 
 .sidebarItemClose {
   display: flex;
   align-items: center;
-  cursor: pointer;
   padding-left: 10px;
-}</style>
+}
+</style>
