@@ -44,11 +44,11 @@ export const restaurantSlice = createSlice({
     setProducteId(state, action: PayloadAction<number>) {
       state.producteId = action.payload;
     },
-    setTiquetIndividual(state, action: PayloadAction<object[]>) {
+    addTiquetIndividual(state, action: PayloadAction<object[]>) {
       state.tiquetIndividual.push(...action.payload);
     },
   },
 });
 
-export const { setRestaurantId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, setTiquetIndividual } = restaurantSlice.actions;
+export const { setRestaurantId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, addTiquetIndividual } = restaurantSlice.actions;
 export default restaurantSlice.reducer;

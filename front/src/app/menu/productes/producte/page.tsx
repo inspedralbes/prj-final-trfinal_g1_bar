@@ -3,23 +3,51 @@
 import React, { useState, useEffect } from 'react';
 import { RootState } from "@/lib/store";
 import { useSelector, useDispatch } from 'react-redux';
-import { setTiquetIndividual } from "@/lib/Features/restaurantSlice";
+import { addTiquetIndividual } from "@/lib/Features/restaurantSlice";
 import { useRouter } from 'next/navigation';
 import Accordion from 'react-bootstrap/Accordion';
+import Form from 'react-bootstrap/Form';
+import GlobalConfig from '../../../app.config'
 
 export default function Producte() {
 
     // GET AND SET STORE DATA
-    const productesCategoriaSeleccionada = useSelector((state: RootState) => state.restaurant.productesCategoriaVisualitzada);
+    const productesCategoriaSeleccionada : any = useSelector((state: RootState) => state.restaurant.productesCategoriaVisualitzada);
     const producteId = useSelector((state: RootState) => state.restaurant.producteId);
     const tiquetIndividual = useSelector((state: RootState) => state.restaurant.tiquetIndividual);
     const dispatch = useDispatch();
 
     // NAVEGAR ENTRE PAGINES
-    const { push } = useRouter();   
+    const { push } = useRouter();
+
+    // FETCH DATA
+    const [ingredients, setIngredients] = useState<any>([]);
+    const [loading, setLoading] = useState(true);
+    const url = GlobalConfig.link + `/api/productes/${producteId}/ingredients`;
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                setIngredients(data);
+                console.log(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []); // <- s'ha d'especificar una array buida com a segon argument de useEffect per a que només s'executi un cop. Si no s'especifica res el hook useEffect s'executarà de manera infinita
 
     //
-    let producteSeleccionat : any;
+    let producteSeleccionat: any;
 
     for (let i = 0; i < productesCategoriaSeleccionada.length; i++) {
         if (productesCategoriaSeleccionada[i].id === producteId) {
@@ -40,9 +68,51 @@ export default function Producte() {
         }
     };
 
+    // CONTROLAR MODIFICAR INGREDIENTS
+    // Estat per gestionar els ingredients marcats
+    const [uncheckedIngredientsCheckboxes, setUncheckedIngredientsCheckboxes] = useState([]);
+
+    // Gestionem els canvis dels inputs checkbox dels ingredients
+    const handleCheckboxChange = (index: any) => {
+        const updatedCheckedCheckboxes: any = [...uncheckedIngredientsCheckboxes];
+        updatedCheckedCheckboxes[index] = !updatedCheckedCheckboxes[index];
+        setUncheckedIngredientsCheckboxes(updatedCheckedCheckboxes);
+    };
+
+    // Selecciona aquells ingredients els checkbox dels quals estàn desmarcats
+    function getUncheckedIngredients() {
+        const checked : any = [];
+        const unchecked : any = [];
+
+        ingredients.forEach((ingredient: any, index : number) => {
+            if (uncheckedIngredientsCheckboxes[index]) {
+                unchecked.push(ingredient.nom);
+            } else {
+                checked.push(ingredient.nom);
+            }
+        });
+
+        return unchecked;
+    };
+
+    // Dóna format als comentari eliminar ingredients d'un producte
+    function formatComentariEliminarIngredient(uncheckedIngredients : any) {
+        let comentari = "";
+
+        for (let i = 0; i < uncheckedIngredients.length; i++) {
+            comentari = comentari.concat('Sense ', uncheckedIngredients[i], ". ");
+            
+        }
+        
+        return comentari;
+    }
+
     // AFEGIR PRODUCTE AL TIQUET INDIVIDUAL
     function afegirProducteTiquetIndividual() {
-        
+
+        let uncheckedIngredients = getUncheckedIngredients();
+        let comentari = formatComentariEliminarIngredient(uncheckedIngredients);
+
         const producteTiquet = {
             tiquet_id: 1,
             producte_id: producteSeleccionat.id,
@@ -50,13 +120,13 @@ export default function Producte() {
             descripcio: producteSeleccionat.descripcio,
             preu: producteSeleccionat.preu,
             quantitat: quantitat,
-            comentari: ''
+            comentari: comentari
         };
 
         console.log(producteTiquet);
         // Enviem producteTiquet a node amb sockets. Serà el socket que farà la crida API
-        
-        dispatch(setTiquetIndividual([producteTiquet]));
+
+        dispatch(addTiquetIndividual([producteTiquet]));
         push('/menu/productes');
     }
 
@@ -78,24 +148,31 @@ export default function Producte() {
                 <div className='row mt-3'>
                     <h2 className="p-0 fw-bold text-uppercase">{producteSeleccionat?.nom}</h2>
                     <h3 className="p-0">{producteSeleccionat?.preu} &euro;</h3>
-                    <p className="p-0 font-italic">{producteSeleccionat?.descripcio}</p>
+                    <p className="p-0 m-0 font-italic">{producteSeleccionat?.descripcio}</p>
+                </div>
+                <div className='row mt-3'>
+                    <Accordion className='p-0'>
+                        <Accordion.Item eventKey="0">
+                            <Accordion.Header>MODIFICAR INGREDIENTS</Accordion.Header>
+                            <Accordion.Body>
+                                <form action="">
+                                    <div className="d-flex flex-column">
+                                        {ingredients.map((ingredient: any, i: number) => (
+                                            <div key={i} className="form-check form-switch p-0 mb-2 custom-form-check">
+                                                <div className="w-100 d-inline-flex flex-row-reverse justify-content-between gap-3">
+                                                    <input className="form-check-input ms-0" type="checkbox" role="switch" id={`ing-${i}`} defaultChecked onChange={() => handleCheckboxChange(i)}/>
+                                                    <label className="form-check-label" htmlFor="switchCheckLabelStart"> {ingredient.nom}</label>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </form>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    </Accordion>
                 </div>
                 <div className='mt-3 row'>
                     <button onClick={afegirProducteTiquetIndividual} type="button" className="col-6 btn btn-primary float-right">AFEGIR A LA COMANDA</button>
-                </div>
-                <div className='row mt-3'>
-                    <div className='modificar-ingredients px-4 py-2 bg-zinc-300 d-flex justify-content-between align-items-center'>
-                        <p className='m-0'>MODIFICAR INGREDIENTS</p>
-                        <button className='d-flex justify-content-center align-items-center bg-secondary bg-opacity-75'>+</button>
-                    </div>
-                    <Accordion>
-                    <Accordion.Item eventKey="0">
-                        <Accordion.Header>Accordion Item #1</Accordion.Header>
-                        <Accordion.Body>
-                            BODY
-                        </Accordion.Body>
-                    </Accordion.Item>
-                </Accordion>
                 </div>
             </div>
         </div>
