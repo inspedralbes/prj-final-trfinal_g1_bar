@@ -116,15 +116,13 @@
   background-color: #666;
 }
 
-.modificar-ingredients {
-  border-radius: 20px;
+.custom-form-check input[type="checkbox"] {
+  width: 3em;
+  height: 1.4em;
 }
 
-.modificar-ingredients > button{
-  display:block;
-  height: 1.75em;
-  width: 1.75em;
-  border-radius: 50%;
+.custom-form-check input[type="checkbox"]:checked {
+  background-color: #fe5d43;
 }
 
 @layer utilities {
