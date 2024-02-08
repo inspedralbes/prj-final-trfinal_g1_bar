@@ -26,31 +26,30 @@ export default function App() {
       <Carousel className="landing-carousel" activeIndex={index} onSelect={handleSelect}>
         <Carousel.Item className="p-5 text-center">
           <h3 className='h6 mt-5 mb-4'>Demana, menja i deixa que PayPart s'encarregui del pagament</h3>
-          <div>
-            {!userToken ? (<div className='d-flex justify-content-center gap-3 my-3'>
-              <button className='p-3 bg-zinc-300 rounded'>
-                <Link href="/register" className='link-underline link-underline-opacity-0 text-black'>REGISTRA'T</Link>
-              </button>
-              <button className='p-3 bg-zinc-300 rounded'>
-                <Link href="/login" className='link-underline link-underline-opacity-0 text-black'>INICIA SESSIÓ</Link>
-              </button>
-            </div>)
-              : (<button className='w-100 p-3 bg-zinc-300 rounded'>
-                <Link href="/categories" className='link-underline link-underline-opacity-0 text-black'>MENÚ</Link>
-              </button>)}
-          </div>
+          {!userToken ? (<div className='d-flex justify-content-center gap-3 my-3'>
+            <Link href="/register" className='link-underline link-underline-opacity-0 text-black'>
+              <button className='p-3 bg-zinc-300 rounded'>REGISTRA'T</button>
+            </Link>
+            <Link href="/login" className='link-underline link-underline-opacity-0 text-black'>
+              <button className='p-3 bg-zinc-300 rounded'>INICIA SESSIÓ</button>
+            </Link>
+          </div>)
+            : (<Link href="/menu" className='link-underline link-underline-opacity-0 text-black'>
+              <button className='w-100 p-3 bg-zinc-300 rounded'>MENÚ</button></Link>)}
         </Carousel.Item>
         <Carousel.Item className="p-5 text-center">
           <h3 className='h6 mt-5 mb-4'>Centenars d'establiments utilitzen PayPart</h3>
-          <button className='p-3 bg-zinc-300 rounded'>
-            <Link href="/categories" className='link-underline link-underline-opacity-0 text-black'>TROBA ELS ESTABLIMENTS MÉS PROPERS</Link>
-          </button>
+          <Link href="/" className='link-underline link-underline-opacity-0 text-black'>
+            <button className='p-3 bg-zinc-300 rounded'>TROBA ELS ESTABLIMENTS MÉS PROPERS</button>
+          </Link>
         </Carousel.Item>
         <Carousel.Item className="p-5 text-center">
           <h3 className='h6 mt-5 mb-4'>Ets el propietari d'un establiment i vols implementar PayPart?</h3>
-          <button className='w-100 p-3 bg-zinc-300 rounded'>
-            <Link href="/categories" className='link-underline link-underline-opacity-0 text-black'>FER-SE COMPTE D'ADMINISTRADOR</Link>
-          </button>
+          <Link href="/" className='link-underline link-underline-opacity-0 text-black'>
+            <button className='w-100 p-3 bg-zinc-300 rounded'>
+              FER-SE COMPTE D'ADMINISTRADOR
+            </button>
+          </Link>
         </Carousel.Item>
       </Carousel>
     </div>
