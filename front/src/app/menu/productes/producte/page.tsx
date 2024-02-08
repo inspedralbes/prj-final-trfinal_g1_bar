@@ -5,6 +5,7 @@ import { RootState } from "@/lib/store";
 import { useSelector, useDispatch } from 'react-redux';
 import { setTiquetIndividual } from "@/lib/Features/restaurantSlice";
 import { useRouter } from 'next/navigation';
+import Accordion from 'react-bootstrap/Accordion';
 
 export default function Producte() {
 
@@ -41,13 +42,18 @@ export default function Producte() {
 
     // AFEGIR PRODUCTE AL TIQUET INDIVIDUAL
     function afegirProducteTiquetIndividual() {
-
+        
         const producteTiquet = {
             tiquet_id: 1,
             producte_id: producteSeleccionat.id,
-            quantitat: quantitat
+            nom: producteSeleccionat.nom,
+            descripcio: producteSeleccionat.descripcio,
+            preu: producteSeleccionat.preu,
+            quantitat: quantitat,
+            comentari: ''
         };
 
+        console.log(producteTiquet);
         // Enviem producteTiquet a node amb sockets. Serà el socket que farà la crida API
         
         dispatch(setTiquetIndividual([producteTiquet]));
@@ -82,6 +88,14 @@ export default function Producte() {
                         <p className='m-0'>MODIFICAR INGREDIENTS</p>
                         <button className='d-flex justify-content-center align-items-center bg-secondary bg-opacity-75'>+</button>
                     </div>
+                    <Accordion>
+                    <Accordion.Item eventKey="0">
+                        <Accordion.Header>Accordion Item #1</Accordion.Header>
+                        <Accordion.Body>
+                            BODY
+                        </Accordion.Body>
+                    </Accordion.Item>
+                </Accordion>
                 </div>
             </div>
         </div>
