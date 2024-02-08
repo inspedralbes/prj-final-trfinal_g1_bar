@@ -18,6 +18,23 @@ socket.on('connect', () => {
         console.log('QRGenerated', data);
         appStore.setQr(data);
     });
+
+    socket.on('tiquet', (data) => {
+        console.log("tiquet", data);
+    });
+    socket.on('categories', (data) => {
+        console.log("categories", data);
+    });
+    socket.on('productes', (data) => {
+        console.log("productes", data);
+    });
+    socket.on('ingredients', (data) => {
+        console.log("ingredients", data);
+    });
+
+    socket.on('allIngredients', (data) => {
+        console.log("allIngredients", data);
+    });
 });
 
 // Handle socket errors

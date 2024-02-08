@@ -6,8 +6,8 @@
 </template>
 
 <script>
+import useAppStore from '@/stores/index.js';
 export default {
-
     data() {
         return{
             
@@ -18,9 +18,6 @@ export default {
             return this.$store.state.comandes;
         }  
     },
-
-
-
 }
 </script>
 
