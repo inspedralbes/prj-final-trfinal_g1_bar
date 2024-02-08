@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { RootState } from '@/lib/store';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Spinner from 'react-bootstrap/Spinner';
@@ -12,17 +12,20 @@ import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import GlobalConfig from '../app.config'
+import { useRouter } from 'next/navigation';
 
 export default function Comanda() {
+    const { push } = useRouter();
     const userState = useSelector((state: RootState) => state.user);
     const tiquetId = useSelector((state: RootState) => state.restaurant.tiquetId);
 
     const [comanda, setComanda] = useState<any>({});
     const [mevaComanda, setMevaComanda] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isLoadingGuardar, setLoadingGuardar] = useState(false);
+    const [isLoadingEliminar, setLoadingEliminar] = useState(false);
     const [showAlert, setShowAlert] = useState(false)
-    let id: number = 1;
-    const url = GlobalConfig.link + `/api/tiquets/${id}`;
+    const url = GlobalConfig.link + `/api/tiquets/${tiquetId}`;
 
     useEffect(() => {
         
@@ -33,7 +36,7 @@ export default function Comanda() {
                 const result = await response.json();
                 console.log(result)
                 if (!result.error) {
-                    console.log("user  id", userState.id)
+                    console.log("user id", userState.id)
                     let mevaComanda = result.tiquets.filter((tiquet: any) => tiquet.pivot.user_id === userState.id);
                     setComanda(result);
                     setMevaComanda(mevaComanda);
@@ -67,6 +70,7 @@ export default function Comanda() {
     }
 
     const guardarItem = async (tiquet: any) => {
+        setLoadingGuardar(true);
         try {
             const response = await fetch(`http://localhost:8000/api/tiquets/items/${tiquet.pivot.id}`, {
                 method: 'PUT',
@@ -89,10 +93,13 @@ export default function Comanda() {
             }
         } catch (error) {
             console.error('Error fetching data:', error);
+        } finally {
+            setLoadingGuardar(false);
         }
     }
 
     const eliminarItem = async (tiquet: any) => {
+        setLoadingEliminar(true);
         try {
             const response = await fetch(`http://localhost:8000/api/tiquets/items/${tiquet.pivot.id}`, {
                 method: 'DELETE',
@@ -116,6 +123,8 @@ export default function Comanda() {
             }
         } catch (error) {
             console.error('Error fetching data:', error);
+        } finally {
+            setLoadingEliminar(false);
         }
     }
 
@@ -138,9 +147,9 @@ export default function Comanda() {
                     <Alert variant="success" show={showAlert} onClose={() => setShowAlert(false)} dismissible>
                         Comanda Actualitzada!
                     </Alert>
-                    <Card>
+                    <Card className='shadow'>
                         <Card.Body>
-                            <Card.Title className='text-center mb-3'>Taula {comanda.nombre_taula}</Card.Title>
+                            <Card.Title className='text-center mb-3 fs-2'>Taula {comanda.nombre_taula}</Card.Title>
                             <Tabs
                                 defaultActiveKey="general"
                                 id="justify-tab-example"
@@ -154,7 +163,7 @@ export default function Comanda() {
                                             <div className='text-center'>No hi ha tiquets</div>
                                         ) : comanda.tiquets.map((tiquet: any, id: number) => (
                                             <Stack key={tiquet.id} gap={3} className='border rounded mb-1'>
-                                                <Accordion.Item eventKey={id.toString()}>
+                                                <Accordion.Item eventKey={id.toString()} className='shadow'>
                                                     <Accordion.Header className='rounded'>
                                                         <div className="d-flex w-100">
                                                             <div>{tiquet.pivot.quantitat}x</div>
@@ -171,8 +180,8 @@ export default function Comanda() {
                                                                     <input type="text" value={tiquet.pivot.quantitat} readOnly className='text-center w-100' />
                                                                     <Button variant="secondary" onClick={sumarQuantitat(tiquet)}> + </Button>
                                                                 </div>
-                                                                <Button variant='primary' onClick={() => guardarItem(tiquet)} >Guardar</Button>
-                                                                <Button variant='danger' onClick={() => eliminarItem(tiquet)}>Eliminar</Button>
+                                                                <Button variant='primary' onClick={() => guardarItem(tiquet)} disabled={isLoadingGuardar}>Guardar</Button>
+                                                                <Button variant='danger' onClick={() => eliminarItem(tiquet)} disabled={isLoadingEliminar}>Eliminar</Button>
                                                                 <div>{tiquet.descripcio}</div>
                                                             </div>
                                                         ) : (
@@ -186,7 +195,7 @@ export default function Comanda() {
                                             </Stack>
                                         ))}
                                     </Accordion>
-                                    <div className='mt-3 text-center'>Total Taula: <b>{calcularPreuTotal(comanda.tiquets)}€</b></div>
+                                    <div className='mt-3 text-center'>Total Taula: <b className='fs-3'>{calcularPreuTotal(comanda.tiquets)}€</b></div>
                                 </Tab>
                                 <Tab eventKey="individual" title="Meva Comanda">
                                     <Accordion flush className='rounded' >
@@ -194,7 +203,7 @@ export default function Comanda() {
                                             <div className='text-center'>No hi ha tiquets</div>
                                         ) : mevaComanda.map((tiquet: any, id: number) => (
                                             <Stack key={tiquet.id} gap={3} className='border rounded mb-1'>
-                                                <Accordion.Item eventKey={id.toString()}>
+                                                <Accordion.Item eventKey={id.toString()} className='shadow'>
                                                     <Accordion.Header className='rounded'>
                                                         <div className="d-flex w-100">
                                                             <div>{tiquet.pivot.quantitat}x</div>
@@ -211,8 +220,8 @@ export default function Comanda() {
                                                                     <input type="text" value={tiquet.pivot.quantitat} readOnly className='text-center w-100' />
                                                                     <Button variant="secondary" onClick={sumarQuantitat(tiquet)}> + </Button>
                                                                 </div>
-                                                                <Button variant='primary' onClick={() => guardarItem(tiquet)} >Guardar</Button>
-                                                                <Button variant='danger' onClick={() => eliminarItem(tiquet)}>Eliminar</Button>
+                                                                <Button variant='primary' onClick={() => guardarItem(tiquet)} disabled={isLoadingGuardar}>Guardar</Button>
+                                                                <Button variant='danger' onClick={() => eliminarItem(tiquet)} disabled={isLoadingEliminar}>Eliminar</Button>
                                                                 <div>{tiquet.descripcio}</div>
                                                             </div>
                                                         ) : (
@@ -226,11 +235,14 @@ export default function Comanda() {
                                             </Stack>
                                         ))}
                                     </Accordion>
-                                    <div className='mt-3 text-center'>Total Personal: <b>{calcularPreuTotal(mevaComanda)}€</b></div>
+                                    <div className='mt-3 text-center'>Total Personal: <b className='fs-3'>{calcularPreuTotal(mevaComanda)}€</b></div>
                                 </Tab>
                             </Tabs>
                         </Card.Body>
                     </Card>
+                    <div className='mt-3 d-flex justify-content-center'>
+                        <Button variant='success' className='w-60 shadow' onClick={() => push('/pagament')}>Pagar</Button>
+                    </div>
                 </div>
 
             )}

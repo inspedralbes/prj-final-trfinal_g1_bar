@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { RootState } from "@/lib/store";
 import { useSelector, useDispatch } from 'react-redux';
-import { setProductesCategoriaVisualitzada, setProducteId } from "@/lib/Features/getRestaurant";
+import { setProductesCategoriaVisualitzada, setProducteId } from "@/lib/Features/restaurantSlice";
 import GlobalConfig from '../../app.config'
 
 export default function Productes() {
 
     /*PER ACCEDIR A LES DADES DE LA STORE */
-    const categoriaId = useSelector((state: RootState) => state.restaurant.restaurant.categoriaId);
+    const categoriaId = useSelector((state: RootState) => state.restaurant.categoriaId);
 
     /*PER GUARDAR DADES A LA STORE */
     const dispatch = useDispatch();

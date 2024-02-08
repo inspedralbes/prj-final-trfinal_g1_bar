@@ -26,6 +26,10 @@
     rgb(var(--background-start-rgb));
 }*/
 
+.header {
+  height: 10vh;
+}
+
 .modal-delete {
   width: 50vw;
 }

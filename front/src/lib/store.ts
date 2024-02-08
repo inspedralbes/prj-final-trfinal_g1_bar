@@ -2,13 +2,13 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from './Features/counterSlice';
-import getRestaurant from './Features/getRestaurant';
+import restaurant from './Features/restaurantSlice';
 import user from './Features/userSlice';
 
 export const store = configureStore({
     reducer: {
         counter: counterReducer,
-        restaurant: getRestaurant,
+        restaurant: restaurant,
         user: user,
     },
 });

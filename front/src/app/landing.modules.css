@@ -1,0 +1,14 @@
+.landing-wrapper {
+    height: 90vh;
+}
+
+.landing-background {
+    width: 100%;
+}
+
+.landing-info{
+    background-color: #fe5d43;
+    bottom: 0;
+    height: 45vh;
+    border-radius: 50% 50% 0 0;
+  }
