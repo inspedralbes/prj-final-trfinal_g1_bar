@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { RootState } from "@/lib/store";
 import { useSelector, useDispatch } from 'react-redux';
-import { setTiquetIndividual } from "@/lib/Features/restaurantSlice";
+import { addTiquetIndividual } from "@/lib/Features/restaurantSlice";
 import { useRouter } from 'next/navigation';
 import Accordion from 'react-bootstrap/Accordion';
 
@@ -56,7 +56,7 @@ export default function Producte() {
         console.log(producteTiquet);
         // Enviem producteTiquet a node amb sockets. Serà el socket que farà la crida API
         
-        dispatch(setTiquetIndividual([producteTiquet]));
+        dispatch(addTiquetIndividual([producteTiquet]));
         push('/menu/productes');
     }
 
