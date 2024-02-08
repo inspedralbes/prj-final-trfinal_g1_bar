@@ -47,6 +47,10 @@ export const restaurantSlice = createSlice({
     setTiquetIndividual(state, action: PayloadAction<object[]>) {
       state.tiquetIndividual.push(...action.payload);
     },
+    updateTiquetIndividual(state, action: PayloadAction<object>) {
+      const index = state.tiquetIndividual.findIndex((tiquet) => tiquet.tiquet_id === action.payload.tiquet_id);
+      state.tiquetIndividual[index] = action.payload;
+    },
   },
 });
 

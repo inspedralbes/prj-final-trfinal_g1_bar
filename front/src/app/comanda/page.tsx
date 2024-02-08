@@ -158,7 +158,7 @@ export default function Comanda() {
                             >
                                 <Tab eventKey="general" title="General">
 
-                                    <Accordion flush className='rounded'>
+                                    <Accordion>
                                         {comanda.tiquets.length === 0 ? (
                                             <div className='text-center'>No hi ha tiquets</div>
                                         ) : comanda.tiquets.map((tiquet: any, id: number) => (
