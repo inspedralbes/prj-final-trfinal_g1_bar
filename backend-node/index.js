@@ -41,29 +41,6 @@ io.on('connection', (socket) => {
         if (taules.find(s => s.socketN === `${idRest}/${numTaula}`)) {
             return;
         }
-
-        // Crear nova sala
-        let novaTaula = {
-            socketN: `${idRest}/${numTaula}`,
-            id: null,
-            numTaula: null,
-            restaurant: null,
-            ocupants: 0,
-            clients: [{
-                id: null,
-                nom: null,
-                email: null,
-                productes: [{
-                    prducteid: null,
-                    producteNom: null,
-                    preu: null,
-                    quantitat: null,
-                    comentari: null,
-                    estat: null,
-                }],
-            }],
-            qr: null,
-        }
         taules.push(novaTaula);
         io.emit('sala-creada', novaTaula);
     });
@@ -80,9 +57,15 @@ io.on('connection', (socket) => {
         console.log('Usuario', socket.id, 'ha abandonado la sala', room);
     });
 
+
+    //continuar desde aqui
     socket.on('generateQR', async (idRest, numTaula) => {
         let ruta = 'https://localhost:3000';
-        const qrCode = await generateQRCode(`${ruta}/${idRest}/${numTaula}`);
+        let qrCode = await generateQRCode(`${ruta}/${idRest}/${numTaula}`);
+        // let fetchs = await ferFetchs(idRest, numTaula, qrCode);
+        // console.log("fetchs", JSON.stringify(fetchs));
+        // taules.push(fetchs);
+        // comunicationManager.postTiquet(fetchs);
         socket.emit('QRGenerated', qrCode);
     });
 
@@ -121,6 +104,23 @@ io.on('connection', (socket) => {
         console.log('Usuario desconectado:', socket.id);
     });
 });
+
+async function ferFetchs(idRest, numTaula, qrCode) {
+    let categories = await comunicationManager.getCategories(idRest);
+    let productesPromises = categories.map(element => comunicationManager.getProductes(element.id));
+    let productes = await Promise.all(productesPromises);
+    let ingredients = await comunicationManager.getAllIngredients();
+    let taulaN = {
+        socketN: `${idRest}/${numTaula}`,
+        restaurant_id: idRest,
+        nombre_taula: numTaula,
+        categories: categories,
+        productes: productes,
+        ingredients: ingredients,
+        qrCode: qrCode
+    }
+    return taulaN;
+}
 
 async function generateQRCode(text) {
     try {
