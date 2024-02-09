@@ -62,6 +62,7 @@ async function getTiquet(id) {
 }
 
 async function postTiquet(tiquet) {
+    console.log("tiquet", tiquet);
     return await fetchCall('/api/tiquets', 'POST', tiquet);
 }
 

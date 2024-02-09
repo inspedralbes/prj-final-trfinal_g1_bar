@@ -62,11 +62,18 @@ io.on('connection', (socket) => {
     socket.on('generateQR', async (idRest, numTaula) => {
         let ruta = 'https://localhost:3000';
         let qrCode = await generateQRCode(`${ruta}/${idRest}/${numTaula}`);
-        // let fetchs = await ferFetchs(idRest, numTaula, qrCode);
-        // console.log("fetchs", JSON.stringify(fetchs));
-        // taules.push(fetchs);
-        // comunicationManager.postTiquet(fetchs);
+        let fetchs = await ferFetchs(idRest, numTaula, qrCode);
+        console.log("fetchs", JSON.stringify(fetchs));
+        taules.push(fetchs);
+        let novaTaula = {
+            restaurant_id: idRest,
+            nombre_taula: numTaula,
+            link_qr: qrCode,
+        }
+        console.log("novaTaula", JSON.stringify(novaTaula));
+        comunicationManager.postTiquet(novaTaula);
         socket.emit('QRGenerated', qrCode);
+        console.log(taules);
     });
 
     socket.on('getTiquet', async (idTiquet) => {
@@ -114,10 +121,11 @@ async function ferFetchs(idRest, numTaula, qrCode) {
         socketN: `${idRest}/${numTaula}`,
         restaurant_id: idRest,
         nombre_taula: numTaula,
+        tiquets: [],
         categories: categories,
         productes: productes,
         ingredients: ingredients,
-        qrCode: qrCode
+        qrCode: qrCode,
     }
     return taulaN;
 }
