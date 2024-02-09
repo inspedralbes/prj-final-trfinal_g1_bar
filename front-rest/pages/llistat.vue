@@ -2,7 +2,7 @@
     <div class="border-round">
         <h1>TAULES</h1>
         <div class="taules-container">
-            <div v-for="(actual,index) in taules" @click="enterTable(actual.id)" :key=index >
+            <div v-for="(actual,index) in taulesFiltered" @click="enterTable(actual.id)" :key=index >
                 <h2>Taula {{actual.nombre_taula}}</h2>
                 <p>Capacitat: {{actual.capacitat}}</p>
                 <p class="clientsTitle">Clients:</p>
@@ -15,13 +15,15 @@
 </template>
 
 <script>
+import useAppStore from '~/stores';
 export default {
     data() {
         return {
+            store: useAppStore(),
             taules:[
                 {
                     id: 1,
-                    nombre_taula: 1,
+                    nombre_taula: 12,
                     capacitat: 4,
                     clients: [
                         {
@@ -44,7 +46,7 @@ export default {
                 },
                 {
                     id: 2,
-                    nombre_taula: 2,
+                    nombre_taula: 22,
                     capacitat: 2,
                     clients: [
                         {
@@ -67,7 +69,7 @@ export default {
                 },
                 {
                     id: 3,
-                    nombre_taula: 3,
+                    nombre_taula: 23,
                     capacitat: 6,
                     clients: [
                         {
@@ -90,7 +92,7 @@ export default {
                 },
                 {
                     id: 4,
-                    nombre_taula: 4,
+                    nombre_taula: 34,
                     capacitat: 8,
                     clients: [
                         {
@@ -113,7 +115,7 @@ export default {
                 },
                 {
                     id: 5,
-                    nombre_taula: 5,
+                    nombre_taula: 35,
                     capacitat: 4,
                     clients: [
                         {
@@ -136,7 +138,7 @@ export default {
                 },
                 {
                     id: 6,
-                    nombre_taula: 6,
+                    nombre_taula: 46,
                     capacitat: 2,
                     clients: [
                         {
@@ -159,7 +161,7 @@ export default {
                 },
                 {
                     id: 7,
-                    nombre_taula: 7,
+                    nombre_taula: 47,
                     capacitat: 6,
                     clients: [
                         {
@@ -191,6 +193,13 @@ export default {
     created() {
     },
     computed: {
+        taulesFiltered(){
+            let taulesFiltered = this.taules;
+            if(this.store.buscadorQuery){
+                taulesFiltered = this.taules.filter(taula => taula.nombre_taula.toString().includes(this.store.buscadorQuery));
+            }
+            return taulesFiltered;
+        }
     }
 }
 </script>
