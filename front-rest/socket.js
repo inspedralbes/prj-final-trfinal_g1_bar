@@ -22,12 +22,15 @@ socket.on('connect', () => {
     socket.on('tiquet', (data) => {
         console.log("tiquet", data);
     });
+
     socket.on('categories', (data) => {
         console.log("categories", data);
     });
+
     socket.on('productes', (data) => {
         console.log("productes", data);
     });
+
     socket.on('ingredients', (data) => {
         console.log("ingredients", data);
     });

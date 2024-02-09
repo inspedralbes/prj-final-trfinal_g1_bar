@@ -61,6 +61,10 @@ async function getTiquet(id) {
     return await fetchCall(`/api/tiquets/${id}`, 'GET');
 }
 
+async function postTiquet(tiquet) {
+    return await fetchCall('/api/tiquets', 'POST', tiquet);
+}
+
 const comunicationManager = {
     register,
     login,
@@ -68,7 +72,8 @@ const comunicationManager = {
     getProductes,
     getIngredients,
     getAllIngredients,
-    getTiquet
+    getTiquet,
+    postTiquet,
 };
 
 
