@@ -7,28 +7,29 @@
 
 <script>
 import useAppStore from '@/stores/index.js';
+import socket from '~/socket';
 export default {
     data() {
-        return{
-            
+        return {
+
         }
     },
     computed: {
-        comandes(){
-            return this.$store.state.comandes;
-        }  
     },
+    methods: {
+    },
+    mounted() {
+
+        socket.emit('getTiquet', 1);
+
+    }
 }
 </script>
 
-
-
 <style scoped>
-
-.cont{
+.cont {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 </style>

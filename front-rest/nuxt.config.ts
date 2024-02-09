@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     'nuxt-primevue'
   ],
   primevue: {
-    options:{
+    options: {
       ripple: true
     },
     components: {
@@ -14,5 +14,11 @@ export default defineNuxtConfig({
       include: '*',
     }
   },
-  css: ['primevue/resources/themes/aura-dark-amber/theme.css']
+  css: ['primevue/resources/themes/aura-dark-amber/theme.css'],
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+  ]
 })
