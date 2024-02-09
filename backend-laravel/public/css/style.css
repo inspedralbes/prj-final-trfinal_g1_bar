@@ -1,0 +1,31 @@
+/* For mobile phones: */
+
+.categories-container {
+    width: 90%;
+    margin: 2em auto 0;
+}
+
+.nav-buttons-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 0.5em;
+}
+
+@media only screen and (min-width: 768px) {
+
+    .categories-container {
+        width: 60%;
+        margin: 2em auto 0;
+    }
+
+    .nav-buttons-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        gap: 0.5em;
+    }
+
+}
