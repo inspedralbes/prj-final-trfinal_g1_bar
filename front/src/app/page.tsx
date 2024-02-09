@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
+import { RootState } from '@/lib/store';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './landing.modules.css'
@@ -12,7 +13,7 @@ export default function App() {
   const [index, setIndex] = useState(0);
   const userToken = useSelector((state: RootState) => state.user.token);
 
-  const handleSelect = (selectedIndex) => {
+  const handleSelect = (selectedIndex : any) => {
     setIndex(selectedIndex);
   };
 

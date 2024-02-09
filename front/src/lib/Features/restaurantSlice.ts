@@ -53,5 +53,5 @@ export const restaurantSlice = createSlice({
   },
 });
 
-export const { setRestaurantId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, addTiquetIndividual } = restaurantSlice.actions;
+export const { setRestaurantId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, addTiquetIndividual, setTiquetIndividual } = restaurantSlice.actions;
 export default restaurantSlice.reducer;
