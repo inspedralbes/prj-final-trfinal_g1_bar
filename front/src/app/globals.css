@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+/*body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}*/
+
+.modal-delete {
+  width: 50vw;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.user-name-decoration {
+  top: 0.75em;
+  width: 100%;
+  height: 4px;
+  background-color: #fe5d43;
+}
+
+.user-name {
+  left: 20px;
+}
+
+.horizontal-scroll-container {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.item-categoria {
+  width: 200px;
+  height: 200px;
+}
+
+.img-producte {
+  width: 70%;
+  aspect-ratio: 1;
+}
+
+.item-producte {
+  width: 300px;
+  aspect-ratio: 1;
+}
+
+.px-6 {
+  padding-left: 3.5rem !important;
+  padding-right: 3.5rem !important;
+}
+
+.botonsSumaResta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+
+  border-radius: 1px #fe5d43;
+}
+
+.botonsSumaResta>input {
+  appearance: textfield;
+  background-color: white;
+  color: black;
+  width: 70%;
+  height: 100%;
+  border-left-style: none;
+  border-right-style: none;
+  text-align: center;
+}
+
+.botonsSumaResta>button {
+  background-color: #fe5d43;
+  height: 100%;
+  width: 15%;
+
+}
+
+.botonsSumaResta>button:nth-child(1) {
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+}
+
+.botonsSumaResta>button:nth-child(3) {
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+}
+
+.botonsSumaResta>button:disabled {
+  background-color: #666;
+}
+
+.modificar-ingredients {
+  border-radius: 20px;
+}
+
+.modificar-ingredients > button{
+  display:block;
+  height: 1.75em;
+  width: 1.75em;
+  border-radius: 50%;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

@@ -1,0 +1,52 @@
+services:
+
+# MYSQL_USER -> usuari no administrador per utilitzar la base de dades
+# MYSQL_PASSWORD -> contrasenya de l'usuari
+  db:
+    image: mysql:8.2.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: restaurants
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    ports:
+      - 3306:3306
+
+# PMA_HOST -> host de la base de dades (db)
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8088:80
+    environment:
+      - PMA_HOST=db
+    depends_on:
+      - db
+
+  laravel:
+    build:
+      context: ./backend-laravel
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend-laravel:/var/www/html
+    ports:
+      - 8080:80
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    command: /bin/bash -c "composer install --no-interaction && chmod -R 755 storage && chown -R www-data:www-data storage && apache2-foreground"
+    depends_on:
+      - db
+  
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    volumes:
+      - ./front:/usr/src/app
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - laravel
