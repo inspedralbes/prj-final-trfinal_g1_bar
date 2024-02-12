@@ -146,15 +146,17 @@ export default function Pagament() {
             return false;
         }
 
-        const totalCheckboxesForMyID = arrayUsuaris.reduce((acc, usuari) => {
-            return (
-                acc +
-                tiquet.tiquets.filter(
-                    (producte : any, j : number) => isCheckboxChecked(`it-${j}_u-${usuari}`) && usuari === myID
-                ).length
-            );
-        }, 0);
-
+        let totalCheckboxesForMyID = 0;
+        
+        for (let i = 0; i < arrayUsuaris.length; i++) {
+            for (let j = 0; j < tiquet.tiquets.length; j++) {
+                if (myID === tiquet.tiquets[j].pivot.user_id){
+                    if (isCheckboxChecked(`it-${j}_u-${arrayUsuaris[i]}`)) {
+                        totalCheckboxesForMyID++;
+                    }
+                }
+            }
+        }
 
         let totalProductsForMyID = 0;
 
