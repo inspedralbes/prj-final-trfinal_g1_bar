@@ -24,6 +24,17 @@
                 <input class="form-check-input" type="checkbox" role="switch" name="esActiu" id="esActiu_producte" value="1" {{  ($producte->actiu == 1 ? ' checked' : '') }}>
             </div>
 
+            <label for="categoria_producte" class="form-label">Categoria del producte</label>
+            <select id="categoria_producte" name="categoria" class="form-select">
+                @foreach ($categories as $category)
+                    @if ($category->id == $producte->categoria_id)
+                        <option value="{{$category->id}}" selected>{{$category->nom}}</option>
+                    @else
+                        <option value="{{$category->id}}">{{$category->nom}}</option>
+                    @endif
+                @endforeach
+            </select><br>
+
             <label for="descripcio_producte" class="form-label">Descripcio</label>
             <input type="text" class="form-control mb-2" id="descripcio_producte" name="descripcio" placeholder="Introduexi la descripció del producte" value="{{ $producte->descripcio }}">
 

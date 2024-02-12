@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producte;
 use App\Models\Categoria;
+use Illuminate\Support\Facades\DB;
 
 class ProductesController extends Controller
 {
@@ -154,24 +155,40 @@ class ProductesController extends Controller
      }
  
      public function showWeb(string $id)
-     {
+     {    
          $producte = Producte::find($id);
-         return view('productes.show', ['producte' => $producte]);
+
+         $categoria_id = DB::table('productes')
+         ->join('categoria_producte', 'productes.id', '=', 'categoria_producte.producte_id')
+         ->where('productes.id', '=', $id)
+         ->select('categoria_producte.categoria_id')
+         ->get();
+
+         $producte->categoria_id = $categoria_id[0]->categoria_id;
+         
+         $categories = Categoria::all();
+
+         return view('productes.show', ['producte' => $producte, 'categories' => $categories]);
      }
+
      public function storeShowWeb()
      {
-         return view('productes.create');
+        $categories = Categoria::all();
+        return view('productes.create', ['categories' => $categories]);
      }
+
      public function storeWeb(Request $request)
      {
          $request->validate([
              'nom' => 'required',
+             'categoria' => 'required',
              'descripcio' => 'required',
              'preu' => 'required',
              'imatge' => 'required',
          ]);
          $producte = new Producte();
          $producte->nom = $request->nom;
+         $producte->categoria = $request->categoria;
          $producte->descripcio = $request->descripcio;
          $producte->preu = $request->preu;
          $producte->imatge = $request->imatge;
@@ -180,6 +197,7 @@ class ProductesController extends Controller
  
          return redirect()->route('productesIndex')->with('success', 'Producte creat correctament');
      }
+
      public function updateWeb(Request $request, string $id)
      {
          $request->validate([
@@ -206,6 +224,7 @@ class ProductesController extends Controller
  
          return redirect()->route('productesIndex')->with('success', 'Producte actualitzat correctament');
      }
+     
      public function destroyWeb(Request $request, string $id)
      {
          $msg ="Producte eliminat correctament";

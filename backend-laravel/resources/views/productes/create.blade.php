@@ -8,6 +8,12 @@
 </div>
 @enderror
 
+@error('categoria')
+<div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
+    La categoria és obligatoria
+</div>
+@enderror
+
 @error('descripcio')
 <div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
     La descripció és obligatoria
@@ -36,6 +42,14 @@
                 <!--NOM-->
                 <label for="nom_producte" class="form-label">Nom</label>
                 <input type="text" class="form-control" id="nom_producte" name="nom" placeholder="Introduexi el nom del producte"><br>
+
+                <!--CATEGORIES-->
+                <label for="categoria_producte" class="form-label">Categoria del producte</label>
+                <select class="form-select" id="descripcio_producte" name="categoria">
+                    @foreach ($categories as $category)
+                    <option value="{{$category->id}}">{{$category->nom}}</option>
+                    @endforeach
+                </select><br>
 
                 <!--DESCRIPCIO-->
                 <label for="descripcio_producte" class="form-label">Descripcio</label>
