@@ -103,6 +103,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Usuario desconectado:', socket.id);
     });
+
+    // Alvaro
+    socket.on('crear-comanda', (cistella) => {
+        socket.emit('crear-comanda', cistella);
+    });
 });
 
 async function ferFetchs(idRest, numTaula, qrCode) {

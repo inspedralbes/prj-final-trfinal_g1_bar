@@ -7,6 +7,9 @@ import { useRouter } from 'next/navigation';
 import { Accordion, Stack, Button, Alert, Spinner } from 'react-bootstrap';
 import { setTiquetIndividual } from "@/lib/Features/restaurantSlice";
 
+//
+
+import { socket } from '../../sockets';
 export default function Cistella() {
 
     const cistella = useSelector((state: RootState) => state.restaurant.tiquetIndividual);
@@ -49,6 +52,18 @@ export default function Cistella() {
     }
 
     const enviarCistella = async () => {
+
+        const body = cistella.map((item) => {
+            return {
+                tiquet_id: item.tiquet_id,
+                producte_id: item.producte_id,
+                quantitat: item.quantitat,
+                comentari: item.comentari
+            }
+        });
+
+        socket.emit('crear-comanda', body);
+
         // Set loading true per 5 segons
         // setLoading(true);
 

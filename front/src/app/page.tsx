@@ -1,15 +1,38 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RootState } from '@/lib/store';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './landing.modules.css'
 import Carousel from 'react-bootstrap/Carousel';
 import Link from 'next/link';
+import { socket } from '../sockets';
 
 export default function App() {
 
+  // Estat connexió socket
+  const [isConnected, setIsConnected] = useState(socket.connected);
+
+  useEffect(() => {
+    function onConnect() {
+      setIsConnected(true);
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+    }
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+
+    return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+    };
+  }, []);
+
+  
   const [index, setIndex] = useState(0);
   const userToken = useSelector((state: RootState) => state.user.token);
 
