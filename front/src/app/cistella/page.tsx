@@ -5,11 +5,9 @@ import { RootState } from '@/lib/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { Accordion, Stack, Button, Alert, Spinner } from 'react-bootstrap';
-import { setTiquetIndividual } from "@/lib/Features/restaurantSlice";
-
-//
-
+import { setTiquetIndividual, addTiquetTaula } from "@/lib/Features/restaurantSlice";
 import { socket } from '../../sockets';
+
 export default function Cistella() {
 
     const cistella = useSelector((state: RootState) => state.restaurant.tiquetIndividual);
@@ -61,8 +59,14 @@ export default function Cistella() {
                 comentari: item.comentari
             }
         });
-
+        //localstorage get id taula
         socket.emit('crear-comanda', body);
+        //socket.emit('crear-comanda', cistella);
+
+        socket.on('crear-comanda', (cistella) => {
+            console.log('socket crear-comanda', cistella);
+            //dispatch(addTiquetTaula(cistella));
+        });
 
         // Set loading true per 5 segons
         // setLoading(true);

@@ -26,17 +26,18 @@ export default function App() {
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
 
+    // Clean up the event listeners when the component is unmounted
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
     };
   }, []);
 
-  
+
   const [index, setIndex] = useState(0);
   const userToken = useSelector((state: RootState) => state.user.token);
 
-  const handleSelect = (selectedIndex : any) => {
+  const handleSelect = (selectedIndex: any) => {
     setIndex(selectedIndex);
   };
 

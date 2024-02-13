@@ -1,5 +1,5 @@
 const baseUrl = 'http://localhost:8000';
-const token = "$2y$12$LL.VQ7Ihn/rutxFt3afP.ey0JwHk6AA6c72b5kUZYjQ0QpHiy3Up2"; //token or password?
+//const token = "$2y$12$LL.VQ7Ihn/rutxFt3afP.ey0JwHk6AA6c72b5kUZYjQ0QpHiy3Up2"; //token or password?
 
 async function fetchCall(url, method, body) {
     const response = await fetch(`${baseUrl}${url}`, {

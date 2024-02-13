@@ -10,10 +10,6 @@ socket.on('connect', () => {
     console.log('Connected to server');
 });
 
-socket.on('crear-comanda', (cistella) => {
-    console.log('socket crear-comanda', cistella);
-});
-
 // Handle disconnection event
 socket.on('disconnect', () => {
     console.log('Disconnected from server');

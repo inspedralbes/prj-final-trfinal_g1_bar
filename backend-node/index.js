@@ -104,9 +104,24 @@ io.on('connection', (socket) => {
         console.log('Usuario desconectado:', socket.id);
     });
 
-    // Alvaro
+    // ALVARO
+    
     socket.on('crear-comanda', (cistella) => {
-        socket.emit('crear-comanda', cistella);
+        //fer comprovacions al node
+        //find idtaula el array taules
+        //si el troba fa push en bucle
+        //
+
+        if (!tiquet) {
+            tiquet = {
+                tiquet_id: cistella.tiquet_id,
+                productes: cistella
+            }
+        } else {
+            tiquet.productes.push(cistella);
+        }
+
+        io.emit('crear-comanda', tiquet);
     });
 });
 
