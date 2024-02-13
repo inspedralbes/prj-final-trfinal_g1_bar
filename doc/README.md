@@ -81,7 +81,6 @@ fetch("http://localhost:8000/api/tiquets", {
   body: JSON.stringify({
     restaurant_id: 1,
     nombre_taula: 1,
-    link_qr: "[link del codi qr]"
   }),
 })
 ```
@@ -97,12 +96,18 @@ fetch("http://localhost:8000/api/tiquets/items", {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${bearerToken}`,
   },
-  body: JSON.stringify({
+  body: JSON.stringify([{
     tiquet_id: 1,
     producte_id: 1,
     quantitat: 2,
-    comentari: "No cogombre. No ensalada."
-  }),
+    user_id: 3,
+  },
+  {
+    tiquet_id: 1,
+    producte_id: 5,
+    quantitat: 1,
+    user_id: 2,
+  }]),
 })
 ```
 
