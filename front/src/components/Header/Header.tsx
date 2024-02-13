@@ -66,7 +66,7 @@ const Header = () => {
         const { restaurantId, tableId } = JSON.parse(localStorage.getItem('userInfo') || '{}');
         
         if (userToken && (!restaurantId || !tableId)) {
-            push('/');
+            //push('/');
         }
     })
 

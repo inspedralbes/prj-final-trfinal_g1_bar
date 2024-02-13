@@ -120,16 +120,16 @@ io.on('connection', (socket) => {
         //si el troba fa push en bucle
         //
 
-        if (!tiquet) {
+        /*if (!tiquet) {
             tiquet = {
                 tiquet_id: cistella.tiquet_id,
                 productes: cistella
             }
         } else {
             tiquet.productes.push(cistella);
-        }
+        }*/
 
-        io.emit('crear-comanda', tiquet);
+        io.emit('crear-comanda', cistella);
     });
 });
 

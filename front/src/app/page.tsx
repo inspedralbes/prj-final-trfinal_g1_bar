@@ -54,7 +54,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (restaurantId && tableId) {
+    if (restaurantId && tableId) {      
       // Guardar a la store
       dispatch(setRestaurantId(parseInt(restaurantId)));
       dispatch(setTiquetId(parseInt(tableId)));
