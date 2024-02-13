@@ -40,27 +40,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Fer logout
     Route::post('/logout', [AuthController::class,'logout']);
 
-    /***************/
-    /*   TIQUETS   */
-    /***************/
-    // Crear un nou tiquet
+    // Crear un registre nou d'un tiquet
     Route::post('/tiquets', [TiquetsController::class,'store']);
-    // Editar un tiquet
-    Route::put('/tiquets/{id}', [TiquetsController::class,'update']);
-    // Eliminar un tiquet
-    Route::delete('/tiquets/{id}', [TiquetsController::class,'destroy']);
 
-    /*************/
-    /*   ITEMS   */
-    /*************/
-    // Crear un nou item al tiquet
+    // Crear un nou registre d'un item al tiquet
     Route::post('/tiquets/items', [TiquetsController::class,'addItem']);
-    // Editar un item al tiquet (modificar quantitat)
-    Route::put('/tiquets/items/{id}', [TiquetsController::class,'updateItem']);
-    // Editar un item al tiquet (modificar estat)
-    Route::put('/tiquets/items/{id}/estat', [TiquetsController::class,'updateItemEstat']);
-    // Eliminar un item al tiquet
-    Route::delete('/tiquets/items/{id}', [TiquetsController::class,'deleteItem']);
 
     /******************/
     /*   CATEGORIES   */
