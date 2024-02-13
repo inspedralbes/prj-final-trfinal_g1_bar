@@ -22,6 +22,16 @@ const Header = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const tancarSessio = () => {
+        handleClose();
+        push('/logout');
+    }
+
+    const pagament = () => {
+        handleClose();
+        push('/pagament');
+    }
+
     const offcanvas = {
         width: '75%'
     };
@@ -104,11 +114,11 @@ const Header = () => {
                                         Comanda
                                     </Link>
                                 </div>
-                                <Button variant="success" className='link-underline  link-underline-opacity-0 mt-2'>
-                                    <Link href="/pagament" onClick={handleClose} className='link-underline  link-underline-opacity-0 text-white'>Pagament</Link>
+                                <Button variant='success' onClick={pagament}>
+                                    Pagament
                                 </Button>
-                                <Button variant="secondary" className='link-underline  link-underline-opacity-0 mt-2'>
-                                    <Link href="/logout" onClick={handleClose} className='link-underline  link-underline-opacity-0 text-white'>Tancar Sessió</Link>
+                                <Button variant='secondary' onClick={tancarSessio}>
+                                    Tancar Sessió
                                 </Button>
                             </Stack>
                         </Offcanvas.Body>
