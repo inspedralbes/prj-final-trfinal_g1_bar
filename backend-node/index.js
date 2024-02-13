@@ -10,10 +10,7 @@ const { comunicationManager } = require('./comunicationManager');
 const app = express();
 app.use(cors())
 
-const salaAdmin = {
-    nomSala: 'admin',
-    users: [],
-};
+const salaAdmin = [];
 const taules = [];
 
 const server = createServer(app);
@@ -29,20 +26,32 @@ io.on('connection', (socket) => {
     console.log('Usuario conectado:', socket.id);
 
 
-    socket.on('joinAdmin', () => {
-        socket.join(salaAdmin);
-        salaAdmin.users.push(socket.id);
-        console.log('Usuario', socket.id, 'se ha unido a la sala', salaAdmin.nomSala);
-    });
-
-    //crear rooms de sockets
-    socket.on('crear-sala', (numTaula, idRest) => {
-        // Comprovar si ja existeix una sala amb el mateix nom
-        if (taules.find(s => s.socketN === `${idRest}/${numTaula}`)) {
-            return;
+    socket.on('joinAdmin', (idRest) => {
+        const existingSala = salaAdmin.find(s => s.idRest === idRest);
+        if (existingSala) {
+            console.log("Sala ya creada");
+            socket.join(idRest);
+            existingSala.users.push(socket.id);
+            salaAdmin = salaAdmin.map(sala => {
+                if (sala.idRest === idRest) {
+                    return {
+                        ...sala,
+                        users: existingSala.users
+                    };
+                }
+                return sala;
+            });
+            console.log('Usuario', socket.id, 'se ha unido a la sala', idRest);
+        } else {
+            const newSala = {
+                idRest: idRest, users: [], dades: {}
+            };
+            dades = ferFetchs(idRest);
+            socket.join(idRest);
+            newSala.users.push(socket.id);
+            salaAdmin.push(newSala);
+            console.log('Usuario', socket.id, 'se ha unido a la sala', idRest);
         }
-        taules.push(novaTaula);
-        io.emit('sala-creada', novaTaula);
     });
 
     socket.on('joinRoom', (room) => {
@@ -61,17 +70,9 @@ io.on('connection', (socket) => {
     //continuar desde aqui
     socket.on('generateQR', async (idRest, numTaula) => {
         let ruta = 'https://localhost:3000';
-        let qrCode = await generateQRCode(`${ruta}/${idRest}/${numTaula}`);
-        let fetchs = await ferFetchs(idRest, numTaula, qrCode);
-        console.log("fetchs", JSON.stringify(fetchs));
-        taules.push(fetchs);
-        let novaTaula = {
-            restaurant_id: idRest,
-            nombre_taula: numTaula,
-            link_qr: qrCode,
-        }
-        console.log("novaTaula", JSON.stringify(novaTaula));
-        comunicationManager.postTiquet(novaTaula);
+        let qrCode = await generateQRCode(`${ruta}/?restaurantId=${idRest}&tableId=${numTaula}`);
+        // console.log("Ntaula", JSON.stringify(taula));
+        taules.push(taula);
         socket.emit('QRGenerated', qrCode);
         console.log(taules);
     });
@@ -112,22 +113,17 @@ io.on('connection', (socket) => {
     });
 });
 
-async function ferFetchs(idRest, numTaula, qrCode) {
+async function ferFetchs(idRest) {
     let categories = await comunicationManager.getCategories(idRest);
     let productesPromises = categories.map(element => comunicationManager.getProductes(element.id));
     let productes = await Promise.all(productesPromises);
     let ingredients = await comunicationManager.getAllIngredients();
-    let taulaN = {
-        socketN: `${idRest}/${numTaula}`,
-        restaurant_id: idRest,
-        nombre_taula: numTaula,
-        tiquets: [],
+    let NsalaAdmin = {
         categories: categories,
         productes: productes,
         ingredients: ingredients,
-        qrCode: qrCode,
     }
-    return taulaN;
+    return NsalaAdmin;
 }
 
 async function generateQRCode(text) {
@@ -140,7 +136,7 @@ async function generateQRCode(text) {
     }
 }
 
-// Iniciar el servidor en el puerto 3001 (o el puerto que desees)
+// Iniciar el servidor en el puerto 3001
 const PORT = 3001;
 server.listen(PORT, () => {
     console.log(`Servidor WebSocket escuchando en el puerto ${PORT}`);
