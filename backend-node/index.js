@@ -14,7 +14,196 @@ const salaAdmin = {
     nomSala: 'admin',
     users: [],
 };
-const taules = [];
+const taules=[
+    {
+        socketN: `1/12`,
+        nombre_taula: 12,
+        idRest: 1,
+        capacitat: 4,
+        restaurant_id: 1,
+        clients: [
+            {
+                id: 1,
+                name: 'Pep',
+            },
+            {
+                id: 2,
+                name: 'Maria',
+            },
+            {
+                id: 3,
+                name: 'Joan',
+            },
+            {
+                id: 4,
+                name: 'Anna',
+            }
+        ],
+        tiquets:[
+            {
+              "id": 4,
+              "created_at": null,
+              "updated_at": null,
+              "nom": "Tapas Variades",
+              "descripcio": "Selecció de tapas que inclou patates braves, calamars a la romana, pebrots del Padró i croquetes casolanes de pernil.",
+              "preu": "12.00",
+              "imatge": "tapes_variades.jpg",
+              "actiu": 1,
+              "pivot": {
+                "tiquet_id": 1,
+                "producte_id": 4,
+                "quantitat": 1,
+                "estat": "Pendent",
+                "user_id": 1,
+                "comentari": "No formatge.",
+                "id": 1
+              }
+            },
+            {
+              "id": 2,
+              "created_at": null,
+              "updated_at": null,
+              "nom": "Pizza Margarita",
+              "descripcio": "Pizza tradicional italiana amb salsa de tomàquet, mozzarella fresca i fulles de basilic, sobre una massa fina i cruixent.",
+              "preu": "10.00",
+              "imatge": "pizza_margarita.jpg",
+              "actiu": 1,
+              "pivot": {
+                "tiquet_id": 1,
+                "producte_id": 2,
+                "quantitat": 1,
+                "estat": "Pendent",
+                "user_id": 3,
+                "comentari": null,
+                "id": 2
+              }
+            },
+            {
+              "id": 3,
+              "created_at": null,
+              "updated_at": null,
+              "nom": "Ensalada Cèsar",
+              "descripcio": "Ensalada amb enciam romà, trossets de pollastre a la graella, crostons, parmesà ratllat i salsa Cèsar casolana.",
+              "preu": "7.00",
+              "imatge": "ensalada_cesar.jpg",
+              "actiu": 1,
+              "pivot": {
+                "tiquet_id": 1,
+                "producte_id": 3,
+                "quantitat": 1,
+                "estat": "Pendent",
+                "user_id": 3,
+                "comentari": null,
+                "id": 3
+              }
+            },
+            {
+                "id": 33,
+                "created_at": null,
+                "updated_at": null,
+                "nom": "Ensalada Cèsar",
+                "descripcio": "Ensalada amb enciam romà, trossets de pollastre a la graella, crostons, parmesà ratllat i salsa Cèsar casolana.",
+                "preu": "7.00",
+                "imatge": "ensalada_cesar.jpg",
+                "actiu": 1,
+                "pivot": {
+                  "tiquet_id": 1,
+                  "producte_id": 3,
+                  "quantitat": 2,
+                  "estat": "Pendent",
+                  "user_id": 3,
+                  "comentari": null,
+                  "id": 3
+                }
+              }
+          ]
+    },
+    {
+        socketN: `1/13`,
+        nombre_taula: 13,
+        idRest: 1,
+        capacitat: 4,
+        restaurant_id: 1,
+        clients: [
+            {
+                id: 1,
+                name: 'Pep',
+            },
+            {
+                id: 2,
+                name: 'Maria',
+            },
+            {
+                id: 3,
+                name: 'Joan',
+            },
+            {
+                id: 4,
+                name: 'Anna',
+            }
+        ],
+        tiquets:[
+            {
+              "id": 4,
+              "created_at": null,
+              "updated_at": null,
+              "nom": "Tapas Variades",
+              "descripcio": "Selecció de tapas que inclou patates braves, calamars a la romana, pebrots del Padró i croquetes casolanes de pernil.",
+              "preu": "12.00",
+              "imatge": "tapes_variades.jpg",
+              "actiu": 1,
+              "pivot": {
+                "tiquet_id": 1,
+                "producte_id": 4,
+                "quantitat": 1,
+                "estat": "Pendent",
+                "user_id": 1,
+                "comentari": "No formatge.",
+                "id": 1
+              }
+            },
+            {
+              "id": 2,
+              "created_at": null,
+              "updated_at": null,
+              "nom": "Pizza Margarita",
+              "descripcio": "Pizza tradicional italiana amb salsa de tomàquet, mozzarella fresca i fulles de basilic, sobre una massa fina i cruixent.",
+              "preu": "10.00",
+              "imatge": "pizza_margarita.jpg",
+              "actiu": 1,
+              "pivot": {
+                "tiquet_id": 1,
+                "producte_id": 2,
+                "quantitat": 1,
+                "estat": "Pendent",
+                "user_id": 3,
+                "comentari": null,
+                "id": 2
+              }
+            },
+            {
+              "id": 3,
+              "created_at": null,
+              "updated_at": null,
+              "nom": "Ensalada Cèsar",
+              "descripcio": "Ensalada amb enciam romà, trossets de pollastre a la graella, crostons, parmesà ratllat i salsa Cèsar casolana.",
+              "preu": "7.00",
+              "imatge": "ensalada_cesar.jpg",
+              "actiu": 1,
+              "pivot": {
+                "tiquet_id": 1,
+                "producte_id": 3,
+                "quantitat": 1,
+                "estat": "Pendent",
+                "user_id": 3,
+                "comentari": null,
+                "id": 3
+              }
+            }
+          ]
+    }
+    
+]
 
 const server = createServer(app);
 const io = new Server(server, {
@@ -103,6 +292,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Usuario desconectado:', socket.id);
     });
+
+    socket.on('getTaules', (idRest) => {
+        let filteredTaules = taules.filter(t => t.restaurant_id === idRest);
+        socket.emit('taules', filteredTaules);
+    });
 });
 
 async function ferFetchs(idRest, numTaula, qrCode) {
@@ -114,6 +308,8 @@ async function ferFetchs(idRest, numTaula, qrCode) {
         socketN: `${idRest}/${numTaula}`,
         restaurant_id: idRest,
         nombre_taula: numTaula,
+        clients:[],
+        tiquets: [],
         categories: categories,
         productes: productes,
         ingredients: ingredients,
