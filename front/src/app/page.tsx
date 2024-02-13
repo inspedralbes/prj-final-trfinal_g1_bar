@@ -9,6 +9,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { setTiquetId, setRestaurantId } from '@/lib/Features/restaurantSlice';
+import { socket } from '../sockets';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -22,10 +23,33 @@ export default function App() {
     tableId = searchParams.get('tableId');
   }
 
+  // Estat connexió socket
+  const [isConnected, setIsConnected] = useState(socket.connected);
+
+  useEffect(() => {
+    function onConnect() {
+      setIsConnected(true);
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+    }
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+
+    // Clean up the event listeners when the component is unmounted
+    return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+    };
+  }, []);
+
+
   const [index, setIndex] = useState(0);
   const userToken = useSelector((state: RootState) => state.user.token);
 
-  const handleSelect = (selectedIndex : any) => {
+  const handleSelect = (selectedIndex: any) => {
     setIndex(selectedIndex);
   };
 

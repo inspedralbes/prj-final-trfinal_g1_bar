@@ -1,9 +1,9 @@
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
+
+const URL = 'http://localhost:3001'
 
 // Connect to the server
-const socket = io('http://localhost:3001');
-
-export default socket;
+export const socket = io(URL);
 
 // Handle connection event
 socket.on('connect', () => {

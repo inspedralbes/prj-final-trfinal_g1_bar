@@ -35,7 +35,6 @@ export default function Producte() {
 
                 const data = await response.json();
                 setIngredients(data);
-                console.log(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {

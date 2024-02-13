@@ -10,6 +10,7 @@ interface InitialStateType {
   productesCategoriaVisualitzada: number[];
   producteId: number;
   tiquetIndividual: any[];
+  tiquetTaula: any[];
 }
 
 const initialState: InitialStateType = {
@@ -19,7 +20,8 @@ const initialState: InitialStateType = {
   categoriaId: 0,
   productesCategoriaVisualitzada: [],
   producteId: 0,
-  tiquetIndividual: []
+  tiquetIndividual: [],
+  tiquetTaula: [],
 }
 
 export const restaurantSlice = createSlice({
@@ -49,9 +51,12 @@ export const restaurantSlice = createSlice({
     },
     setTiquetIndividual(state, action: PayloadAction<object[]>) {
       state.tiquetIndividual = action.payload;
-    }
+    },
+    addTiquetTaula(state, action: PayloadAction<object[]>) {
+      state.tiquetTaula.push(...action.payload);
+    },
   },
 });
 
-export const { setRestaurantId, setTiquetId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, addTiquetIndividual, setTiquetIndividual } = restaurantSlice.actions;
+export const { setRestaurantId, setTiquetId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, addTiquetIndividual, setTiquetIndividual, addTiquetTaula } = restaurantSlice.actions;
 export default restaurantSlice.reducer;

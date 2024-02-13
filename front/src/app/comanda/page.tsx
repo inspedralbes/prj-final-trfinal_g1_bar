@@ -18,7 +18,8 @@ export default function Comanda() {
     const { push } = useRouter();
     const userState = useSelector((state: RootState) => state.user);
     const tiquetId = useSelector((state: RootState) => state.restaurant.tiquetId);
-
+    const comandaTaula = useSelector((state: RootState) => state.restaurant.tiquetTaula);
+    console.log(comandaTaula);
     const [comanda, setComanda] = useState<any>({});
     const [mevaComanda, setMevaComanda] = useState([]);
     const [loading, setLoading] = useState(true);
