@@ -21,6 +21,8 @@ const useAppStore = defineStore('app', {
         }],
         qr: null,
         buscadorQuery: '',
+        taules:[],
+        taula:{},
     }),
     actions: {
         setId(id) {
@@ -64,7 +66,19 @@ const useAppStore = defineStore('app', {
         },
         setBuscadorQuery(query) {
             this.buscadorQuery = query;
-        }
+        },
+        getTaules() {
+            return this.taules;
+        },
+        setTaules(taules) {
+            this.taules = taules;
+        },
+        setTaula(taula) {
+            this.taula = taula;
+        },
+        getTaula() {
+            return this.taula;
+        },
     },
 });
 

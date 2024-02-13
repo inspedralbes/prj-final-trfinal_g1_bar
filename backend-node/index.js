@@ -111,6 +111,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Usuario desconectado:', socket.id);
     });
+
+    socket.on('getTaules', (idRest) => {
+        let filteredTaules = taules.filter(t => t.restaurant_id === idRest);
+        socket.emit('taules', filteredTaules);
+    });
 });
 
 async function ferFetchs(idRest) {

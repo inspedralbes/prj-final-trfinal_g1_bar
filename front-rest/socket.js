@@ -38,6 +38,10 @@ socket.on('connect', () => {
     socket.on('allIngredients', (data) => {
         console.log("allIngredients", data);
     });
+
+    socket.on('taules', (taules) => {
+        appStore.setTaules(taules);
+    });
 });
 
 // Handle socket errors
