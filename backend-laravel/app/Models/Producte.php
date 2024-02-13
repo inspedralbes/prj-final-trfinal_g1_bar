@@ -14,7 +14,7 @@ class Producte extends Model
 
     public function items() {
         return $this->belongsToMany(Tiquet::class, 'item_tiquet')
-            ->withPivot('quantitat', 'estat', 'user_id');
+            ->withPivot('quantitat', 'user_id');
     }
 
     public function categories() {
