@@ -1,14 +1,15 @@
 const baseUrl = 'http://localhost:8000';
-// const token = token;
+const token = '2|NBqrPPTYCUyqvxPP2MOH0oB33VYAGGS9gxrzpIzDbc0bcf22';
 
 async function fetchCall(url, method, body) {
     const response = await fetch(`${baseUrl}${url}`, {
         method: method,
         headers: {
             'Content-Type': 'application/json',
-            // 'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(body)
+
     });
     return response.json();
 }
@@ -62,7 +63,19 @@ async function getTiquet(id) {
 }
 
 async function postTiquet(tiquet) {
-    return await fetchCall('/api/tiquets', 'POST', tiquet);
+    let url = '/api/tiquets';
+    await fetch(`${baseUrl}${url}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            restaurant_id: tiquet.restaurant_id,
+            nombre_taula: tiquet.nombre_taula,
+            link_qr: tiquet.link_qr,
+        })
+    });
 }
 
 const comunicationManager = {
