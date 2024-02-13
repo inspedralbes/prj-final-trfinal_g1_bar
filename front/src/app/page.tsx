@@ -14,8 +14,13 @@ export default function App() {
   const dispatch = useDispatch();
   const searchParams = useSearchParams()
 
-  const restaurantId = searchParams.get('restaurantId');
-  const tableId = searchParams.get('tableId');
+  let restaurantId: any = null;
+  let tableId: any = null;
+
+  if(searchParams) {
+    restaurantId = searchParams.get('restaurantId');
+    tableId = searchParams.get('tableId');
+  }
 
   const [index, setIndex] = useState(0);
   const userToken = useSelector((state: RootState) => state.user.token);
