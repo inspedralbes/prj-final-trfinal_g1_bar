@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { Offcanvas, Button, Badge } from 'react-bootstrap';
 import { IconMenu2 } from '@tabler/icons-react';
 import { IconShoppingCart } from '@tabler/icons-react';
@@ -7,8 +7,9 @@ import Link from 'next/link';
 import { RootState } from '@/lib/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from "@/lib/Features/userSlice";
+import { setRestaurantId, setTiquetId } from '@/lib/Features/restaurantSlice';
 import Stack from 'react-bootstrap/Stack';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 const Header = () => {
     const [show, setShow] = useState(false);
@@ -16,6 +17,7 @@ const Header = () => {
     const cistella = useSelector((state: RootState) => state.restaurant.tiquetIndividual);
     const dispatch = useDispatch();
     const { push } = useRouter();
+    const pathname = usePathname()
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -25,13 +27,38 @@ const Header = () => {
     };
 
     useEffect(() => {
+
         // Si existeix una sessió d'usuari, guardar a la store
         const userSession = localStorage.getItem('user');
+        console.log(pathname)
         if (userSession) {
             console.log("userSession: ", JSON.parse(userSession));
             dispatch(login(JSON.parse(userSession)));
         }
+
+        // Si existeixen dades d'usuari a localStorage, guardar a la store
+        const { restaurantId, tableId } = JSON.parse(localStorage.getItem('userInfo') || '{}');
+        if (restaurantId && tableId) {
+            dispatch(setRestaurantId(restaurantId));
+            dispatch(setTiquetId(tableId));
+        }
     }, [])
+
+    useEffect(() => {
+        // Si no hi ha token d'usuari, redirigir a login
+        if (!userToken && pathname !== '/login' && pathname !== '/register' && pathname !== '/') {
+            push('/login');
+        }
+    }, [userToken])
+
+    useEffect(() => {
+        // Si el id del restaurant i taula no estan guardats, redirigir a la pàgina principal
+        const { restaurantId, tableId } = JSON.parse(localStorage.getItem('userInfo') || '{}');
+        
+        if (userToken && (!restaurantId || !tableId)) {
+            push('/');
+        }
+    })
 
     return (
         <header className="header p-3 flex justify-between items-center bg-zinc-300 shadow-sm">
