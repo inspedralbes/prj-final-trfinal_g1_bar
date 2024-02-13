@@ -59,9 +59,10 @@ export default function Cistella() {
                 comentari: item.comentari
             }
         });
+
         //localstorage get id taula
-        socket.emit('crear-comanda', body);
-        //socket.emit('crear-comanda', cistella);
+        socket.emit('crear-comanda', cistella);
+        //socket.emit('crear-comanda', body);
 
         socket.on('crear-comanda', (cistella) => {
             console.log('socket crear-comanda', cistella);

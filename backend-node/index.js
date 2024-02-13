@@ -112,6 +112,27 @@ io.on('connection', (socket) => {
         console.log('Usuario desconectado:', socket.id);
     });
 
+    // ALVARO
+    socket.on('crear-comanda', (cistella) => {
+        //Fer comprovacions al node
+
+        //Find idTaula dins de l'array taules
+
+        //Si el troba fa push en bucle
+
+
+        /*if (!tiquet) {
+            tiquet = {
+                tiquet_id: cistella.tiquet_id,
+                productes: cistella
+            }
+        } else {
+            tiquet.productes.push(cistella);
+        }*/
+
+        io.emit('crear-comanda', cistella);
+    });
+
     socket.on('getTaules', (idRest) => {
         let filteredTaules = taules.filter(t => t.restaurant_id === idRest);
         socket.emit('taules', filteredTaules);
