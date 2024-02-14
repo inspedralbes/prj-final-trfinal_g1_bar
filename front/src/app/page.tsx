@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RootState } from '@/lib/store';
 import { useSelector, useDispatch } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -24,6 +24,7 @@ export default function App() {
   }
 
   // Estat connexió socket
+  const isSocketListenersSet = useRef(false);
   const [isConnected, setIsConnected] = useState(socket.connected);
 
   useEffect(() => {
@@ -35,15 +36,20 @@ export default function App() {
       setIsConnected(false);
     }
 
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
+    if (!isSocketListenersSet.current) {
+      socket.on('connect', onConnect);
+      socket.on('disconnect', onDisconnect);
+
+      // Update the ref to indicate that listeners have been set up
+      isSocketListenersSet.current = true;
+    }
 
     // Clean up the event listeners when the component is unmounted
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
     };
-  }, []);
+  }, [isConnected]);
 
 
   const [index, setIndex] = useState(0);
