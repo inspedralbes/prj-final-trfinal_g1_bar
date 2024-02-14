@@ -135,7 +135,6 @@ async function ferFetchs(idRest) {
     let productes = await Promise.all(productesPromises);
     let ingredients = await comunicationManager.getAllIngredients();
     let NsalaAdmin = {
-        idRest: idRest,
         categories: categories,
         productes: productes,
         ingredients: ingredients,
