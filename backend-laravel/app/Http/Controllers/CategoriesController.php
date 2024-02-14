@@ -94,4 +94,63 @@ class CategoriesController extends Controller
 
         return response()->json(null, 204);
     }
+
+    //CRUD
+    public function indexWeb()
+    {
+        $categories = Categoria::all();
+        return view('categories.index', ['categories' => $categories]);
+    }
+
+    public function searchCrudWeb(Request $request)
+    {
+        $search = $request->search;
+        $categories = Categoria::when(!empty($search), function ($query) use ($search) {
+                                    $query->where('nom', 'LIKE', "%{$search}%");
+                                })->get();
+        return view('categories.index', ['categories' => $categories]);
+    }
+
+    public function showWeb(string $id)
+    {
+        $categoria = Categoria::find($id);
+        return view('categories.show', ['categoria' => $categoria]);
+    }
+    public function storeShowWeb()
+    {
+        return view('categories.create');
+    }
+    public function storeWeb(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required',
+        ]);
+        $categoria = new Categoria();
+        $categoria->nom = $request->nom;
+        $categoria->save();
+
+        return redirect()->route('categoriesIndex')->with('success', 'Categoria creada correctament');
+    }
+    public function updateWeb(Request $request, string $id)
+    {
+        $request->validate([
+            'nom' => 'required',
+        ]);
+        $categoria = Categoria::find($id);
+        $categoria->nom = $request->nom;
+        $categoria->save();
+
+        return redirect()->route('categoriesIndex')->with('success', 'Categoria actualitzada correctament');
+    }
+    public function destroyWeb(Request $request, string $id)
+    {
+        $msg ="Categoria eliminada correctament";
+        if($request->eliminar_preg){
+            Pregunta::where('categoria_id', $id)->delete();
+            $msg = 'Categoria i preguntes adherides eliminades correctament';
+        }
+        Categoria::findOrFail($id)->delete();
+
+        return redirect()->route('categoriesIndex')->with('success', $msg);
+    }
 }
