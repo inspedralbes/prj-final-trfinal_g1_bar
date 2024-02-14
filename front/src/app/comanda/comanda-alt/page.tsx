@@ -1,12 +1,17 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
+import { RootState } from '@/lib/store';
+import { useSelector } from 'react-redux';
 import GlobalConfig from '../../app.config'
 
 export default function ComandaAlternativa() {
 
     const id = 1; // HARDCODED ID TICKET
+    const comandaTaula = useSelector((state: RootState) => state.restaurant.tiquetTaula);
+    console.log("SOCKET COMANDA TAULA", comandaTaula);
     const [tiquet, setTiquet] = useState<any>([]);
+    console.log("TICKET", tiquet);
     const [loading, setLoading] = useState(true);
     const url = GlobalConfig.link + `/api/tiquets/${id}`;
     const [arrayUsuaris, setArrayUsuaris] = useState([]);

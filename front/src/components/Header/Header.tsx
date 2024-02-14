@@ -105,6 +105,11 @@ const Header = () => {
                                     </Link>
                                 </div>
                                 <div>
+                                    <Link href="/comanda/comanda-alt" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
+                                        La meva taula
+                                    </Link>
+                                </div>
+                                <div>
                                     <Link href="/qr" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
                                         Compartir QR
                                     </Link>

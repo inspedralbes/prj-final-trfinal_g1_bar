@@ -51,22 +51,26 @@ export default function Cistella() {
 
     const enviarCistella = async () => {
 
-        const body = cistella.map((item) => {
+        /*const productes = cistella.map((item) => {
             return {
                 tiquet_id: item.tiquet_id,
                 producte_id: item.producte_id,
                 quantitat: item.quantitat,
                 comentari: item.comentari
             }
-        });
+        });*/
 
-        //localstorage get id taula
-        socket.emit('crear-comanda', cistella);
-        //socket.emit('crear-comanda', body);
+        const body = {
+            tiquet_id: 1,
+            productes: cistella
+        }
+
+        console.log("BODY", body);
+        socket.emit('crear-comanda', body);
 
         socket.on('crear-comanda', (cistella) => {
             console.log('socket crear-comanda', cistella);
-            //dispatch(addTiquetTaula(cistella));
+            dispatch(addTiquetTaula(cistella));
         });
 
         // Set loading true per 5 segons
