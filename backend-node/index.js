@@ -72,6 +72,13 @@ io.on('connection', (socket) => {
         let ruta = 'https://localhost:3000';
         let qrCode = await generateQRCode(`${ruta}/?restaurantId=${idRest}&tableId=${numTaula}`);
         // console.log("Ntaula", JSON.stringify(taula));
+        let taula = {
+            socketN: `${idRest}/${numTaula}`,
+            restaurant_id: idRest,
+            numTaula: numTaula,
+            qrCode: qrCode,
+            clients: [],
+        }
         taules.push(taula);
         socket.emit('QRGenerated', qrCode);
         console.log(taules);
