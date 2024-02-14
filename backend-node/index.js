@@ -157,7 +157,7 @@ io.on('connection', (socket) => {
 
         // Find numTaula dins de l'array taules que es correspongui amb l'ID del tiquet
         for (let i = 0; i < taules.length; i++) {
-            if (taules[i].numTaula == cistella.tiquet_id) {
+            if (taules[i].socketN == cistella.tiquet_id) {
                 taules[i].productes.push(...cistella.productes); // Si el troba fa push
                 index = i;
             }

@@ -5,18 +5,16 @@ import { RootState } from '@/lib/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { Accordion, Stack, Button, Alert, Spinner } from 'react-bootstrap';
-import { setTiquetIndividual, addTiquetTaula } from "@/lib/Features/restaurantSlice";
+import { setTiquetIndividual, setTiquetTaula } from "@/lib/Features/restaurantSlice";
 import { socket } from '../../sockets';
 
 export default function Cistella() {
 
-    const cistella = useSelector((state: RootState) => state.restaurant.tiquetIndividual);
+    let cistella = useSelector((state: RootState) => state.restaurant.tiquetIndividual);
     const userState = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
     const { push } = useRouter();
     const [loading, setLoading] = useState(false);
-
-    console.log(cistella);
 
     const sumarQuantitat = (producteId: number) => {
         return () => {
@@ -60,9 +58,17 @@ export default function Cistella() {
             }
         });*/
 
+        let auxCistella = [];
+        
+        for (let i = 0; i < cistella.length; i++) {
+            let producte = { ...cistella[i] };
+            producte.usuari_id = userState.id;
+            auxCistella.push(producte);
+        }
+
         const body = {
-            tiquet_id: 1,
-            productes: cistella
+            tiquet_id: "1/1",
+            productes: auxCistella
         }
 
         console.log("BODY", body);
@@ -70,7 +76,7 @@ export default function Cistella() {
 
         socket.on('crear-comanda', (cistella) => {
             console.log('socket crear-comanda', cistella);
-            dispatch(addTiquetTaula(cistella));
+            dispatch(setTiquetTaula(cistella));
         });
 
         // Set loading true per 5 segons
