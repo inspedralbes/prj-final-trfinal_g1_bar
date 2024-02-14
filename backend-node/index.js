@@ -113,10 +113,34 @@ io.on('connection', (socket) => {
     });
 
     // ALVARO
+
+    let arrayHardCodedTaules =
+    [
+        {
+            taula_id: 1,
+            productes: []
+        },
+        {
+            taula_id: 2,
+            productes: []
+        },
+        {
+            taula_id: 3,
+            productes: []
+        },
+    ]
+    taules.push
+
     socket.on('crear-comanda', (cistella) => {
         //Fer comprovacions al node
 
         //Find idTaula dins de l'array taules
+
+        for (let i = 0; i < taules.length; i++) {
+            if (taules[i].taula_id == cistella.taula_id) {
+                taules[i].productes.push(...cistella.productes);
+            }
+        }
 
         //Si el troba fa push en bucle
 
