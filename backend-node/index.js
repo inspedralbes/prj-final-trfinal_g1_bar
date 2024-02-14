@@ -12,6 +12,7 @@ app.use(cors())
 
 const salaAdmin = [];
 const taules = [];
+const restaurants = [];
 
 const server = createServer(app);
 const io = new Server(server, {
@@ -44,9 +45,14 @@ io.on('connection', (socket) => {
             console.log('Usuario', socket.id, 'se ha unido a la sala', idRest);
         } else {
             const newSala = {
-                idRest: idRest, users: [], dades: {}
+                idRest: idRest, users: []
             };
-            dades = ferFetchs(idRest);
+            resExistant = restaurants.find(r => r.idRest === idRest);
+            if (!resExistant) {
+                ferFetchs(idRest).then(dades => {
+                    restaurants.push({ idRest: idRest, dades: dades });
+                });
+            }
             socket.join(idRest);
             newSala.users.push(socket.id);
             salaAdmin.push(newSala);
@@ -66,8 +72,6 @@ io.on('connection', (socket) => {
         console.log('Usuario', socket.id, 'ha abandonado la sala', room);
     });
 
-
-    //continuar desde aqui
     socket.on('generateQR', async (idRest, numTaula) => {
         let ruta = 'https://localhost:3000';
         let qrCode = await generateQRCode(`${ruta}/?restaurantId=${idRest}&tableId=${numTaula}`);
@@ -131,6 +135,7 @@ async function ferFetchs(idRest) {
     let productes = await Promise.all(productesPromises);
     let ingredients = await comunicationManager.getAllIngredients();
     let NsalaAdmin = {
+        idRest: idRest,
         categories: categories,
         productes: productes,
         ingredients: ingredients,
