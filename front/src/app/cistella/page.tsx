@@ -63,6 +63,7 @@ export default function Cistella() {
         for (let i = 0; i < cistella.length; i++) {
             let producte = { ...cistella[i] };
             producte.usuari_id = userState.id;
+            producte.estat = "Pendent"
             auxCistella.push(producte);
         }
 
@@ -73,6 +74,7 @@ export default function Cistella() {
 
         console.log("BODY", body);
         socket.emit('crear-comanda', body);
+        dispatch(setTiquetIndividual([]));
 
         socket.on('crear-comanda', (cistella) => {
             console.log('socket crear-comanda', cistella);

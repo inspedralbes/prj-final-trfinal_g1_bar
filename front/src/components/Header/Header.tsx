@@ -115,7 +115,7 @@ const Header = () => {
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link href="/comanda" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
+                                    <Link href="/comanda-copy" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
                                         Comanda
                                     </Link>
                                 </div>

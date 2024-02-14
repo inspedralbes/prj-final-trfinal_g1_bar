@@ -9,7 +9,10 @@ export default function ComandaAlternativa() {
 
     const comandaTaula = useSelector((state: RootState) => state.restaurant.tiquetTaula);
     const [arrayUsuaris, setArrayUsuaris] = useState([]);
-
+    console.log("COMANDA TAULA", comandaTaula)
+    const comandaIndividual = useSelector((state: RootState) => state.restaurant.tiquetIndividual);
+    console.log("COMANDA INDIVIDUAL", comandaIndividual);
+    
     // Quan hem obtingut les dades associades a un tiquet...
     useEffect(() => {
         if (comandaTaula) {
@@ -30,7 +33,6 @@ export default function ComandaAlternativa() {
             }
         }
 
-        console.log("ARRAY USUARIS", arrayUsuaris);
         return arrayUsuaris;
     }
 
