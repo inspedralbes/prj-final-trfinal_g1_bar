@@ -179,16 +179,18 @@ class ProductesController extends Controller
 
      public function storeWeb(Request $request)
      {
+        // dd($request->all());
          $request->validate([
              'nom' => 'required',
-             'categoria' => 'required',
              'descripcio' => 'required',
              'preu' => 'required',
              'imatge' => 'required',
+             'categories' => 'required',
          ]);
          $producte = new Producte();
          $producte->nom = $request->nom;
-         $producte->categoria = $request->categoria;
+        //  $producte->categoria = $request->categoria;
+         $producte->categories()->attach($request->categories);
          $producte->descripcio = $request->descripcio;
          $producte->preu = $request->preu;
          $producte->imatge = $request->imatge;

@@ -8,7 +8,7 @@
 </div>
 @enderror
 
-@error('categoria')
+@error('categories')
 <div class="alert alert-danger position-absolute top-1" style="width: fit-content; left: 50%; transform: translate(-50%)" role="alert">
     La categoria és obligatoria
 </div>
@@ -45,11 +45,14 @@
 
                 <!--CATEGORIES-->
                 <label for="categoria_producte" class="form-label">Categoria del producte</label>
-                <select class="form-select" id="descripcio_producte" name="categoria">
-                    @foreach ($categories as $category)
-                    <option value="{{$category->id}}">{{$category->nom}}</option>
-                    @endforeach
-                </select><br>
+                @foreach ($categories as $category)
+                <br>
+                <input class="form-check-input" name="categories[]" type="checkbox" value="{{$category->id}}" id="flexCheckDefault{{$category->id}}">
+                <label class="form-check-label" for="flexCheckDefault{{$category->id}}">
+                    {{$category->nom}}
+                </label>
+                @endforeach
+                <br><br>
 
                 <!--DESCRIPCIO-->
                 <label for="descripcio_producte" class="form-label">Descripcio</label>

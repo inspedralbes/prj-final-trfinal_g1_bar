@@ -112,4 +112,92 @@ class IngredientsController extends Controller
 
         return response()->json(null, 204);
     }
+
+    // CRUD WEB
+
+    public function indexWeb()
+    {
+        $ingredients = Ingredient::all();
+        return view('ingredients.index', ['ingredients' => $ingredients]);
+    }
+
+    public function searchCrudWeb(Request $request)
+    {
+        $search = $request->search;
+        $ingredients = Ingredient::when(!empty($search), function ($query) use ($search) {
+                                            $query->where('nom', 'LIKE', "%{$search}%");
+                                        })->get();
+        return view('ingredients.index', ['ingredients' => $ingredients]);
+    }
+
+    public function showWeb(string $id)
+    {
+        $ingredient = Ingredient::find($id);
+        return view('ingredients.show', ['ingredient' => $ingredient]);
+    }
+
+    public function storeShowWeb()
+    {
+        return view('ingredients.create');
+    }
+
+    public function storeWeb(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required|string',
+            'gluten' => 'boolean',
+            'lactosa' => 'boolean',
+            'fruits_secs' => 'boolean',
+            'vegetariana' => 'boolean',
+            'vegana' => 'boolean',
+        ]);
+
+        $ingredient = new Ingredient();
+        $ingredient->nom = $request->nom;
+        $ingredient->gluten = $request->gluten ? true : false;
+        $ingredient->lactosa = $request->lactosa ? true : false;
+        $ingredient->fruits_secs = $request->fruits_secs ? true : false;
+        $ingredient->vegetariana = $request->vegetariana ? true : false;
+        $ingredient->vegana = $request->vegana ? true : false;
+        $ingredient->save();
+
+        return redirect()->route('ingredientsIndex')->with('success', 'Ingredient creat correctament');
+    }
+
+    public function updateWeb(Request $request, string $id)
+    {
+
+        $request->validate([
+            'nom' => 'required|string',
+            'gluten' => 'boolean',
+            'lactosa' => 'boolean',
+            'fruits_secs' => 'boolean',
+            'vegetariana' => 'boolean',
+            'vegana' => 'boolean',
+        ]);
+
+        $ingredient = Ingredient::find($id);
+        $ingredient->nom = $request->nom;
+        $ingredient->gluten = $request->gluten ? true : false;
+        $ingredient->lactosa = $request->lactosa ? true : false;
+        $ingredient->fruits_secs = $request->fruits_secs ? true : false;
+        $ingredient->vegetariana = $request->vegetariana ? true : false;
+        $ingredient->vegana = $request->vegana ? true : false;
+        $ingredient->save();
+
+        return redirect()->route('ingredientsIndex')->with('success', 'Ingredient actualitzat correctament');
+    }
+
+    public function destroyWeb(Request $request, string $id)
+    {
+        $ingredient = Ingredient::findOrFail($id);
+        if($ingredient){
+            $ingredient->delete();
+            $msg = 'Ingredient eliminat correctament';
+        } else {
+            $msg = 'No s\'ha pogut eliminar l\'ingredient';
+        }
+
+        return redirect()->route('ingredientsIndex')->with('success', $msg);
+    }
 }

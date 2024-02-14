@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductesController;
+use App\Http\Controllers\IngredientsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +37,12 @@ Route::get('/crearProducte', [ProductesController::class,'storeShowWeb'])->name(
 Route::post('/crearProducte', [ProductesController::class, 'storeWeb'])->name('productesStore');
 Route::put('/productes/{id}', [ProductesController::class, 'updateWeb'])->name('productesUpdate');
 Route::delete('/productes/delete/{id}', [ProductesController::class, 'destroyWeb'])->name('productesDestroy');
+
+// INGREDIENTS
+Route::get('/ingredients', [IngredientsController::class, 'indexWeb'])->name('ingredientsIndex');
+Route::get('/ingredients/search', [IngredientsController::class, 'searchCrudWeb'])->name('ingredientsIndexSearch');
+Route::get('/ingredients/{id}', [IngredientsController::class, 'showWeb'])->name('ingredientsShow');
+Route::get('/crearIngredient', [IngredientsController::class,'storeShowWeb'])->name('ingredientsStore');
+Route::post('/crearIngredient', [IngredientsController::class, 'storeWeb'])->name('ingredientsStore');
+Route::put('/ingredients/{id}', [IngredientsController::class, 'updateWeb'])->name('ingredientsUpdate');
+Route::delete('/ingredients/delete/{id}', [IngredientsController::class, 'destroyWeb'])->name('ingredientsDestroy');
