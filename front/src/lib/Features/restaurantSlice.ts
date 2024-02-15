@@ -62,7 +62,6 @@ export const restaurantSlice = createSlice({
       state.tiquetTaula = action.payload;
     },
     setCategories(state, action: PayloadAction<object[]>) {
-      console.log("action.payload", action.payload);
       state.categories = action.payload;
     },
     setProductes(state, action: PayloadAction<object[]>) {
