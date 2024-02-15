@@ -66,7 +66,7 @@ const Header = () => {
         const { restaurantId, tableId } = JSON.parse(localStorage.getItem('userInfo') || '{}');
         
         if (userToken && (!restaurantId || !tableId)) {
-            //push('/');
+            push('/');
         }
     })
 
@@ -102,6 +102,11 @@ const Header = () => {
                                 <div>
                                     <Link href="/menu" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
                                         Menú
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link href="/la-meva-taula" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
+                                        La meva taula
                                     </Link>
                                 </div>
                                 <div>

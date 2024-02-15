@@ -14,6 +14,41 @@ const salaAdmin = [];
 const taules = [];
 const restaurants = [];
 
+/***ALVARO***/
+
+let arrayHardCodedTaules =
+[
+    {
+        socketN: `1/1`,
+        restaurant_id: 1,
+        numTaula: 1,
+        qrCode: `https://localhost:3000/?restaurantId=1&tableId=1`,
+        clients: [],
+        productes: []
+    },
+    {
+        socketN: `1/2`,
+        restaurant_id: 1,
+        numTaula: 2,
+        qrCode: `https://localhost:3000/?restaurantId=1&tableId=2`,
+        clients: [],
+        productes: []
+    },
+    {
+        socketN: `2/1`,
+        restaurant_id: 2,
+        numTaula: 1,
+        qrCode: `https://localhost:3000/?restaurantId=2&tableId=1`,
+        clients: [],
+        productes: []
+    },
+]
+
+taules.push(...arrayHardCodedTaules);
+
+/******/
+
+
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
@@ -122,6 +157,28 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Usuario desconectado:', socket.id);
     });
+
+    /***ALVARO***/
+
+    socket.on('crear-comanda', (cistella) => {
+
+        let index;
+
+        // Fer comprovacions al node
+
+        // Find numTaula dins de l'array taules que es correspongui amb l'ID del tiquet
+        for (let i = 0; i < taules.length; i++) {
+            if (taules[i].socketN == cistella.tiquet_id) {
+                taules[i].productes.push(...cistella.productes); // Si el troba fa push
+                index = i;
+            }
+        }
+
+        console.log(`PRODUCTES TAULA ${taules[index].socketN}`, taules[index].productes);
+        io.emit('crear-comanda', taules[index].productes);
+    });
+
+    /******/
 
     socket.on('getTaules', (idRest) => {
         let filteredTaules = taules.filter(t => t.restaurant_id === idRest);

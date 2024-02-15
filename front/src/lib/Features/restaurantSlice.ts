@@ -52,11 +52,11 @@ export const restaurantSlice = createSlice({
     setTiquetIndividual(state, action: PayloadAction<object[]>) {
       state.tiquetIndividual = action.payload;
     },
-    addTiquetTaula(state, action: PayloadAction<object[]>) {
-      state.tiquetTaula.push(...action.payload);
+    setTiquetTaula(state, action: PayloadAction<object[]>) {
+      state.tiquetTaula = action.payload;
     },
   },
 });
 
-export const { setRestaurantId, setTiquetId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, addTiquetIndividual, setTiquetIndividual, addTiquetTaula } = restaurantSlice.actions;
+export const { setRestaurantId, setTiquetId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, addTiquetIndividual, setTiquetIndividual, setTiquetTaula } = restaurantSlice.actions;
 export default restaurantSlice.reducer;

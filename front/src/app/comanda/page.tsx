@@ -15,20 +15,26 @@ import GlobalConfig from '../app.config'
 import { useRouter } from 'next/navigation';
 
 export default function Comanda() {
+    
     const { push } = useRouter();
     const userState = useSelector((state: RootState) => state.user);
-    const tiquetId = useSelector((state: RootState) => state.restaurant.tiquetId);
+
+    const [arrayUsuaris, setArrayUsuaris] = useState([]);
     const comandaTaula = useSelector((state: RootState) => state.restaurant.tiquetTaula);
-    console.log(comandaTaula);
-    const [comanda, setComanda] = useState<any>({});
-    const [mevaComanda, setMevaComanda] = useState([]);
-    const [loading, setLoading] = useState(true);
+    let comandaIndividual : any = [];
+
+    for (let i = 0; i < comandaTaula.length; i++) {
+        if (comandaTaula[i].usuari_id === userState.id) {
+            comandaIndividual.push(comandaTaula[i]);
+        }
+    }
+
     const [isLoadingGuardar, setLoadingGuardar] = useState(false);
     const [isLoadingEliminar, setLoadingEliminar] = useState(false);
     const [showAlert, setShowAlert] = useState(false)
-    const url = GlobalConfig.link + `/api/tiquets/${tiquetId}`;
+    //const url = GlobalConfig.link + `/api/tiquets/${tiquetId}`;
 
-    useEffect(() => {
+    /*useEffect(() => {
         
         async function fetchComanda() {
             setLoading(true);
@@ -52,21 +58,21 @@ export default function Comanda() {
         }
 
         fetchComanda();
-    }, [userState])
+    }, [userState])*/
 
     const sumarQuantitat = (tiquet: any) => {
         return () => {
-            tiquet.pivot.quantitat++;
-            setMevaComanda([...mevaComanda]);
+            /*tiquet.pivot.quantitat++;
+            setMevaComanda([...mevaComanda]);*/
         }
     }
 
     const restarQuantitat = (tiquet: any) => {
         return () => {
-            if (tiquet.pivot.quantitat > 1) {
+            /*if (tiquet.pivot.quantitat > 1) {
                 tiquet.pivot.quantitat--;
                 setMevaComanda([...mevaComanda]);
-            }
+            }*/
         }
     }
 
@@ -100,7 +106,7 @@ export default function Comanda() {
     }
 
     const eliminarItem = async (tiquet: any) => {
-        setLoadingEliminar(true);
+        /*setLoadingEliminar(true);
         try {
             const response = await fetch(`http://localhost:8000/api/tiquets/items/${tiquet.pivot.id}`, {
                 method: 'DELETE',
@@ -126,127 +132,115 @@ export default function Comanda() {
             console.error('Error fetching data:', error);
         } finally {
             setLoadingEliminar(false);
-        }
+        }*/
     }
 
     const calcularPreuTotal = (items: any[]) => {
-        return items.reduce((acc: number, tiquet: any) => {
-            return acc + (tiquet.preu * tiquet.pivot.quantitat);
+        return items.reduce((acc: number, producte: any) => {
+            return acc + (producte.preu * producte.quantitat);
         }, 0);
     }
 
     return (
         <div className='m-3'>
-            {loading ? (
-                <div className='d-flex justify-content-center'>
-                    <Spinner animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                </div>
-            ) : (
-                <div>
-                    <Alert variant="success" show={showAlert} onClose={() => setShowAlert(false)} dismissible>
-                        Comanda Actualitzada!
-                    </Alert>
-                    <Card className='shadow'>
-                        <Card.Body>
-                            <Card.Title className='text-center mb-3 fs-2'>Taula {comanda.nombre_taula}</Card.Title>
-                            <Tabs
-                                defaultActiveKey="general"
-                                id="justify-tab-example"
-                                className="mb-3"
-                                justify
-                            >
-                                <Tab eventKey="general" title="General">
+            <div>
+                <Card className='shadow'>
+                    <Card.Body>
+                        <Card.Title className='text-center mb-3 fs-2'>Taula</Card.Title>
+                        <Tabs
+                            defaultActiveKey="general"
+                            id="justify-tab-example"
+                            className="mb-3"
+                            justify
+                        >
+                            <Tab eventKey="general" title="General">
 
-                                    <Accordion>
-                                        {comanda.tiquets.length === 0 ? (
-                                            <div className='text-center'>No hi ha tiquets</div>
-                                        ) : comanda.tiquets.map((tiquet: any, id: number) => (
-                                            <Stack key={tiquet.id} gap={3} className='border rounded mb-1'>
-                                                <Accordion.Item eventKey={id.toString()} className='shadow'>
-                                                    <Accordion.Header className='rounded'>
-                                                        <div className="d-flex w-100">
-                                                            <div>{tiquet.pivot.quantitat}x</div>
-                                                            <div className="ms-3">{tiquet.nom}</div>
-                                                            <div className="ms-auto me-2">{tiquet.preu * tiquet.pivot.quantitat}€</div>
+                                <Accordion>
+                                    {comandaTaula.length === 0 ? (
+                                        <div className='text-center'>No hi ha tiquets</div>
+                                    ) : comandaTaula.map((producte: any, id: number) => (
+                                        <Stack key={producte.id} gap={3} className='border rounded mb-1'>
+                                            <Accordion.Item eventKey={id.toString()} className='shadow'>
+                                                <Accordion.Header className='rounded'>
+                                                    <div className="d-flex w-100">
+                                                        <div>{producte.quantitat}x</div>
+                                                        <div className="ms-3">{producte.nom}</div>
+                                                        <div className="ms-auto me-2">{producte.preu * producte.quantitat}€</div>
+                                                    </div>
+                                                </Accordion.Header>
+                                                <Accordion.Body className='p-2 pt-3 d-flex flex-column gap-2 bg-primary-subtle rounded-bottom'>
+                                                    <div className='text-center'>ESTAT: <b>{producte.estat}</b></div>
+                                                    {producte.estat === 'Pendent' && producte.usuari_id === userState.id ? (
+                                                        <div className='d-flex flex-column gap-2'>
+                                                            <div className='d-flex w-auto border border-2 rounded-3'>
+                                                                <Button variant="secondary" onClick={restarQuantitat(producte)}> - </Button>
+                                                                <input type="text" value={producte.quantitat} readOnly className='text-center w-100' />
+                                                                <Button variant="secondary" onClick={sumarQuantitat(producte)}> + </Button>
+                                                            </div>
+                                                            <Button variant='primary' onClick={() => guardarItem(producte)} disabled={isLoadingGuardar}>Guardar</Button>
+                                                            <Button variant='danger' onClick={() => eliminarItem(producte)} disabled={isLoadingEliminar}>Eliminar</Button>
+                                                            <div>{producte.descripcio}</div>
                                                         </div>
-                                                    </Accordion.Header>
-                                                    <Accordion.Body className='p-2 pt-3 d-flex flex-column gap-2 bg-primary-subtle rounded-bottom'>
-                                                        <div className='text-center'>ESTAT: <b>{tiquet.pivot.estat}</b></div>
-                                                        {tiquet.pivot.estat === 'Pendent' && tiquet.pivot.user_id === userState.id ? (
-                                                            <div className='d-flex flex-column gap-2'>
-                                                                <div className='d-flex w-auto border border-2 rounded-3'>
-                                                                    <Button variant="secondary" onClick={restarQuantitat(tiquet)}> - </Button>
-                                                                    <input type="text" value={tiquet.pivot.quantitat} readOnly className='text-center w-100' />
-                                                                    <Button variant="secondary" onClick={sumarQuantitat(tiquet)}> + </Button>
-                                                                </div>
-                                                                <Button variant='primary' onClick={() => guardarItem(tiquet)} disabled={isLoadingGuardar}>Guardar</Button>
-                                                                <Button variant='danger' onClick={() => eliminarItem(tiquet)} disabled={isLoadingEliminar}>Eliminar</Button>
-                                                                <div>{tiquet.descripcio}</div>
-                                                            </div>
-                                                        ) : (
-                                                            <div>
-                                                                {tiquet.descripcio}
-                                                            </div>
-                                                        )
-                                                        }
-                                                    </Accordion.Body>
-                                                </Accordion.Item>
-                                            </Stack>
-                                        ))}
-                                    </Accordion>
-                                    <div className='mt-3 text-center'>Total Taula: <b className='fs-3'>{calcularPreuTotal(comanda.tiquets)}€</b></div>
-                                </Tab>
-                                <Tab eventKey="individual" title="Meva Comanda">
-                                    <Accordion flush className='rounded' >
-                                        {mevaComanda.length === 0 ? (
-                                            <div className='text-center'>No hi ha tiquets</div>
-                                        ) : mevaComanda.map((tiquet: any, id: number) => (
-                                            <Stack key={tiquet.id} gap={3} className='border rounded mb-1'>
-                                                <Accordion.Item eventKey={id.toString()} className='shadow'>
-                                                    <Accordion.Header className='rounded'>
-                                                        <div className="d-flex w-100">
-                                                            <div>{tiquet.pivot.quantitat}x</div>
-                                                            <div className="ms-3">{tiquet.nom}</div>
-                                                            <div className="ms-auto me-2">{tiquet.preu * tiquet.pivot.quantitat}€</div>
+                                                    ) : (
+                                                        <div>
+                                                            {producte.descripcio}
                                                         </div>
-                                                    </Accordion.Header>
-                                                    <Accordion.Body className='p-2 pt-3 d-flex flex-column gap-2 bg-primary-subtle rounded-bottom'>
-                                                        <div className='text-center'>ESTAT: <b>{tiquet.pivot.estat}</b></div>
-                                                        {tiquet.pivot.estat === 'Pendent' ? (
-                                                            <div className='d-flex flex-column gap-2'>
-                                                                <div className='d-flex w-auto border border-2 rounded-3'>
-                                                                    <Button variant="secondary" onClick={restarQuantitat(tiquet)}> - </Button>
-                                                                    <input type="text" value={tiquet.pivot.quantitat} readOnly className='text-center w-100' />
-                                                                    <Button variant="secondary" onClick={sumarQuantitat(tiquet)}> + </Button>
-                                                                </div>
-                                                                <Button variant='primary' onClick={() => guardarItem(tiquet)} disabled={isLoadingGuardar}>Guardar</Button>
-                                                                <Button variant='danger' onClick={() => eliminarItem(tiquet)} disabled={isLoadingEliminar}>Eliminar</Button>
-                                                                <div>{tiquet.descripcio}</div>
+                                                    )
+                                                    }
+                                                </Accordion.Body>
+                                            </Accordion.Item>
+                                        </Stack>
+                                    ))}
+                                </Accordion>
+                                <div className='mt-3 text-center'>Total Taula: <b className='fs-3'>{calcularPreuTotal(comandaTaula)}€</b></div>
+                            </Tab>
+                            <Tab eventKey="individual" title="Meva Comanda">
+                                <Accordion flush className='rounded' >
+                                    {comandaIndividual.length === 0 ? (
+                                        <div className='text-center'>No hi ha tiquets</div>
+                                    ) : comandaIndividual.map((producte: any, id: number) => (
+                                        <Stack key={producte.id} gap={3} className='border rounded mb-1'>
+                                            <Accordion.Item eventKey={id.toString()} className='shadow'>
+                                                <Accordion.Header className='rounded'>
+                                                    <div className="d-flex w-100">
+                                                        <div>{producte.quantitat}x</div>
+                                                        <div className="ms-3">{producte.nom}</div>
+                                                        <div className="ms-auto me-2">{producte.preu * producte.quantitat}€</div>
+                                                    </div>
+                                                </Accordion.Header>
+                                                <Accordion.Body className='p-2 pt-3 d-flex flex-column gap-2 bg-primary-subtle rounded-bottom'>
+                                                    <div className='text-center'>ESTAT: <b>{producte.estat}</b></div>
+                                                    {producte.estat === 'Pendent' ? (
+                                                        <div className='d-flex flex-column gap-2'>
+                                                            <div className='d-flex w-auto border border-2 rounded-3'>
+                                                                <Button variant="secondary" onClick={restarQuantitat(producte)}> - </Button>
+                                                                <input type="text" value={producte.quantitat} readOnly className='text-center w-100' />
+                                                                <Button variant="secondary" onClick={sumarQuantitat(producte)}> + </Button>
                                                             </div>
-                                                        ) : (
-                                                            <div>
-                                                                {tiquet.descripcio}
-                                                            </div>
-                                                        )
-                                                        }
-                                                    </Accordion.Body>
-                                                </Accordion.Item>
-                                            </Stack>
-                                        ))}
-                                    </Accordion>
-                                    <div className='mt-3 text-center'>Total Personal: <b className='fs-3'>{calcularPreuTotal(mevaComanda)}€</b></div>
-                                </Tab>
-                            </Tabs>
-                        </Card.Body>
-                    </Card>
-                    <div className='mt-3 d-flex justify-content-center'>
-                        <Button variant='success' className='w-60 shadow' onClick={() => push('/pagament')}>Pagar</Button>
-                    </div>
+                                                            <Button variant='primary' onClick={() => guardarItem(producte)} disabled={isLoadingGuardar}>Guardar</Button>
+                                                            <Button variant='danger' onClick={() => eliminarItem(producte)} disabled={isLoadingEliminar}>Eliminar</Button>
+                                                            <div>{producte.descripcio}</div>
+                                                        </div>
+                                                    ) : (
+                                                        <div>
+                                                            {producte.descripcio}
+                                                        </div>
+                                                    )
+                                                    }
+                                                </Accordion.Body>
+                                            </Accordion.Item>
+                                        </Stack>
+                                    ))}
+                                </Accordion>
+                                <div className='mt-3 text-center'>Total Personal: <b className='fs-3'>{calcularPreuTotal(comandaIndividual)}€</b></div>
+                            </Tab>
+                        </Tabs>
+                    </Card.Body>
+                </Card>
+                <div className='mt-3 d-flex justify-content-center'>
+                    <Button variant='success' className='w-60 shadow' onClick={() => push('/pagament')}>Pagar</Button>
                 </div>
-
-            )}
+            </div>
         </div>
     )
 }
