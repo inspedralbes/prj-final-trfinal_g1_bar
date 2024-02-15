@@ -15,7 +15,12 @@
             @method('GET')
             @csrf
 
-            <input class="form-control me-2" type="text" name="search" placeholder="Buscar categoria">
+            <input class="form-control me-2" list="datalistOptions" type="text" name="search" placeholder="Buscar categoria">
+            <datalist id="datalistOptions">
+            @foreach ($allCategories as $categoria)
+                <option value="{{ $categoria->nom }}">
+            @endforeach       
+            </datalist>
             <button class="btn btn-outline-primary" type="submit">Buscar</button>
         </form>
     </div>

@@ -99,7 +99,7 @@ class CategoriesController extends Controller
     public function indexWeb()
     {
         $categories = Categoria::all();
-        return view('categories.index', ['categories' => $categories]);
+        return view('categories.index', ['categories' => $categories, 'allCategories' => $categories]);
     }
 
     public function searchCrudWeb(Request $request)
@@ -108,7 +108,8 @@ class CategoriesController extends Controller
         $categories = Categoria::when(!empty($search), function ($query) use ($search) {
                                     $query->where('nom', 'LIKE', "%{$search}%");
                                 })->get();
-        return view('categories.index', ['categories' => $categories]);
+        $allCategories = Categoria::all();
+        return view('categories.index', ['categories' => $categories, 'allCategories' => $allCategories]);
     }
 
     public function showWeb(string $id)

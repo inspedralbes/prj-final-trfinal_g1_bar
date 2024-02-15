@@ -143,7 +143,8 @@ class ProductesController extends Controller
     public function indexWeb()
     {
         $productes = Producte::all();
-        return view('productes.index', ['productes' => $productes]);
+        $allProductes = Producte::all();
+        return view('productes.index', ['productes' => $productes, 'allProductes' => $allProductes]);
     }
 
     public function searchCrudWeb(Request $request)
@@ -152,7 +153,8 @@ class ProductesController extends Controller
         $productes = Producte::when(!empty($search), function ($query) use ($search) {
             $query->where('nom', 'LIKE', "%{$search}%");
         })->get();
-        return view('productes.index', ['productes' => $productes]);
+        $allProductes = Producte::all();
+        return view('productes.index', ['productes' => $productes, 'allProductes' => $allProductes]);
     }
 
     public function showWeb(string $id)
