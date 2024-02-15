@@ -161,17 +161,13 @@ class ProductesController extends Controller
     {
         $producte = Producte::find($id);
 
-        $categoria_id = DB::table('productes')
-            ->join('categoria_producte', 'productes.id', '=', 'categoria_producte.producte_id')
-            ->where('productes.id', '=', $id)
-            ->select('categoria_producte.categoria_id')
-            ->get();
+        $linkedCategories = $producte->categories;
+        $allCategories = Categoria::all();
 
-        $producte->categoria_id = $categoria_id[0]->categoria_id;
+        $linkedIngredients = $producte->ingredients;
+        $allIngredients = Ingredient::all();
 
-        $categories = Categoria::all();
-
-        return view('productes.show', ['producte' => $producte, 'categories' => $categories]);
+        return view('productes.show', ['producte' => $producte, 'linkedCategories' => $linkedCategories, 'allCategories' => $allCategories, 'linkedIngredients' => $linkedIngredients, 'allIngredients' => $allIngredients]);
     }
 
     public function storeShowWeb()
@@ -215,6 +211,8 @@ class ProductesController extends Controller
             'preu' => 'required',
             'imatge' => 'required',
             'esActiu' => 'boolean',
+            'categories' => 'required|array',
+            'ingredients' => 'required|array',
         ]);
 
         $producte = Producte::find($id);
@@ -225,6 +223,9 @@ class ProductesController extends Controller
         $producte->actiu = $request->esActiu ? true : false;
 
         $producte->save();
+
+         $producte->categories()->sync($request->input('categories'));
+        $producte->ingredients()->sync($request->input('ingredients'));
 
         return redirect()->route('productesIndex')->with('success', 'Producte actualitzat correctament');
     }
