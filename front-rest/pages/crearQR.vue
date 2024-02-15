@@ -5,7 +5,10 @@
             <PrimeButton @click="generarQR">Generar QR</PrimeButton>
         </div>
         <div v-if="!genQR" class="imgCont">
-
+            <div v-if="loading">
+                <PrimeProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" animationDuration=".5s"
+                    aria-label="Custom ProgressSpinner" />
+            </div>
         </div>
         <div v-else class="imgCont">
             <img :src="genQR">
@@ -22,22 +25,31 @@ export default {
         return {
             store: useAppStore(),
             Ntaula: null,
-            idRest: 1
+            idRest: 1,
+            loading: false,
         }
     },
     methods: {
         generarQR() {
+            this.loading = true;
             if (!this.Ntaula) {
                 alert('Introdueix un número de taula');
+                this.loading = false;
                 return;
             }
-            console.log(this.Ntaula + "," + this.idRest);
-            socket.emit('generateQR', this.idRest, this.Ntaula);
+            setTimeout(() => {
+                console.log(this.Ntaula + "," + this.idRest);
+                socket.emit('generateQR', this.idRest, this.Ntaula);
+            }, 400);
         }
     },
     computed: {
+        qrCheck() {
+            if (this.genQR) {
+                this.loading = false;
+            }
+        },
         genQR() {
-            console.log(this.store.getQr());
             return this.store.getQr();
         }
     },
@@ -58,10 +70,10 @@ export default {
 }
 
 .cont {
-    height: 99vh;
+    height: 100%;
 }
 
-.imgCont{
+.imgCont {
     height: 200px;
     width: 200px;
 }

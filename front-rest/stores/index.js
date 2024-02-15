@@ -2,82 +2,154 @@ import { defineStore } from 'pinia';
 
 const useAppStore = defineStore('app', {
     state: () => ({
-        // socketN: `${idRest}/${numTaula}`,
-        id: null,
-        numTaula: null,
         restaurant: null,
-        clients: [{
-            id: null,
-            nom: null,
-            email: null,
-            productes: [{
-                prducteid: null,
-                producteNom: null,
-                preu: null,
-                quantitat: null,
-                comentari: null,
-                estat: null,
-            }],
-        }],
-        qr: null,
+        comandes: [
+            {
+                taula: 1,
+                productes: [
+                    {
+                        producte: "Pizza Margarita",
+                        preu: 10.99,
+                        quantitat: 1,
+                        comentari: "Sin cebolla",
+                        estat: "En espera"
+                    },
+                    {
+                        producte: "Hamburguesa con queso",
+                        preu: 8.49,
+                        quantitat: 2,
+                        comentari: "Agregar papas fritas",
+                        estat: "En preparación"
+                    },
+                    {
+                        producte: "Ensalada César",
+                        preu: 6.99,
+                        quantitat: 1,
+                        comentari: "Sin crutones",
+                        estat: "Servido"
+                    }
+                ]
+            },
+            {
+                taula: 2,
+                productes: [
+                    {
+                        producte: "Pizza Margarita",
+                        preu: 10.99,
+                        quantitat: 1,
+                        comentari: "Sin cebolla",
+                        estat: "En espera"
+                    },
+                    {
+                        producte: "Hamburguesa con queso",
+                        preu: 8.49,
+                        quantitat: 2,
+                        comentari: "Agregar papas fritas",
+                        estat: "En preparación"
+                    },
+                    {
+                        producte: "Ensalada César",
+                        preu: 6.99,
+                        quantitat: 1,
+                        comentari: "Sin crutones",
+                        estat: "Servido"
+                    }
+                ]
+            },
+            {
+                taula: 3,
+                productes: [
+                    {
+                        producte: "Pizza Margarita",
+                        preu: 10.99,
+                        quantitat: 1,
+                        comentari: "Sin cebolla",
+                        estat: "En espera"
+                    },
+                    {
+                        producte: "Hamburguesa con queso",
+                        preu: 8.49,
+                        quantitat: 2,
+                        comentari: "Agregar papas fritas",
+                        estat: "En preparación"
+                    },
+                    {
+                        producte: "Ensalada César",
+                        preu: 6.99,
+                        quantitat: 1,
+                        comentari: "Sin crutones",
+                        estat: "Servido"
+                    }
+                ]
+            },
+            {
+                taula: 4,
+                productes: [
+                    {
+                        producte: "Pizza Margarita",
+                        preu: 10.99,
+                        quantitat: 1,
+                        comentari: "Sin cebolla",
+                        estat: "En espera"
+                    },
+                    {
+                        producte: "Hamburguesa con queso",
+                        preu: 8.49,
+                        quantitat: 2,
+                        comentari: "Agregar papas fritas",
+                        estat: "En preparación"
+                    },
+                    {
+                        producte: "Ensalada César",
+                        preu: 6.99,
+                        quantitat: 1,
+                        comentari: "Sin crutones",
+                        estat: "Servido"
+                    }
+                ]
+            }
+        ],
         buscadorQuery: '',
-        taules:[],
-        taula:{},
+        taules: [],
+        taula: {},
+        qr: '',
     }),
     actions: {
-        setId(id) {
-            this.id = id;
-        },
-        getId() {
-            return this.id;
-        },
-        setNumTaula(numTaula) {
-            this.numTaula = numTaula;
-        },
-        getNumTaula() {
-            return this.numTaula;
-        },
         setRestaurant(restaurant) {
             this.restaurant = restaurant;
         },
         getRestaurant() {
             return this.restaurant;
         },
-        setClients(clients) {
-            this.clients = clients;
+        setComandes(comandes) {
+            this.comandes = comandes;
         },
-        getClients() {
-            return this.clients;
-        },
-        setTaula(taula) {
-            this.taula = taula;
-        },
-        setBuscadorQuery(query) {
-            this.buscadorQuery = query;
-        },
-        getQr() {
-            return this.qr;
-        },
-        setQr(qr) {
-            this.qr = qr;
-        },
-        getBuscadorQuery() {
-            return this.buscadorQuery;
-        },
-        setBuscadorQuery(query) {
-            this.buscadorQuery = query;
-        },
-        getTaules() {
-            return this.taules;
-        },
-        setTaules(taules) {
-            this.taules = taules;
+        getComandes() {
+            return this.comandes;
         },
         setTaula(taula) {
             this.taula = taula;
         },
         getTaula() {
             return this.taula;
+        },
+        setBuscadorQuery(query) {
+            this.buscadorQuery = query;
+        },
+        getBuscadorQuery() {
+            return this.buscadorQuery;
+        },
+        setTaules(taules) {
+            this.taules = taules;
+        },
+        getTaules() {
+            return this.taules;
+        },
+        setQr(qr) {
+            this.qr = qr;
+        },
+        getQr() {
+            return this.qr;
         },
     },
 });
