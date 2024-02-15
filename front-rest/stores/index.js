@@ -12,21 +12,21 @@ const useAppStore = defineStore('app', {
                         preu: 10.99,
                         quantitat: 1,
                         comentari: "Sin cebolla",
-                        estat: "En espera"
+                        estat: "Espera"
                     },
                     {
                         producte: "Hamburguesa con queso",
                         preu: 8.49,
                         quantitat: 2,
                         comentari: "Agregar papas fritas",
-                        estat: "En preparación"
+                        estat: "Preparacio"
                     },
                     {
                         producte: "Ensalada César",
                         preu: 6.99,
                         quantitat: 1,
                         comentari: "Sin crutones",
-                        estat: "Servido"
+                        estat: "Servit"
                     }
                 ]
             },
@@ -38,47 +38,54 @@ const useAppStore = defineStore('app', {
                         preu: 10.99,
                         quantitat: 1,
                         comentari: "Sin cebolla",
-                        estat: "En espera"
+                        estat: "Espera"
                     },
                     {
                         producte: "Hamburguesa con queso",
                         preu: 8.49,
                         quantitat: 2,
                         comentari: "Agregar papas fritas",
-                        estat: "En preparación"
+                        estat: "Preparacio"
+                    },
+                    {
+                        producte: "Pizza Margarita",
+                        preu: 10.99,
+                        quantitat: 1,
+                        comentari: "Sin cebolla",
+                        estat: "Espera"
                     },
                     {
                         producte: "Ensalada César",
                         preu: 6.99,
                         quantitat: 1,
                         comentari: "Sin crutones",
-                        estat: "Servido"
+                        estat: "Servit"
                     }
                 ]
             },
             {
-                taula: 3,
+                taula: 1,
                 productes: [
                     {
                         producte: "Pizza Margarita",
                         preu: 10.99,
                         quantitat: 1,
                         comentari: "Sin cebolla",
-                        estat: "En espera"
+                        estat: "Espera"
                     },
                     {
                         producte: "Hamburguesa con queso",
                         preu: 8.49,
                         quantitat: 2,
                         comentari: "Agregar papas fritas",
-                        estat: "En preparación"
+                        estat: "Preparacio"
                     },
                     {
                         producte: "Ensalada César",
                         preu: 6.99,
                         quantitat: 1,
                         comentari: "Sin crutones",
-                        estat: "Servido"
+                        estat: "Servit"
                     }
                 ]
             },
@@ -90,21 +97,28 @@ const useAppStore = defineStore('app', {
                         preu: 10.99,
                         quantitat: 1,
                         comentari: "Sin cebolla",
-                        estat: "En espera"
+                        estat: "Espera"
                     },
                     {
                         producte: "Hamburguesa con queso",
                         preu: 8.49,
                         quantitat: 2,
                         comentari: "Agregar papas fritas",
-                        estat: "En preparación"
+                        estat: "Preparacio"
                     },
                     {
                         producte: "Ensalada César",
                         preu: 6.99,
                         quantitat: 1,
                         comentari: "Sin crutones",
-                        estat: "Servido"
+                        estat: "Servit"
+                    },
+                    {
+                        producte: "Ensalada César",
+                        preu: 6.99,
+                        quantitat: 1,
+                        comentari: "Sin crutones",
+                        estat: "Servit"
                     }
                 ]
             }

@@ -10,8 +10,7 @@
 <style>
 
 #__nuxt {
-  height: 99vh;
-  overflow: hidden;
+  height: 90vh;
 }
 
 body {
