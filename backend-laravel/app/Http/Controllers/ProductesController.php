@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producte;
 use App\Models\Categoria;
+use App\Models\Ingredient;
 use Illuminate\Support\Facades\DB;
 
 class ProductesController extends Controller
@@ -138,104 +139,103 @@ class ProductesController extends Controller
         return response()->json(null, 204);
     }
 
-     //CRUD
-     public function indexWeb()
-     {
-         $productes = Producte::all();
-         return view('productes.index', ['productes' => $productes]);
-     }
- 
-     public function searchCrudWeb(Request $request)
-     {
-         $search = $request->search;
-         $productes = Producte::when(!empty($search), function ($query) use ($search) {
-                                     $query->where('nom', 'LIKE', "%{$search}%");
-                                 })->get();
-         return view('productes.index', ['productes' => $productes]);
-     }
- 
-     public function showWeb(string $id)
-     {    
-         $producte = Producte::find($id);
+    //CRUD
+    public function indexWeb()
+    {
+        $productes = Producte::all();
+        return view('productes.index', ['productes' => $productes]);
+    }
 
-         $categoria_id = DB::table('productes')
-         ->join('categoria_producte', 'productes.id', '=', 'categoria_producte.producte_id')
-         ->where('productes.id', '=', $id)
-         ->select('categoria_producte.categoria_id')
-         ->get();
+    public function searchCrudWeb(Request $request)
+    {
+        $search = $request->search;
+        $productes = Producte::when(!empty($search), function ($query) use ($search) {
+            $query->where('nom', 'LIKE', "%{$search}%");
+        })->get();
+        return view('productes.index', ['productes' => $productes]);
+    }
 
-         $producte->categoria_id = $categoria_id[0]->categoria_id;
-         
-         $categories = Categoria::all();
+    public function showWeb(string $id)
+    {
+        $producte = Producte::find($id);
 
-         return view('productes.show', ['producte' => $producte, 'categories' => $categories]);
-     }
+        $categoria_id = DB::table('productes')
+            ->join('categoria_producte', 'productes.id', '=', 'categoria_producte.producte_id')
+            ->where('productes.id', '=', $id)
+            ->select('categoria_producte.categoria_id')
+            ->get();
 
-     public function storeShowWeb()
-     {
+        $producte->categoria_id = $categoria_id[0]->categoria_id;
+
         $categories = Categoria::all();
-        return view('productes.create', ['categories' => $categories]);
-     }
 
-     public function storeWeb(Request $request)
-     {
-        // dd($request->all());
-         $request->validate([
-             'nom' => 'required',
-             'descripcio' => 'required',
-             'preu' => 'required',
-             'imatge' => 'required',
-             'categories' => 'required',
-         ]);
-         $producte = new Producte();
-         $producte->nom = $request->nom;
-        //  $producte->categoria = $request->categoria;
-         $producte->categories()->attach($request->categories);
-         $producte->descripcio = $request->descripcio;
-         $producte->preu = $request->preu;
-         $producte->imatge = $request->imatge;
-         $producte->actiu = 1;
-         $producte->save();
- 
-         return redirect()->route('productesIndex')->with('success', 'Producte creat correctament');
-     }
+        return view('productes.show', ['producte' => $producte, 'categories' => $categories]);
+    }
 
-     public function updateWeb(Request $request, string $id)
-     {
-         $request->validate([
+    public function storeShowWeb()
+    {
+        $categories = Categoria::all();
+        $ingredients = Ingredient::all();
+        return view('productes.create', ['categories' => $categories, 'ingredients' => $ingredients]);
+    }
+
+    public function storeWeb(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required|string',
+            'actiu' => 'boolean', // 'actiu' => 'required|boolean
+            'descripcio' => 'required|string',
+            'preu' => 'required|numeric',
+            'imatge' => 'required|string',
+            'categories' => 'required|array',
+            'ingredients' => 'required|array',
+        ]);
+
+        $producte = new Producte();
+        $producte->nom = $request->nom;
+        $producte->actiu = $request->actiu ? true : false;
+        $producte->descripcio = $request->descripcio;
+        $producte->preu = $request->preu;
+        $producte->imatge = $request->imatge;
+        $producte->save();
+        
+        $producte->categories()->attach($request->categories);
+        $producte->ingredients()->attach($request->ingredients);
+
+        return redirect()->route('productesIndex')->with('success', 'Producte creat correctament');
+    }
+
+    public function updateWeb(Request $request, string $id)
+    {
+        $request->validate([
             'nom' => 'required',
             'descripcio' => 'required',
             'preu' => 'required',
             'imatge' => 'required',
-         ]);
+            'esActiu' => 'boolean',
+        ]);
 
-         $producte = Producte::find($id);
-         $producte->nom = $request->nom;
-         $producte->nom = $request->nom;
-         $producte->descripcio = $request->descripcio;
-         $producte->preu = $request->preu;
-         $producte->imatge = $request->imatge;
+        $producte = Producte::find($id);
+        $producte->nom = $request->nom;
+        $producte->descripcio = $request->descripcio;
+        $producte->preu = $request->preu;
+        $producte->imatge = $request->imatge;
+        $producte->actiu = $request->esActiu ? true : false;
 
-         if (!$request->esActiu) {
-            $producte->actiu = 0;
-         } else {
-            $producte->actiu = 1;
-         }
-         
-         $producte->save();
- 
-         return redirect()->route('productesIndex')->with('success', 'Producte actualitzat correctament');
-     }
-     
-     public function destroyWeb(Request $request, string $id)
-     {
-         $msg ="Producte eliminat correctament";
-         /* if($request->eliminar_preg){
-             Pregunta::where('categoria_id', $id)->delete();
-             $msg = 'Categoria i preguntes adherides eliminades correctament';
-         } */
-         Producte::findOrFail($id)->delete();
- 
-         return redirect()->route('productesIndex')->with('success', $msg);
-     }
+        $producte->save();
+
+        return redirect()->route('productesIndex')->with('success', 'Producte actualitzat correctament');
+    }
+
+    public function destroyWeb(Request $request, string $id)
+    {
+        $msg = "Producte eliminat correctament";
+        /* if($request->eliminar_preg){
+            Pregunta::where('categoria_id', $id)->delete();
+            $msg = 'Categoria i preguntes adherides eliminades correctament';
+        } */
+        Producte::findOrFail($id)->delete();
+
+        return redirect()->route('productesIndex')->with('success', $msg);
+    }
 }
