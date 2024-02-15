@@ -13,13 +13,14 @@ app.use(cors())
 const salaAdmin = [];
 const taules = [];
 const restaurants = [];
+const socketRooms = {};
 
 /***ALVARO***/
 
 let arrayHardCodedTaules =
 [
     {
-        socketN: `1/1`,
+        id: '1-1',
         restaurant_id: 1,
         numTaula: 1,
         qrCode: `https://localhost:3000/?restaurantId=1&tableId=1`,
@@ -27,7 +28,7 @@ let arrayHardCodedTaules =
         productes: []
     },
     {
-        socketN: `1/2`,
+        id: '1-2',
         restaurant_id: 1,
         numTaula: 2,
         qrCode: `https://localhost:3000/?restaurantId=1&tableId=2`,
@@ -35,7 +36,7 @@ let arrayHardCodedTaules =
         productes: []
     },
     {
-        socketN: `2/1`,
+        id: '2-1',
         restaurant_id: 2,
         numTaula: 1,
         qrCode: `https://localhost:3000/?restaurantId=2&tableId=1`,
@@ -47,6 +48,21 @@ let arrayHardCodedTaules =
 taules.push(...arrayHardCodedTaules);
 
 /******/
+
+// Fer fetchs de dades dels restaurants automaticament
+(async function() {
+    for (let i = 1; i <= 2; i++) {
+        let dades = await ferFetchs(i);
+        restaurants.push({ idRest: i, dades: dades });
+    }
+
+    console.log("RESTAURANTS", restaurants);
+
+    // Enviar dades dels restaurants a les sales corresponents
+    for (let i = 1; i <= 2; i++) {
+        io.to(i).emit('restaurants', restaurants[i]);
+    }
+})()
 
 
 const server = createServer(app);
@@ -61,6 +77,34 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
     console.log('Usuario conectado:', socket.id);
 
+    socket.on('disconnect', () => {
+        let idSala = socketRooms[socket.id];
+        if (idSala) {
+            socket.leave(idSala);
+            delete socketRooms[socket.id];
+            console.log('Usuario', socket.id, 'ha abandonado la sala', idSala);
+        }
+    })
+
+    socket.on('joinRoom', (id) => {
+        let taula = taules.find(t => t.id === id);
+        if(!taula) return;
+
+        // Si el socket ja estava a una sala, l'abandonem
+        if(socketRooms[socket.id]) {
+            socket.leave(socketRooms[socket.id]);
+            console.log('Usuario', socket.id, 'ha abandonado la sala', socketRooms[socket.id]);
+        }
+
+        // Afegim el socket a la sala
+        socket.join(id);
+        socketRooms[socket.id] = id;
+
+        // Enviem les dades del restaurant al client
+        let restaurantData = restaurants.find(r => r.idRest === taula.restaurant_id);
+        socket.emit('restaurant', restaurantData);
+        console.log('Usuario', socket.id, 'se ha unido a la sala', id);
+    });
 
     socket.on('joinAdmin', (idRest) => {
         const existingSala = salaAdmin.find(s => s.idRest === idRest);
@@ -95,24 +139,12 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on('joinRoom', (room) => {
-        let jroom = taules.find(t => t.socketN === room);
-        socket.join(jroom.socketN);
-        console.log('Usuario', socket.id, 'se ha unido a la sala', room);
-    });
-
-    socket.on('leaveRoom', (room) => {
-        let lroom = taules.find(t => t.socketN === room);
-        socket.leave(lroom.socketN);
-        console.log('Usuario', socket.id, 'ha abandonado la sala', room);
-    });
-
     socket.on('generateQR', async (idRest, numTaula) => {
         let ruta = 'https://localhost:3000';
         let qrCode = await generateQRCode(`${ruta}/?restaurantId=${idRest}&tableId=${numTaula}`);
         // console.log("Ntaula", JSON.stringify(taula));
         let taula = {
-            socketN: `${idRest}/${numTaula}`,
+            id: `${idRest}-${numTaula}`,
             restaurant_id: idRest,
             numTaula: numTaula,
             qrCode: qrCode,
@@ -153,11 +185,6 @@ io.on('connection', (socket) => {
         socket.emit('allIngredients', ingredients);
     });
 
-    // Manejar desconexiones
-    socket.on('disconnect', () => {
-        console.log('Usuario desconectado:', socket.id);
-    });
-
     /***ALVARO***/
 
     socket.on('crear-comanda', (cistella) => {
@@ -168,13 +195,13 @@ io.on('connection', (socket) => {
 
         // Find numTaula dins de l'array taules que es correspongui amb l'ID del tiquet
         for (let i = 0; i < taules.length; i++) {
-            if (taules[i].socketN == cistella.tiquet_id) {
+            if (taules[i].id == cistella.tiquet_id) {
                 taules[i].productes.push(...cistella.productes); // Si el troba fa push
                 index = i;
             }
         }
 
-        console.log(`PRODUCTES TAULA ${taules[index].socketN}`, taules[index].productes);
+        console.log(`PRODUCTES TAULA ${taules[index].id}`, taules[index].productes);
         io.emit('crear-comanda', taules[index].productes);
     });
 

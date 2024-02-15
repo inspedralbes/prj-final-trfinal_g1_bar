@@ -10,6 +10,7 @@ import { login } from "@/lib/Features/userSlice";
 import { setRestaurantId, setTiquetId } from '@/lib/Features/restaurantSlice';
 import Stack from 'react-bootstrap/Stack';
 import { useRouter, usePathname } from 'next/navigation';
+import { socket } from '@/sockets';
 
 const Header = () => {
     const [show, setShow] = useState(false);
@@ -51,15 +52,15 @@ const Header = () => {
         if (restaurantId && tableId) {
             dispatch(setRestaurantId(restaurantId));
             dispatch(setTiquetId(tableId));
-        }
-    }, [])
 
-    useEffect(() => {
-        // Si no hi ha token d'usuari, redirigir a login
-        if (!userToken && pathname !== '/login' && pathname !== '/register' && pathname !== '/') {
+            // Unir-se a la sala
+            socket.emit('joinRoom', `${restaurantId}-${tableId}`)
+        }
+
+        if (!userSession && pathname !== '/login' && pathname !== '/register' && pathname !== '/') {
             push('/login');
         }
-    }, [userToken])
+    }, [])
 
     useEffect(() => {
         // Si el id del restaurant i taula no estan guardats, redirigir a la pàgina principal
