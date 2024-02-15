@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { RootState } from '@/lib/store';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Spinner from 'react-bootstrap/Spinner';
@@ -13,15 +13,22 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import GlobalConfig from '../app.config'
 import { useRouter } from 'next/navigation';
+import { setTiquetTaula } from "@/lib/Features/restaurantSlice";
 
 export default function Comanda() {
-    
+
     const { push } = useRouter();
     const userState = useSelector((state: RootState) => state.user);
 
     const [arrayUsuaris, setArrayUsuaris] = useState([]);
     const comandaTaula = useSelector((state: RootState) => state.restaurant.tiquetTaula);
-    let comandaIndividual : any = [];
+    let comandaIndividual: any = [];
+
+    //let copiaComandaTaula: any = [];
+
+    /*for (let i = 0; i < comandaTaula.length; i++) {
+        copiaComandaTaula[i] = { ...comandaTaula[i] };
+    }*/
 
     for (let i = 0; i < comandaTaula.length; i++) {
         if (comandaTaula[i].usuari_id === userState.id) {
@@ -32,52 +39,39 @@ export default function Comanda() {
     const [isLoadingGuardar, setLoadingGuardar] = useState(false);
     const [isLoadingEliminar, setLoadingEliminar] = useState(false);
     const [showAlert, setShowAlert] = useState(false)
-    //const url = GlobalConfig.link + `/api/tiquets/${tiquetId}`;
 
-    /*useEffect(() => {
-        
-        async function fetchComanda() {
-            setLoading(true);
-            try {
-                const response = await fetch(url);
-                const result = await response.json();
-                console.log(result)
-                if (!result.error) {
-                    console.log("user id", userState.id)
-                    let mevaComanda = result.tiquets.filter((tiquet: any) => tiquet.pivot.user_id === userState.id);
-                    setComanda(result);
-                    setMevaComanda(mevaComanda);
-                } else {
-                    setComanda({ "tiquets": [] })
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
-            }
-        }
 
-        fetchComanda();
-    }, [userState])*/
+    const [productesModificats, setproductesModificats] = useState(comandaTaula);
 
-    const sumarQuantitat = (tiquet: any) => {
+
+    const sumarQuantitat = (producte: any) => {
         return () => {
-            /*tiquet.pivot.quantitat++;
-            setMevaComanda([...mevaComanda]);*/
+            const updatedComandaTaula = productesModificats.map((item: any) => {
+                if (item.id === producte.id) {
+                    return { ...item, quantitat: item.quantitat + 1 };
+                }
+                return item;
+            });
+            setproductesModificats(updatedComandaTaula);
         }
     }
 
-    const restarQuantitat = (tiquet: any) => {
+    const restarQuantitat = (producte: any) => {
         return () => {
-            /*if (tiquet.pivot.quantitat > 1) {
-                tiquet.pivot.quantitat--;
-                setMevaComanda([...mevaComanda]);
-            }*/
+            if (producte.quantitat > 1) {
+                const updatedComandaTaula = productesModificats.map((item: any) => {
+                    if (item.id === producte.id) {
+                        return { ...item, quantitat: item.quantitat - 1 };
+                    }
+                    return item;
+                });
+                setproductesModificats(updatedComandaTaula);
+            }
         }
     }
 
     const guardarItem = async (tiquet: any) => {
-        setLoadingGuardar(true);
+        /*setLoadingGuardar(true);
         try {
             const response = await fetch(`http://localhost:8000/api/tiquets/items/${tiquet.pivot.id}`, {
                 method: 'PUT',
@@ -102,7 +96,7 @@ export default function Comanda() {
             console.error('Error fetching data:', error);
         } finally {
             setLoadingGuardar(false);
-        }
+        }*/
     }
 
     const eliminarItem = async (tiquet: any) => {
@@ -135,10 +129,23 @@ export default function Comanda() {
         }*/
     }
 
-    const calcularPreuTotal = (items: any[]) => {
+    const calcularPreuTotalTiquetTaula = (items: any[]) => {
         return items.reduce((acc: number, producte: any) => {
             return acc + (producte.preu * producte.quantitat);
         }, 0);
+    }
+
+    const calcularPreuTotalTiquetIndividual = (items: any[]) => {
+        
+        let calcularPreuTotalTiquetIndividual = 0;
+
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].usuari_id === userState.id) {
+                calcularPreuTotalTiquetIndividual =+ (items[i].preu * items[i].quantitat);
+            }
+        }
+
+        return calcularPreuTotalTiquetIndividual;
     }
 
     return (
@@ -156,9 +163,9 @@ export default function Comanda() {
                             <Tab eventKey="general" title="General">
 
                                 <Accordion>
-                                    {comandaTaula.length === 0 ? (
+                                    {productesModificats.length === 0 ? (
                                         <div className='text-center'>No hi ha tiquets</div>
-                                    ) : comandaTaula.map((producte: any, id: number) => (
+                                    ) : productesModificats.map((producte: any, id: number) => (
                                         <Stack key={producte.id} gap={3} className='border rounded mb-1'>
                                             <Accordion.Item eventKey={id.toString()} className='shadow'>
                                                 <Accordion.Header className='rounded'>
@@ -192,47 +199,48 @@ export default function Comanda() {
                                         </Stack>
                                     ))}
                                 </Accordion>
-                                <div className='mt-3 text-center'>Total Taula: <b className='fs-3'>{calcularPreuTotal(comandaTaula)}€</b></div>
+                                <div className='mt-3 text-center'>Total Taula: <b className='fs-3'>{calcularPreuTotalTiquetTaula(productesModificats)}€</b></div>
                             </Tab>
                             <Tab eventKey="individual" title="Meva Comanda">
                                 <Accordion flush className='rounded' >
                                     {comandaIndividual.length === 0 ? (
                                         <div className='text-center'>No hi ha tiquets</div>
-                                    ) : comandaIndividual.map((producte: any, id: number) => (
-                                        <Stack key={producte.id} gap={3} className='border rounded mb-1'>
-                                            <Accordion.Item eventKey={id.toString()} className='shadow'>
-                                                <Accordion.Header className='rounded'>
-                                                    <div className="d-flex w-100">
-                                                        <div>{producte.quantitat}x</div>
-                                                        <div className="ms-3">{producte.nom}</div>
-                                                        <div className="ms-auto me-2">{producte.preu * producte.quantitat}€</div>
-                                                    </div>
-                                                </Accordion.Header>
-                                                <Accordion.Body className='p-2 pt-3 d-flex flex-column gap-2 bg-primary-subtle rounded-bottom'>
-                                                    <div className='text-center'>ESTAT: <b>{producte.estat}</b></div>
-                                                    {producte.estat === 'Pendent' ? (
-                                                        <div className='d-flex flex-column gap-2'>
-                                                            <div className='d-flex w-auto border border-2 rounded-3'>
-                                                                <Button variant="secondary" onClick={restarQuantitat(producte)}> - </Button>
-                                                                <input type="text" value={producte.quantitat} readOnly className='text-center w-100' />
-                                                                <Button variant="secondary" onClick={sumarQuantitat(producte)}> + </Button>
+                                    ) : productesModificats.map((producte: any, id: number) => (
+                                        userState.id === producte.usuari_id && (
+                                            <Stack key={producte.id} gap={3} className='border rounded mb-1'>
+                                                <Accordion.Item eventKey={id.toString()} className='shadow'>
+                                                    <Accordion.Header className='rounded'>
+                                                        <div className="d-flex w-100">
+                                                            <div>{producte.quantitat}x</div>
+                                                            <div className="ms-3">{producte.nom}</div>
+                                                            <div className="ms-auto me-2">{producte.preu * producte.quantitat}€</div>
+                                                        </div>
+                                                    </Accordion.Header>
+                                                    <Accordion.Body className='p-2 pt-3 d-flex flex-column gap-2 bg-primary-subtle rounded-bottom'>
+                                                        <div className='text-center'>ESTAT: <b>{producte.estat}</b></div>
+                                                        {producte.estat === 'Pendent' ? (
+                                                            <div className='d-flex flex-column gap-2'>
+                                                                <div className='d-flex w-auto border border-2 rounded-3'>
+                                                                    <Button variant="secondary" onClick={restarQuantitat(producte)}> - </Button>
+                                                                    <input type="text" value={producte.quantitat} readOnly className='text-center w-100' />
+                                                                    <Button variant="secondary" onClick={sumarQuantitat(producte)}> + </Button>
+                                                                </div>
+                                                                <Button variant='primary' onClick={() => guardarItem(producte)} disabled={isLoadingGuardar}>Guardar</Button>
+                                                                <Button variant='danger' onClick={() => eliminarItem(producte)} disabled={isLoadingEliminar}>Eliminar</Button>
+                                                                <div>{producte.descripcio}</div>
                                                             </div>
-                                                            <Button variant='primary' onClick={() => guardarItem(producte)} disabled={isLoadingGuardar}>Guardar</Button>
-                                                            <Button variant='danger' onClick={() => eliminarItem(producte)} disabled={isLoadingEliminar}>Eliminar</Button>
-                                                            <div>{producte.descripcio}</div>
-                                                        </div>
-                                                    ) : (
-                                                        <div>
-                                                            {producte.descripcio}
-                                                        </div>
-                                                    )
-                                                    }
-                                                </Accordion.Body>
-                                            </Accordion.Item>
-                                        </Stack>
-                                    ))}
+                                                        ) : (
+                                                            <div>
+                                                                {producte.descripcio}
+                                                            </div>
+                                                        )
+                                                        }
+                                                    </Accordion.Body>
+                                                </Accordion.Item>
+                                            </Stack>
+                                        )))}
                                 </Accordion>
-                                <div className='mt-3 text-center'>Total Personal: <b className='fs-3'>{calcularPreuTotal(comandaIndividual)}€</b></div>
+                                <div className='mt-3 text-center'>Total Personal: <b className='fs-3'>{calcularPreuTotalTiquetIndividual(productesModificats)}€</b></div>
                             </Tab>
                         </Tabs>
                     </Card.Body>

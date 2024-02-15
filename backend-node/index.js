@@ -45,6 +45,7 @@ let arrayHardCodedTaules =
 ]
 
 taules.push(...arrayHardCodedTaules);
+let comptadorIdProducte = 1;
 
 /******/
 
@@ -169,6 +170,7 @@ io.on('connection', (socket) => {
         // Find numTaula dins de l'array taules que es correspongui amb l'ID del tiquet
         for (let i = 0; i < taules.length; i++) {
             if (taules[i].socketN == cistella.tiquet_id) {
+                setProducteID(cistella.productes)
                 taules[i].productes.push(...cistella.productes); // Si el troba fa push
                 index = i;
             }
@@ -177,6 +179,13 @@ io.on('connection', (socket) => {
         console.log(`PRODUCTES TAULA ${taules[index].socketN}`, taules[index].productes);
         io.emit('crear-comanda', taules[index].productes);
     });
+
+    function setProducteID (productes) {
+        for (let i = 0; i < productes.length; i++) {
+           productes[i].id = comptadorIdProducte;
+           comptadorIdProducte++;
+        }
+    }
 
     /******/
 
