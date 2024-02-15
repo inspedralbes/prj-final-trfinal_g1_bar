@@ -1,16 +1,24 @@
 import { io } from 'socket.io-client';
+import { setCategories } from '@/lib/Features/restaurantSlice';
 
-const URL = 'http://localhost:3001'
+export const socket = io('http://localhost:3001');
 
-// Connect to the server
-export const socket = io(URL);
+export const setupSocketConnection = (dispatch: any) => {
+    
+    socket.on('connect', () => {
+        console.log('Connected to socket.io server');
+        // Dispatch an action if needed
+        // dispatch({ type: 'SOCKET_CONNECTED' });
+    });
 
-// Handle connection event
-socket.on('connect', () => {
-    console.log('Connected to server');
-});
+    socket.on('restaurant', (restaurant) => {
+        // Handle incoming messages
+        console.log("restaurant" , restaurant)
+        dispatch(setCategories(restaurant.categories));
+        // dispatch({ type: 'RECEIVE_MESSAGE', payload: message });
+    });
 
-// Handle disconnection event
-socket.on('disconnect', () => {
-    console.log('Disconnected from server');
-});
+    // Add more event listeners as needed
+
+    return socket;
+};

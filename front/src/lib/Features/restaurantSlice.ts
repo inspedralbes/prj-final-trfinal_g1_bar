@@ -11,6 +11,9 @@ interface InitialStateType {
   producteId: number;
   tiquetIndividual: any[];
   tiquetTaula: any[];
+  categories: any[];
+  productes: any[];
+  ingredients: any[];
 }
 
 const initialState: InitialStateType = {
@@ -22,6 +25,9 @@ const initialState: InitialStateType = {
   producteId: 0,
   tiquetIndividual: [],
   tiquetTaula: [],
+  categories: [],
+  productes: [],
+  ingredients: [],
 }
 
 export const restaurantSlice = createSlice({
@@ -55,8 +61,19 @@ export const restaurantSlice = createSlice({
     setTiquetTaula(state, action: PayloadAction<object[]>) {
       state.tiquetTaula = action.payload;
     },
+    setCategories(state, action: PayloadAction<object[]>) {
+      console.log("action.payload", action.payload);
+      state.categories = action.payload;
+    },
+    setProductes(state, action: PayloadAction<object[]>) {
+      state.productes = action.payload;
+    },
+    setIngredients(state, action: PayloadAction<object[]>) {
+      state.ingredients = action.payload;
+    },
   },
 });
 
-export const { setRestaurantId, setTiquetId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, addTiquetIndividual, setTiquetIndividual, setTiquetTaula } = restaurantSlice.actions;
+export const { setRestaurantId, setTiquetId, setCategoriaId, setProductesCategoriaVisualitzada, setProducteId, 
+  addTiquetIndividual, setTiquetIndividual, setTiquetTaula, setCategories, setProductes, setIngredients } = restaurantSlice.actions;
 export default restaurantSlice.reducer;
