@@ -207,6 +207,48 @@ io.on('connection', (socket) => {
         io.emit('crear-comanda', taules[index].productes);
     });
 
+    socket.on('modificar-producte', (tiquet_id, producte) => {
+
+        let indexTaula;
+
+        for (let i = 0; i < taules.length; i++) {
+            if (taules[i].id == tiquet_id) {
+                indexTaula = i;
+            }
+        }
+
+        for (let j = 0; j < taules[indexTaula].productes.length; j++) {
+            if (taules[indexTaula].productes[j].id == producte.id) {
+                taules[indexTaula].productes[j].quantitat = producte.quantitat;
+            }  
+        }
+
+        console.log("PRODUCTES TAULA DESPRÉS DE MODIFICAR", taules[indexTaula].productes);
+        io.emit('modificar-producte', taules[indexTaula].productes);
+    });
+
+    socket.on('eliminar-producte', (tiquet_id, producte_id) => {
+
+        let indexTaula;
+        let indexProducte;
+
+        for (let i = 0; i < taules.length; i++) {
+            if (taules[i].id == tiquet_id) {
+                indexTaula = i;
+            }
+        }
+
+        for (let j = 0; j < taules[indexTaula].productes.length; j++) {
+            if (taules[indexTaula].productes[j].id == producte_id) {
+                indexProducte = j;
+            }  
+        }
+
+        taules[indexTaula].productes.splice(indexProducte, 1);
+        console.log("PRODUCTES TAULA DESPRÉS DE ELIMINAR", taules[indexTaula].productes);
+        io.emit('eliminar-producte', taules[indexTaula].productes);
+    });
+
     function setProducteID (productes) {
         for (let i = 0; i < productes.length; i++) {
            productes[i].id = comptadorIdProducte;

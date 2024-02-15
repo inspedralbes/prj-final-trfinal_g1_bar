@@ -14,21 +14,17 @@ import Alert from 'react-bootstrap/Alert';
 import GlobalConfig from '../app.config'
 import { useRouter } from 'next/navigation';
 import { setTiquetTaula } from "@/lib/Features/restaurantSlice";
+import { socket } from '../../sockets';
 
 export default function Comanda() {
 
+    const dispatch = useDispatch();
     const { push } = useRouter();
     const userState = useSelector((state: RootState) => state.user);
 
     const [arrayUsuaris, setArrayUsuaris] = useState([]);
     const comandaTaula = useSelector((state: RootState) => state.restaurant.tiquetTaula);
     let comandaIndividual: any = [];
-
-    //let copiaComandaTaula: any = [];
-
-    /*for (let i = 0; i < comandaTaula.length; i++) {
-        copiaComandaTaula[i] = { ...comandaTaula[i] };
-    }*/
 
     for (let i = 0; i < comandaTaula.length; i++) {
         if (comandaTaula[i].usuari_id === userState.id) {
@@ -42,6 +38,10 @@ export default function Comanda() {
 
 
     const [productesModificats, setproductesModificats] = useState(comandaTaula);
+
+    useEffect(() => {
+        setproductesModificats(comandaTaula);
+    }, [comandaTaula]);
 
 
     const sumarQuantitat = (producte: any) => {
@@ -70,63 +70,23 @@ export default function Comanda() {
         }
     }
 
-    const guardarItem = async (tiquet: any) => {
-        /*setLoadingGuardar(true);
-        try {
-            const response = await fetch(`http://localhost:8000/api/tiquets/items/${tiquet.pivot.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${userState.token}`,
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    tiquet_id: tiquet.pivot.tiquet_id,
-                    producte_id: tiquet.pivot.producte_id,
-                    quantitat: tiquet.pivot.quantitat,
-                    comentari: tiquet.pivot.comentari,
-                }),
-            })
-            const result = await response.json();
-            console.log(result)
-            if (!result.error) {
-                setShowAlert(true);
-            }
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        } finally {
-            setLoadingGuardar(false);
-        }*/
+    const guardarItem = async (producte: any) => {
+
+        socket.emit('modificar-producte', "1-1", producte); // (nom-socket, tiquet_id, producte)
+        socket.on('modificar-producte', (cistella) => {
+            console.log('socket modificar-producte', cistella);
+            dispatch(setTiquetTaula(cistella));
+        });
     }
 
-    const eliminarItem = async (tiquet: any) => {
-        /*setLoadingEliminar(true);
-        try {
-            const response = await fetch(`http://localhost:8000/api/tiquets/items/${tiquet.pivot.id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${userState.token}`,
-                },
-            })
-            const result = await response.json();
-            console.log(result)
-            if (!result.error) {
-                // Elimina from mevaComanda
-                let index = mevaComanda.findIndex((item: any) => item.id === tiquet.id);
-                mevaComanda.splice(index, 1);
-                setMevaComanda([...mevaComanda]);
-                // Elimina from comanda
-                index = comanda.tiquets.findIndex((item: any) => item.id === tiquet.id);
-                comanda.tiquets.splice(index, 1);
-                setComanda({ ...comanda });
-                setShowAlert(true);
-            }
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        } finally {
-            setLoadingEliminar(false);
-        }*/
+    const eliminarItem = async (producte: any) => {
+
+        socket.emit('eliminar-producte', "1-1", producte.id); // (nom-socket, tiquet_id, producte_id)
+        
+        socket.on('eliminar-producte', (cistella) => {
+            console.log('socket eliminar-producte', cistella);
+            dispatch(setTiquetTaula(cistella));
+        });
     }
 
     const calcularPreuTotalTiquetTaula = (items: any[]) => {
