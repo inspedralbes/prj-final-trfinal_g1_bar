@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { RootState } from '@/lib/store';
 import { useSelector } from 'react-redux';
-import GlobalConfig from '../../app.config'
 
 export default function ComandaAlternativa() {
 
