@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { RootState } from '@/lib/store';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Spinner from 'react-bootstrap/Spinner';
@@ -11,15 +11,16 @@ import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
-import GlobalConfig from '../app.config'
 import { useRouter } from 'next/navigation';
-import { setTiquetTaula } from "@/lib/Features/restaurantSlice";
 import { socket } from '../../sockets';
 
 export default function Comanda() {
 
-    const dispatch = useDispatch();
     const { push } = useRouter();
+
+    const restaurantId = useSelector((state: RootState) => state.restaurant.restaurantId);
+    const tiquetId = useSelector((state: RootState) => state.restaurant.tiquetId);
+
     const userState = useSelector((state: RootState) => state.user);
 
     const [arrayUsuaris, setArrayUsuaris] = useState([]);
@@ -72,21 +73,14 @@ export default function Comanda() {
 
     const guardarItem = async (producte: any) => {
 
-        socket.emit('modificar-producte', "1-1", producte); // (nom-socket, tiquet_id, producte)
-        socket.on('modificar-producte', (cistella) => {
-            console.log('socket modificar-producte', cistella);
-            dispatch(setTiquetTaula(cistella));
-        });
+        socket.emit('modificar-producte', `${restaurantId}-${tiquetId}`, producte);
+
     }
 
     const eliminarItem = async (producte: any) => {
 
-        socket.emit('eliminar-producte', "1-1", producte.id); // (nom-socket, tiquet_id, producte_id)
+        socket.emit('eliminar-producte', `${restaurantId}-${tiquetId}`, producte.id);
         
-        socket.on('eliminar-producte', (cistella) => {
-            console.log('socket eliminar-producte', cistella);
-            dispatch(setTiquetTaula(cistella));
-        });
     }
 
     const calcularPreuTotalTiquetTaula = (items: any[]) => {
@@ -113,7 +107,7 @@ export default function Comanda() {
             <div>
                 <Card className='shadow'>
                     <Card.Body>
-                        <Card.Title className='text-center mb-3 fs-2'>Taula</Card.Title>
+                        <Card.Title className='text-center mb-3 fs-2'>Taula {tiquetId}</Card.Title>
                         <Tabs
                             defaultActiveKey="general"
                             id="justify-tab-example"

@@ -10,10 +10,15 @@ import { socket } from '../../sockets';
 
 export default function Cistella() {
 
-    let cistella = useSelector((state: RootState) => state.restaurant.tiquetIndividual);
-    const userState = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
     const { push } = useRouter();
+    
+    const restaurantId = useSelector((state: RootState) => state.restaurant.restaurantId);
+    const tiquetId = useSelector((state: RootState) => state.restaurant.tiquetId);
+
+    let cistella = useSelector((state: RootState) => state.restaurant.tiquetIndividual);
+    const userState = useSelector((state: RootState) => state.user);
+    
     const [loading, setLoading] = useState(false);
 
     const sumarQuantitat = (producteId: number) => {
@@ -68,50 +73,13 @@ export default function Cistella() {
         }
 
         const body = {
-            tiquet_id: "1-1",
+            tiquet_id: `${restaurantId}-${tiquetId}`,
             productes: auxCistella
         }
 
         console.log("BODY", body);
         socket.emit('crear-comanda', body);
         dispatch(setTiquetIndividual([]));
-
-        socket.on('crear-comanda', (cistella) => {
-            console.log('socket crear-comanda', cistella);
-            dispatch(setTiquetTaula(cistella));
-        });
-
-        // Set loading true per 5 segons
-        // setLoading(true);
-
-        // const body = cistella.map((item) => {
-        //     return {
-        //         tiquet_id: item.tiquet_id,
-        //         producte_id: item.producte_id,
-        //         quantitat: item.quantitat,
-        //         comentari: item.comentari
-        //     }
-        // });
-
-        // try {
-        //     const response = await fetch(`http://localhost:8000/api/tiquets/items`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Accept': 'application/json',
-        //             'Authorization': `Bearer ${userState.token}`,
-        //         },
-        //         body: JSON.stringify(body)
-        //     })
-        //     const data = await response.json();
-        //     console.log(data);
-        //     dispatch(setTiquetIndividual([]));
-        //     push('/comanda');
-        // } catch (error) {
-        //     console.log("Error: ", error);
-        // } finally {
-        //     setLoading(false);
-        // }
     }
 
     return (
