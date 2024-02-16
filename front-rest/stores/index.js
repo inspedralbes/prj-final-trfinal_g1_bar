@@ -89,43 +89,61 @@ const useAppStore = defineStore('app', {
                     }
                 ]
             },
+        ],
+        taules: [
             {
-                taula: 4,
-                productes: [
+                taula: 1,
+                clients: [
                     {
-                        producte: "Pizza Margarita",
-                        preu: 10.99,
-                        quantitat: 1,
-                        comentari: "Sin cebolla",
-                        estat: "Espera"
+                        nom: "Pepito",
+                        email: "pepito@gmail.com",
                     },
                     {
-                        producte: "Hamburguesa con queso",
-                        preu: 8.49,
-                        quantitat: 2,
-                        comentari: "Agregar papas fritas",
-                        estat: "Preparacio"
+                        nom: "Juanito",
+                        email: "juanito@gmail.com",
                     },
                     {
-                        producte: "Ensalada César",
-                        preu: 6.99,
-                        quantitat: 1,
-                        comentari: "Sin crutones",
-                        estat: "Servit"
+                        nom: "Andres",
+                        email: "andres@gmail.com",
                     },
-                    {
-                        producte: "Ensalada César",
-                        preu: 6.99,
-                        quantitat: 1,
-                        comentari: "Sin crutones",
-                        estat: "Servit"
-                    }
                 ]
-            }
+            },
+            {
+                taula: 2,
+                clients: [
+                    {
+                        nom: "Paula",
+                        email: "paula@gmail.com",
+                    },
+                    {
+                        nom: "Maria",
+                        email: "maria@gmail.com",
+                    },
+                    {
+                        nom: "Laura",
+                        email: "laura@gmail.com",
+                    }
+                ],
+            },
+            {
+                taula: 3,
+                clients: [
+                    {
+                        nom: "Pepito",
+                        email: "pepito@gmail.com",
+                    },
+                    {
+                        nom: "Juanito",
+                        email: "juanito@gmail.com",
+                    },
+                    {
+                        nom: "Andres",
+                        email: "andres@gmail.com",
+                    },
+                ]
+            },
         ],
         buscadorQuery: '',
-        taules: [],
-        taula: {},
         qr: '',
     }),
     actions: {
