@@ -287,8 +287,9 @@ async function generateQRCode(text) {
     }
 }
 
-// Iniciar el servidor en el puerto 3001
-const PORT = 3001;
+// Iniciar el servidor en el puerto 
+const PORT = 3001; // development port 
+// const PORT = 3445; // production port
 server.listen(PORT, () => {
     console.log(`Servidor WebSocket escuchando en el puerto ${PORT}`);
 });

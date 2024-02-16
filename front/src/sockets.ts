@@ -1,7 +1,8 @@
 import { io } from 'socket.io-client';
 import { setCategories, setProductes, setIngredients } from '@/lib/Features/restaurantSlice';
 
-export const socket = io('http://localhost:3001');
+export const socket = io('http://localhost:3001'); // development URL
+// export const socket = io('http://paypart.daw.inspedralbes.cat:3455'); // production URL
 
 export const setupSocketConnection = (dispatch: any) => {
     

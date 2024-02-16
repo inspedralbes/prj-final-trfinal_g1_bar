@@ -1,4 +1,6 @@
-const baseUrl = 'http://localhost:8000';
+const baseUrl = 'http://localhost:8000'; // development URL
+//const baseUrl = 'http://paypart.daw.inspedralbes.cat/backend-laravel/public'; // production URL
+
 const token = '2|NBqrPPTYCUyqvxPP2MOH0oB33VYAGGS9gxrzpIzDbc0bcf22';
 
 async function fetchCall(url, method, body) {

@@ -1,17 +1,17 @@
-INSERT INTO RESTAURANTS(id, nom) VALUES (1, 'Le Petit Cambodge'), (2, 'Can Roca');
+INSERT INTO restaurants(id, nom) VALUES (1, 'Le Petit Cambodge'), (2, 'Can Roca');
 
-INSERT INTO USERS(id, name, email, password, restaurant_id) VALUES 
+INSERT INTO users(id, name, email, password, restaurant_id) VALUES 
 (1, "admin", "admin@gmail.com", "$2y$12$kv4uXRTwXp4MzAsDg8zNHOkJ8Qzb7LfweBWSmMa1wFTRuMyAUc.im", 1), -- password: adminadminadmin
 (2, "Santi", "santi@gmail.com", "$2y$12$LL.VQ7Ihn/rutxFt3afP.ey0JwHk6AA6c72b5kUZYjQ0QpHiy3Up2", 2), -- password: santi
 (3, "Alvaro", "alvaro@gmail.com", "$2y$12$nXaOJfYfe3L8pciCK8sbu.ygIQxCxmOph7rsWsJAl4sQVZyRjPJ.6", NULL), -- password: alvaro
 (4, "David", "david@gmail.com", "$2y$12$2T2EIVOsx/l2ke3UvoeZ/Oko1rGo.SrFt3Rf.l0aV7//Vwn8bf0Xe", 2), -- password: david
 (5, "Miquel", "miquel@gmail.com", "$2y$12$4uWjEHnKQkju94mlhGlid.ieDPcjGNevI5wT0hI19txA83vIymeb6", NULL); -- password: miquel
 
-INSERT INTO CATEGORIAS(id, nom, restaurant_id, imatge) VALUES 
+INSERT INTO categorias(id, nom, restaurant_id, imatge) VALUES 
 (1, 'Entrants', 1, "link_a_la_imatge.jpg"), (2, 'Primers', 1, "link_a_la_imatge.jpg"), (3, 'Postres', 1, "link_a_la_imatge.jpg"),
 (4, 'Esmorzars', 2, "link_a_la_imatge.jpg"), (5, 'Dinars', 2, "link_a_la_imatge.jpg"), (6, 'Sopars', 2, "link_a_la_imatge.jpg");
 
-INSERT INTO PRODUCTES(id, nom, descripcio, preu, imatge) VALUES
+INSERT INTO productes(id, nom, descripcio, preu, imatge) VALUES
 (1, 'Hamburguesa Clàssica', 'Hamburguesa de vedella de 150g amb enciam, tomàquet, ceba, formatge cheddar i salsa especial. Acompanyada de patates fregides.', 8.50, 'hamburguesa_classica.jpg'),
 (2, 'Pizza Margarita', 'Pizza tradicional italiana amb salsa de tomàquet, mozzarella fresca i fulles de basilic, sobre una massa fina i cruixent.', 10.00, 'pizza_margarita.jpg'),
 (3, 'Ensalada Cèsar', 'Ensalada amb enciam romà, trossets de pollastre a la graella, crostons, parmesà ratllat i salsa Cèsar casolana.', 7.00, 'ensalada_cesar.jpg'),
@@ -25,7 +25,7 @@ INSERT INTO PRODUCTES(id, nom, descripcio, preu, imatge) VALUES
 (11, 'Tiramisú', 'Postre tradicional italià fet amb formatge mascarpone, cafè, llicor de cafè i galetes savoiardi, cobert amb cacau en pols.', 5.00, 'tiramisu.jpg'),
 (12, 'Pastís de Formatge', 'Pastís de formatge casolà amb base de galeta i cobert amb una capa de melmelada de maduixa.', 5.00, 'pastis_formatge.jpg');
 
-INSERT INTO CATEGORIA_PRODUCTE(id, categoria_id, producte_id) VALUES
+INSERT INTO categoria_producte(id, categoria_id, producte_id) VALUES
 (3, 4, 1),  -- Hamburguesa Clàssica com a Esmorzars
 (4, 2, 2),  -- Pizza Margarita com a Primers
 (2, 1, 3),  -- Ensalada Cèsar com a Entrants
@@ -39,7 +39,7 @@ INSERT INTO CATEGORIA_PRODUCTE(id, categoria_id, producte_id) VALUES
 (11, 3, 11), -- Tiramisú com a Postres
 (12, 3, 12); -- Pastís de Formatge com a Postres
 
-INSERT INTO INGREDIENTS(id, nom, gluten, lactosa, fruits_secs, vegetariana, vegana) VALUES
+INSERT INTO ingredients(id, nom, gluten, lactosa, fruits_secs, vegetariana, vegana) VALUES
 (1, "Vedella", false, false, false, false, false),
 (2, "Enciam", false, false, false, true, true),
 (3, "Tomàquet", false, false, false, true, true),
@@ -75,11 +75,11 @@ INSERT INTO INGREDIENTS(id, nom, gluten, lactosa, fruits_secs, vegetariana, vega
 (33, 'Nous', false, false, true, true, true),
 (34, 'Gelat de Vainilla', false, true, false, true, false);
 
-INSERT INTO TIQUETS(id, nombre_taula, restaurant_id) VALUES
+INSERT INTO tiquets(id, nombre_taula, restaurant_id) VALUES
 (1, 1, 1), (2, 2, 1), (3, 3, 1),
 (4, 20, 2), (5, 21, 2), (6, 22, 2);
 
-INSERT INTO ITEM_TIQUET(tiquet_id, producte_id, user_id, quantitat) VALUES
+INSERT INTO item_tiquet(tiquet_id, producte_id, user_id, quantitat) VALUES
 (1, 4, 1, 1), (1, 2, 3, 1), (1, 3, 3, 1), -- Tiquet 1 (restaurant 1) ha demanat pizza, ensalada i tapes (user 1 i 3)
 (2, 6, 4, 1), (2, 8, 4, 1), (2, 9, 4, 1), -- Tiquet 2 (restaurant 1) ha demanat steak, sushi i rissotto (user 4)
 (3, 10, 5, 1), (3, 11, 5, 1), (3, 12, 5, 1), -- Tiquet 3 (restaurant 1) ha demanat brownie, tiramisú i pastís de formatge (user 5)
@@ -87,7 +87,7 @@ INSERT INTO ITEM_TIQUET(tiquet_id, producte_id, user_id, quantitat) VALUES
 (5, 5, 2, 1), -- Tiquet 5 (restaurant 2) ha demanat 1 paella (user 2)
 (6, 7, 2, 1); -- Tiquet 6 (restaurant 2) ha demanat 1 crema de carbassa (user 2)
 
-INSERT INTO PRODUCTE_INGREDIENT(producte_id, ingredient_id) VALUES
+INSERT INTO producte_ingredient(producte_id, ingredient_id) VALUES
 (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), -- Hamburguesa clàsica amb vedella, enciam, tomàquet, ceba, formatge cheddar i patates
 (2, 7), (2, 8), (2, 9), (2, 3), -- Pizza margarita amb massa de pizza, mozzarella, tomàquet i basilic
 (3, 2), (3, 3), (3, 10), (3, 11), -- Ensalada cèsar amb enciam, tomàquet, pollastre i parmesà
