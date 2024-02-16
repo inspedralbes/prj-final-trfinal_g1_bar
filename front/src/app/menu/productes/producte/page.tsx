@@ -57,7 +57,7 @@ export default function Producte() {
     return (
         <div className='pt-4 pb-5'>
             <div className="container px-6">
-                <div className='row'>
+                <div className='mt-3 row'>
                     <div className='item-producte bg-zinc-300 rounded shadow d-flex flex-column justify-content-center align-items-center'>
                         <img className="img-producte" src="/salad.png" alt="" />
                     </div>

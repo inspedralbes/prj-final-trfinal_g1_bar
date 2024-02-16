@@ -68,7 +68,7 @@ export default function Cistella() {
         }
 
         const body = {
-            tiquet_id: "1/1",
+            tiquet_id: "1-1",
             productes: auxCistella
         }
 
