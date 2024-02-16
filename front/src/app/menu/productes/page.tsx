@@ -49,22 +49,17 @@ export default function Productes() {
             {loading ? (
                 <p>Loading...</p>
             ) : (
-                <div className='px-6'>
-                    <Link href="." className='row p-0 link-underline link-underline-opacity-0'>
-                        Tornar enrere
-                    </Link>
-                    <div className="mt-3 d-flex flex-column align-items-center">
-                        {productes.map((producte: any) => (
-                            <Link key={producte.id} onClick={() => dispatch(setProducteId(producte.id))} href="/menu/productes/producte" className="link">
-                                <div className='item-categoria m-2 bg-zinc-300 rounded shadow d-flex flex-column justify-content-end align-items-center'>
-                                    <img className="img-producte" src="/salad.png" alt="" />
-                                    <div className='pb-3 text-center fw-bold text-uppercase'>
-                                        {producte.nom}
-                                    </div>
+                <div className="d-flex flex-column align-items-center">
+                    {productes.map((producte : any) => (
+                        <Link key={producte.id} onClick={() => dispatch(setProducteId(producte.id))} href="/menu/productes/producte" className="link">
+                            <div className='item-categoria m-2 bg-zinc-300 rounded shadow d-flex flex-column justify-content-end align-items-center'>
+                                <img className="img-producte" src="/salad.png" alt="" />
+                                <div className='pb-3 text-center fw-bold text-uppercase'>
+                                    {producte.nom}
                                 </div>
-                            </Link>
-                        ))}
-                    </div>
+                            </div>
+                        </Link>
+                    ))}
                 </div>
             )}
         </div>

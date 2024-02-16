@@ -8,7 +8,6 @@ import { useRouter } from 'next/navigation';
 import Accordion from 'react-bootstrap/Accordion';
 import Form from 'react-bootstrap/Form';
 import GlobalConfig from '../../../app.config'
-import Link from 'next/link';
 
 export default function Producte() {
 
@@ -133,9 +132,6 @@ export default function Producte() {
     return (
         <div className='pt-4 pb-5'>
             <div className="container px-6">
-                <Link href="." className='row p-0 link-underline link-underline-opacity-0'>
-                    Tornar enrere
-                </Link>
                 <div className='mt-3 row'>
                     <div className='item-producte bg-zinc-300 rounded shadow d-flex flex-column justify-content-center align-items-center'>
                         <img className="img-producte" src="/salad.png" alt="" />
