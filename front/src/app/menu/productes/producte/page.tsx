@@ -6,70 +6,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addTiquetIndividual } from "@/lib/Features/restaurantSlice";
 import { useRouter } from 'next/navigation';
 import Accordion from 'react-bootstrap/Accordion';
-import Form from 'react-bootstrap/Form';
-import GlobalConfig from '../../../app.config'
 
 export default function Producte() {
-
-    // GET AND SET STORE DATA
-    const productesCategoriaSeleccionada : any = useSelector((state: RootState) => state.restaurant.productesCategoriaVisualitzada);
-    const producteId = useSelector((state: RootState) => state.restaurant.producteId);
-    const tiquetIndividual = useSelector((state: RootState) => state.restaurant.tiquetIndividual);
+    const { push } = useRouter();
     const dispatch = useDispatch();
 
-    // NAVEGAR ENTRE PAGINES
-    const { push } = useRouter();
+    const producteSeleccionat = useSelector((state: RootState) => state.restaurant.producteSeleccionat);
+    const tiquetId = useSelector((state: RootState) => state.restaurant.tiquetId);
 
-    // FETCH DATA
-    const [ingredients, setIngredients] = useState<any>([]);
-    const [loading, setLoading] = useState(true);
-    const url = GlobalConfig.link + `/api/productes/${producteId}/ingredients`;
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(url);
-
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                const data = await response.json();
-                setIngredients(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []); // <- s'ha d'especificar una array buida com a segon argument de useEffect per a que només s'executi un cop. Si no s'especifica res el hook useEffect s'executarà de manera infinita
-
-    //
-    let producteSeleccionat: any;
-
-    for (let i = 0; i < productesCategoriaSeleccionada.length; i++) {
-        if (productesCategoriaSeleccionada[i].id === producteId) {
-            producteSeleccionat = productesCategoriaSeleccionada[i];
-        }
-    }
-
-    // CONTROLAR QUANTITAT DE PRODUCTE
     const [quantitat, setQuantitat] = useState(1);
-
-    function suma() {
-        setQuantitat(quantitat + 1);
-    };
-
-    function resta() {
-        if (quantitat > 1) {
-            setQuantitat(quantitat - 1);
-        }
-    };
-
-    // CONTROLAR MODIFICAR INGREDIENTS
-    // Estat per gestionar els ingredients marcats
     const [uncheckedIngredientsCheckboxes, setUncheckedIngredientsCheckboxes] = useState([]);
+
+    const suma = () => setQuantitat(quantitat + 1);
+    const resta = () => quantitat > 1 ? setQuantitat(quantitat - 1) : null;
 
     // Gestionem els canvis dels inputs checkbox dels ingredients
     const handleCheckboxChange = (index: any) => {
@@ -78,42 +27,19 @@ export default function Producte() {
         setUncheckedIngredientsCheckboxes(updatedCheckedCheckboxes);
     };
 
-    // Selecciona aquells ingredients els checkbox dels quals estàn desmarcats
-    function getUncheckedIngredients() {
-        const checked : any = [];
-        const unchecked : any = [];
-
-        ingredients.forEach((ingredient: any, index : number) => {
-            if (uncheckedIngredientsCheckboxes[index]) {
-                unchecked.push(ingredient.nom);
-            } else {
-                checked.push(ingredient.nom);
-            }
-        });
-
-        return unchecked;
-    };
-
-    // Dóna format als comentari eliminar ingredients d'un producte
-    function formatComentariEliminarIngredient(uncheckedIngredients : any) {
-        let comentari = "";
-
-        for (let i = 0; i < uncheckedIngredients.length; i++) {
-            comentari = comentari.concat('Sense ', uncheckedIngredients[i], ". ");
-            
-        }
-        
-        return comentari;
-    }
-
-    // AFEGIR PRODUCTE AL TIQUET INDIVIDUAL
+    // Afegir producte al tiquet individual
     function afegirProducteTiquetIndividual() {
 
-        let uncheckedIngredients = getUncheckedIngredients();
-        let comentari = formatComentariEliminarIngredient(uncheckedIngredients);
+        // Obtenim els ingredients que no estan seleccionats
+        let uncheckedIngredients = producteSeleccionat.ingredients
+            .filter((_: any, index: number) => uncheckedIngredientsCheckboxes[index])
+            .map((ingredient: any) => ingredient.nom);
+
+        // Creem un string amb els ingredients que no estan seleccionats
+        let comentari = uncheckedIngredients.map((ingredient: any) => `Sense ${ingredient}. `).join('');
 
         const producteTiquet = {
-            tiquet_id: 1,
+            tiquet_id: tiquetId,
             producte_id: producteSeleccionat.id,
             nom: producteSeleccionat.nom,
             descripcio: producteSeleccionat.descripcio,
@@ -123,8 +49,7 @@ export default function Producte() {
         };
 
         console.log(producteTiquet);
-        // Enviem producteTiquet a node amb sockets. Serà el socket que farà la crida API
-        
+
         dispatch(addTiquetIndividual([producteTiquet]));
         push('/menu/productes');
     }
@@ -138,7 +63,7 @@ export default function Producte() {
                     </div>
                 </div>
                 <div className='mt-3 row'>
-                    <div className="botonsSumaResta p-0">
+                    <div className="botonsSumaResta p-0 shadow">
                         <button onClick={resta}>-</button>
                         <input type="number" readOnly value={quantitat}></input>
                         <button onClick={suma}>+</button>
@@ -150,16 +75,16 @@ export default function Producte() {
                     <p className="p-0 m-0 font-italic">{producteSeleccionat?.descripcio}</p>
                 </div>
                 <div className='row mt-3'>
-                    <Accordion className='p-0'>
+                    <Accordion className='p-0 shadow'>
                         <Accordion.Item eventKey="0">
-                            <Accordion.Header>MODIFICAR INGREDIENTS</Accordion.Header>
+                            <Accordion.Header>Modificar Ingredients</Accordion.Header>
                             <Accordion.Body>
                                 <form action="">
                                     <div className="d-flex flex-column">
-                                        {ingredients.map((ingredient: any, i: number) => (
+                                        {producteSeleccionat.ingredients.map((ingredient: any, i: number) => (
                                             <div key={i} className="form-check form-switch p-0 mb-2 custom-form-check">
                                                 <div className="w-100 d-inline-flex flex-row-reverse justify-content-between gap-3">
-                                                    <input className="form-check-input ms-0" type="checkbox" role="switch" id={`ing-${i}`} defaultChecked onChange={() => handleCheckboxChange(i)}/>
+                                                    <input className="form-check-input ms-0" type="checkbox" role="switch" id={`ing-${i}`} defaultChecked onChange={() => handleCheckboxChange(i)} />
                                                     <label className="form-check-label" htmlFor="switchCheckLabelStart"> {ingredient.nom}</label>
                                                 </div>
                                             </div>
@@ -171,7 +96,7 @@ export default function Producte() {
                     </Accordion>
                 </div>
                 <div className='mt-3 row'>
-                    <button onClick={afegirProducteTiquetIndividual} type="button" className="col-6 btn btn-primary float-right">AFEGIR A LA COMANDA</button>
+                    <button onClick={afegirProducteTiquetIndividual} type="button" className="col-12 btn btn-primary float-right">AFEGIR A LA COMANDA</button>
                 </div>
             </div>
         </div>
