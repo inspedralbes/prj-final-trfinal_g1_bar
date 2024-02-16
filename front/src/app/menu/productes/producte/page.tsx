@@ -31,12 +31,14 @@ export default function Producte() {
     function afegirProducteTiquetIndividual() {
 
         // Obtenim els ingredients que no estan seleccionats
-        let uncheckedIngredients = producteSeleccionat.ingredients
-            .filter((_: any, index: number) => uncheckedIngredientsCheckboxes[index])
-            .map((ingredient: any) => ingredient.nom);
+        let uncheckedIngredients = producteSeleccionat.ingredients.filter((_: any, index: number) => uncheckedIngredientsCheckboxes[index])
+        let comentari;
 
-        // Creem un string amb els ingredients que no estan seleccionats
-        let comentari = uncheckedIngredients.map((ingredient: any) => `Sense ${ingredient}. `).join('');
+        if (uncheckedIngredients) {
+            uncheckedIngredients = uncheckedIngredients.map((ingredient: any) => ingredient.nom);
+            // Creem un string amb els ingredients que no estan seleccionats
+            comentari = uncheckedIngredients.map((ingredient: any) => `Sense ${ingredient}. `).join('');
+        }
 
         const producteTiquet = {
             tiquet_id: tiquetId,
@@ -81,14 +83,16 @@ export default function Producte() {
                             <Accordion.Body>
                                 <form action="">
                                     <div className="d-flex flex-column">
-                                        {producteSeleccionat.ingredients.map((ingredient: any, i: number) => (
-                                            <div key={i} className="form-check form-switch p-0 mb-2 custom-form-check">
-                                                <div className="w-100 d-inline-flex flex-row-reverse justify-content-between gap-3">
-                                                    <input className="form-check-input ms-0" type="checkbox" role="switch" id={`ing-${i}`} defaultChecked onChange={() => handleCheckboxChange(i)} />
-                                                    <label className="form-check-label" htmlFor="switchCheckLabelStart"> {ingredient.nom}</label>
+                                        {!producteSeleccionat.ingredients ? null : (
+                                            producteSeleccionat.ingredients.map((ingredient: any, i: number) => (
+                                                <div key={i} className="form-check form-switch p-0 mb-2 custom-form-check">
+                                                    <div className="w-100 d-inline-flex flex-row-reverse justify-content-between gap-3">
+                                                        <input className="form-check-input ms-0" type="checkbox" role="switch" id={`ing-${i}`} defaultChecked onChange={() => handleCheckboxChange(i)} />
+                                                        <label className="form-check-label" htmlFor="switchCheckLabelStart"> {ingredient.nom}</label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            ))
+                                        )}
                                     </div>
                                 </form>
                             </Accordion.Body>

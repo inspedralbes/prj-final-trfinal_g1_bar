@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRef } from 'react';
-import socket from "@/sockets";
+import { socket } from "@/sockets";
 import { useSelector } from 'react-redux';
 import { RootState } from "@/lib/store";
 import { } from "@/lib/Features/restaurantSlice";
