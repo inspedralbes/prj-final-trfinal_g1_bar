@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { RootState } from "@/lib/store";
 import { useSelector, useDispatch } from 'react-redux';
-import { setProducteId } from "@/lib/Features/restaurantSlice";
+import { setProducteSelecctionat } from "@/lib/Features/restaurantSlice";
 import { useRouter } from 'next/navigation';
 import { Button } from 'react-bootstrap';
 import { IconArrowLeft } from '@tabler/icons-react';
@@ -37,7 +37,7 @@ export default function Productes() {
             </Button>
             <div className="d-flex flex-column align-items-center">
                 {productes.map((producte: any, index: number) => (
-                    <Link key={index} onClick={() => dispatch(setProducteId(producte.id))} href="/menu/productes/producte" className="link">
+                    <Link key={index} onClick={() => dispatch(setProducteSelecctionat(producte))} href="/menu/productes/producte" className="link">
                         <div className='item-categoria m-2 bg-zinc-300 rounded shadow d-flex flex-column justify-content-end align-items-center'>
                             <img className="img-producte" src="/salad.png" alt="" />
                             <div className='pb-3 text-center fw-bold text-uppercase'>
