@@ -10,7 +10,7 @@
 
 <div class="container w-30 border p-4 mt-5">
     <div class="row mx-auto">
-    <form  method="POST" action="{{ route('productesUpdate', ['id' => $producte->id]) }}">
+    <form  method="POST" action="{{ route('productesUpdate', ['id' => $producte->id]) }}" enctype="multipart/form-data">
         @method('PUT')
         @csrf
 
@@ -62,9 +62,11 @@
 
             <label for="preu_producte" class="form-label">Preu</label>
             <input type="number" class="form-control mb-2" id="preu_producte" name="preu" step=".01" required placeholder="Introduexi el preu del producte" value="{{ $producte->preu }}">
+            <br>
 
-            <label for="imatge_producte" class="form-label">Imatge</label>
-            <input type="text" class="form-control mb-2" name="imatge" id="imatge_producte" placeholder="Introduexi la imatge del producte" value="{{ $producte->imatge }}">
+            <label for="imatge_producte" class="form-label">Imatge actual</label><br>
+            <!--show image-->
+            <img src="{{ asset('img/' . $producte->imatge) }}" alt="Image">
 
             <input type="submit" value="Actualitzar producte" class="btn btn-warning my-2" />
             <div style="display: inline-block; margin-top: 10px; float: right;">

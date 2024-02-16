@@ -46,7 +46,7 @@
 
 <div class="container w-30 border p-4 mt-5">
     <div class="row mx-auto">
-        <form method="POST" action="{{ route('productesStore') }}">
+        <form method="POST" action="{{ route('productesStore') }}" enctype="multipart/form-data">
             @method('POST')
             @csrf
 
@@ -108,6 +108,10 @@
                 <label for="imatge_producte" class="form-label">Imatge</label>
                 <input type="text" class="form-control" id="imatge_producte" name="imatge"
                     placeholder="Introduexi la imatge del producte"><br>
+
+                <!--IMATGE UPLOAD-->
+                <label for="image" class="form-label">Imatge</label>
+                <input type="file" class="form-control mb-2" name="image">
 
                 <!--BUTTONS-->
                 <input type="submit" value="Crear producte" class="btn btn-success my-2" />

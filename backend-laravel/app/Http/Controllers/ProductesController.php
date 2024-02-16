@@ -7,6 +7,8 @@ use App\Models\Producte;
 use App\Models\Categoria;
 use App\Models\Ingredient;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ProductesController extends Controller
 {
@@ -187,14 +189,19 @@ class ProductesController extends Controller
             'imatge' => 'required|string',
             'categories' => 'required|array',
             'ingredients' => 'required|array',
+            'image' => 'required',
         ]);
+
+        // Guardar la imatge
+        $nameImage = $request->file('image')->getClientOriginalName();
+        $request->image->move(public_path('img'), $nameImage);
 
         $producte = new Producte();
         $producte->nom = $request->nom;
         $producte->actiu = $request->actiu ? true : false;
         $producte->descripcio = $request->descripcio;
         $producte->preu = $request->preu;
-        $producte->imatge = $request->imatge;
+        $producte->imatge = $nameImage;
         $producte->save();
         
         $producte->categories()->attach($request->categories);
