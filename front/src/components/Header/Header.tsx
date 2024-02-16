@@ -1,15 +1,15 @@
 'use client'
-import React, { useState, useEffect, use } from 'react';
-import { Offcanvas, Button, Badge } from 'react-bootstrap';
-import { IconMenu2 } from '@tabler/icons-react';
-import { IconShoppingCart } from '@tabler/icons-react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Offcanvas, Button, Badge, Stack } from 'react-bootstrap';
+import { IconMenu2, IconShoppingCart } from '@tabler/icons-react';
 import { RootState } from '@/lib/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from "@/lib/Features/userSlice";
 import { setRestaurantId, setTiquetId } from '@/lib/Features/restaurantSlice';
-import Stack from 'react-bootstrap/Stack';
 import { useRouter, usePathname } from 'next/navigation';
+import { socket, setupSocketConnection } from '@/sockets';
+
 
 const Header = () => {
     const [show, setShow] = useState(false);
@@ -38,6 +38,10 @@ const Header = () => {
 
     useEffect(() => {
 
+        // Inicialitzar connexió amb el socket
+        console.log('connecting socket');
+        setupSocketConnection(dispatch);
+
         // Si existeix una sessió d'usuari, guardar a la store
         const userSession = localStorage.getItem('user');
         console.log(pathname)
@@ -51,22 +55,27 @@ const Header = () => {
         if (restaurantId && tableId) {
             dispatch(setRestaurantId(restaurantId));
             dispatch(setTiquetId(tableId));
-        }
-    }, [])
 
-    useEffect(() => {
-        // Si no hi ha token d'usuari, redirigir a login
-        if (!userToken && pathname !== '/login' && pathname !== '/register' && pathname !== '/') {
+            // Unir-se a la sala
+            socket.emit('joinRoom', `${restaurantId}-${tableId}`)
+        }
+
+        if (!userSession && pathname !== '/login' && pathname !== '/register' && pathname !== '/') {
             push('/login');
         }
-    }, [userToken])
+
+        // Desconnectar amb socket al desmontar el component
+        // return () => {
+        //   socket.disconnect(); // Clean up on component unmount
+        // };
+    }, [])
 
     useEffect(() => {
         // Si el id del restaurant i taula no estan guardats, redirigir a la pàgina principal
         const { restaurantId, tableId } = JSON.parse(localStorage.getItem('userInfo') || '{}');
         
         if (userToken && (!restaurantId || !tableId)) {
-            //push('/');
+            push('/');
         }
     })
 
@@ -102,6 +111,11 @@ const Header = () => {
                                 <div>
                                     <Link href="/menu" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
                                         Menú
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link href="/la-meva-taula" onClick={handleClose} className='link-underline  link-underline-opacity-0'>
+                                        La meva taula
                                     </Link>
                                 </div>
                                 <div>

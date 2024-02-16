@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RootState } from '@/lib/store';
 import { useSelector, useDispatch } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,7 +9,6 @@ import Carousel from 'react-bootstrap/Carousel';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { setTiquetId, setRestaurantId } from '@/lib/Features/restaurantSlice';
-import { socket } from '../sockets';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -22,29 +21,6 @@ export default function App() {
     restaurantId = searchParams.get('restaurantId');
     tableId = searchParams.get('tableId');
   }
-
-  // Estat connexió socket
-  const [isConnected, setIsConnected] = useState(socket.connected);
-
-  useEffect(() => {
-    function onConnect() {
-      setIsConnected(true);
-    }
-
-    function onDisconnect() {
-      setIsConnected(false);
-    }
-
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
-
-    // Clean up the event listeners when the component is unmounted
-    return () => {
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
-    };
-  }, []);
-
 
   const [index, setIndex] = useState(0);
   const userToken = useSelector((state: RootState) => state.user.token);
@@ -61,6 +37,9 @@ export default function App() {
 
       // Guardar a localStorage
       localStorage.setItem('userInfo', JSON.stringify({ restaurantId, tableId }));
+
+      // Unir-se a la sala
+      // socket.emit('joinRoom', `${restaurantId}-${tableId}`)
     }
   }, [restaurantId, tableId]);
 

@@ -1,13 +1,18 @@
 <template>
-    <div class="border-round">
-        <h1>TAULES</h1>
-        <div class="taules-container">
-            <div v-for="(actual,index) in taulesFiltered" @click="enterTable(actual.nombre_taula)" :key=index >
-                <h2>Taula {{actual.nombre_taula}}</h2>
-                <p class="clientsTitle">Clients:</p>
-                <ul>
-                    <li v-for="client in actual.clients">{{client.name}}</li>
-                </ul>
+    <div>
+        <h1>Llistat Taules</h1>
+        <div class="cont">
+            <div v-for="taula in taules" class="comanda">
+                <span class="comanCont">
+                    <h2>Taula {{ taula.taula }}</h2>
+                    <div class="flex-c prodCont">
+                        <div v-for="client in taula.clients">
+                            <p>{{ client.nom }}</p>
+                        </div>
+                    </div>
+                </span>
+                <span class="btnCont">
+                </span>
             </div>
         </div>
     </div>
@@ -23,69 +28,196 @@ export default {
         }
     },
     methods: {
-        enterTable(id){
-            let taula = this.store.getTaules().find(taula => taula.nombre_taula == id);
-            this.store.setTaula(taula);
-            this.$router.push(`/taula`);
-        }
-    },
-    created() {
-        this.store.setRestaurant(1);
-        socket.emit('getTaules', this.store.getRestaurant());
     },
     computed: {
-        taulesFiltered(){
-            let taulesFiltered = this.store.getTaules();
-            if(this.store.buscadorQuery){
-                taulesFiltered = this.taules.filter(taula => taula.nombre_taula.toString().includes(this.store.buscadorQuery));
-            }
-            return taulesFiltered;
+        taules() {
+            return this.store.taules;
         }
     }
 }
 </script>
 
 <style scoped>
-.border-round {
+.cont {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* Allow the commands to wrap to the next line */
+    justify-content: space-between;
+    /* Add some space between the commands */
+    align-items: start;
+    /* Align the commands at the top */
+    background-color: #282c34;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+h1 {
+    color: #61dafb;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+    /* Make the title span the full width */
+}
+
+.gridA {
+    display: grid;
+    grid-template-areas:
+        "prod prod quant "
+        "comentari estat btn";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.gridA button {
+    width: 100%;
+    padding: 10px 0;
+}
+
+#prod {
+    grid-area: prod;
+}
+
+#quant {
+    grid-area: quant;
+}
+
+#btn {
+    grid-area: btn;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+#estat {
+    grid-area: estat;
+}
+
+.comentari {
+    grid-area: comentari;
+}
+
+.comanda {
+    background-color: #3b4049;
+    width: calc(33% - 20px);
+    /* Make the commands take up half the width minus some margin */
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 20px;
 }
 
-.taules-container {
+.comanda:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.comanda p {
+    margin: 10px 10px;
+    color: #fff;
+    line-height: 1.5;
+}
+
+.comanda>p:first-child {
+    font-weight: bold;
+    color: #61dafb;
+}
+
+.flex-r {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 20px;
-    margin-top: 20px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
-.taules-container > div {
-    background-color: black;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.15);
-    padding: 20px;
-    width: 200px;
-    transition: all 0.3s ease;
+.comanCont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-c {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.btnCont {
+    width: 100%;
+}
+
+.btnCont .btn {
+    width: 100%;
+    margin-top: 10px;
+
+}
+
+.btn {
+    font-weight: bold;
+    color: #61dafb;
+    border-color: #61dafb;
+    padding: 10px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
-.taules-container > div:hover {
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
-    transform: translateY(-10px);
+.btn:hover {
+    background-color: #61dafb;
+    color: #282c34;
 }
 
-h2 {
-    margin-bottom: 10px;
+.comentari {
+    width: 90%;
+    text-align: left;
+    font-size: small;
 }
 
-.clientsTitle {
-    margin-bottom: 0px;
+.prodCont {
+    width: 100%;
 }
-ul {
-    margin-top: 5px;
-    /* list-style-type: none;
-    padding: 0; */
+
+.prodCont>:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.prodCont>:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.bg-espera {
+    background-color: rgba(255, 159, 26, 0.6);
+    /* Light orange with 60% opacity */
+}
+
+.bg-espera button:hover {
+    background-color: rgba(0, 123, 255, 0.7);
+}
+
+.bg-començat {
+    background-color: rgba(0, 123, 255, 0.6);
+    /* Light blue with 60% opacity */
+}
+
+.bg-començat button:hover {
+    background-color: rgba(40, 167, 69, 0.7);
+    /* Light orange with 80% opacity */
+}
+
+.bg-acabat {
+    background-color: rgba(40, 167, 69, 0.6);
+    /* Light green with 60% opacity */
+}
+
+.bg-acabat button:hover {
+    background-color: red;
+    /* Light orange with 80% opacity */
 }
 </style>
