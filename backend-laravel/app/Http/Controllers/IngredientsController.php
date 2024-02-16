@@ -118,7 +118,7 @@ class IngredientsController extends Controller
     public function indexWeb()
     {
         $ingredients = Ingredient::all();
-        return view('ingredients.index', ['ingredients' => $ingredients]);
+        return view('ingredients.index', ['ingredients' => $ingredients, 'allIngredients' => $ingredients]);
     }
 
     public function searchCrudWeb(Request $request)
@@ -127,7 +127,8 @@ class IngredientsController extends Controller
         $ingredients = Ingredient::when(!empty($search), function ($query) use ($search) {
                                             $query->where('nom', 'LIKE', "%{$search}%");
                                         })->get();
-        return view('ingredients.index', ['ingredients' => $ingredients]);
+        $allIngredients = Ingredient::all();
+        return view('ingredients.index', ['ingredients' => $ingredients, 'allIngredients' => $allIngredients]);
     }
 
     public function showWeb(string $id)

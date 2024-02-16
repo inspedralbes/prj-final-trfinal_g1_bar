@@ -15,9 +15,9 @@
             @method('GET')
             @csrf
 
-            <input class="form-control me-2" list="datalistOptions" type="text" name="search" placeholder="Buscar categoria">
+            <input class="form-control me-2" list="datalistOptions" type="text" name="search" placeholder="Buscar ingredient">
             <datalist id="datalistOptions">
-            @foreach ($ingredients as $ingredient)
+            @foreach ($allIngredients as $ingredient)
                 <option value="{{ $ingredient->nom }}">
             @endforeach       
             </datalist>
