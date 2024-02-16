@@ -8,11 +8,12 @@ import { useRouter } from 'next/navigation';
 import Accordion from 'react-bootstrap/Accordion';
 import Form from 'react-bootstrap/Form';
 import GlobalConfig from '../../../app.config'
+import Link from 'next/link';
 
 export default function Producte() {
 
     // GET AND SET STORE DATA
-    const productesCategoriaSeleccionada : any = useSelector((state: RootState) => state.restaurant.productesCategoriaVisualitzada);
+    const productesCategoriaSeleccionada: any = useSelector((state: RootState) => state.restaurant.productesCategoriaVisualitzada);
     const producteId = useSelector((state: RootState) => state.restaurant.producteId);
     const tiquetIndividual = useSelector((state: RootState) => state.restaurant.tiquetIndividual);
     const dispatch = useDispatch();
@@ -80,10 +81,10 @@ export default function Producte() {
 
     // Selecciona aquells ingredients els checkbox dels quals estàn desmarcats
     function getUncheckedIngredients() {
-        const checked : any = [];
-        const unchecked : any = [];
+        const checked: any = [];
+        const unchecked: any = [];
 
-        ingredients.forEach((ingredient: any, index : number) => {
+        ingredients.forEach((ingredient: any, index: number) => {
             if (uncheckedIngredientsCheckboxes[index]) {
                 unchecked.push(ingredient.nom);
             } else {
@@ -95,14 +96,14 @@ export default function Producte() {
     };
 
     // Dóna format als comentari eliminar ingredients d'un producte
-    function formatComentariEliminarIngredient(uncheckedIngredients : any) {
+    function formatComentariEliminarIngredient(uncheckedIngredients: any) {
         let comentari = "";
 
         for (let i = 0; i < uncheckedIngredients.length; i++) {
             comentari = comentari.concat('Sense ', uncheckedIngredients[i], ". ");
-            
+
         }
-        
+
         return comentari;
     }
 
@@ -124,7 +125,7 @@ export default function Producte() {
 
         console.log(producteTiquet);
         // Enviem producteTiquet a node amb sockets. Serà el socket que farà la crida API
-        
+
         dispatch(addTiquetIndividual([producteTiquet]));
         push('/menu/productes');
     }
@@ -132,7 +133,10 @@ export default function Producte() {
     return (
         <div className='pt-4 pb-5'>
             <div className="container px-6">
-                <div className='row'>
+                <Link href="." className='row p-0 link-underline link-underline-opacity-0'>
+                    Tornar enrere
+                </Link>
+                <div className='mt-3 row'>
                     <div className='item-producte bg-zinc-300 rounded shadow d-flex flex-column justify-content-center align-items-center'>
                         <img className="img-producte" src="/salad.png" alt="" />
                     </div>
@@ -159,7 +163,7 @@ export default function Producte() {
                                         {ingredients.map((ingredient: any, i: number) => (
                                             <div key={i} className="form-check form-switch p-0 mb-2 custom-form-check">
                                                 <div className="w-100 d-inline-flex flex-row-reverse justify-content-between gap-3">
-                                                    <input className="form-check-input ms-0" type="checkbox" role="switch" id={`ing-${i}`} defaultChecked onChange={() => handleCheckboxChange(i)}/>
+                                                    <input className="form-check-input ms-0" type="checkbox" role="switch" id={`ing-${i}`} defaultChecked onChange={() => handleCheckboxChange(i)} />
                                                     <label className="form-check-label" htmlFor="switchCheckLabelStart"> {ingredient.nom}</label>
                                                 </div>
                                             </div>
