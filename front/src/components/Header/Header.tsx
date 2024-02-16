@@ -1,16 +1,15 @@
 'use client'
-import React, { useState, useEffect, use } from 'react';
-import { Offcanvas, Button, Badge } from 'react-bootstrap';
-import { IconMenu2 } from '@tabler/icons-react';
-import { IconShoppingCart } from '@tabler/icons-react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Offcanvas, Button, Badge, Stack } from 'react-bootstrap';
+import { IconMenu2, IconShoppingCart } from '@tabler/icons-react';
 import { RootState } from '@/lib/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from "@/lib/Features/userSlice";
 import { setRestaurantId, setTiquetId } from '@/lib/Features/restaurantSlice';
-import Stack from 'react-bootstrap/Stack';
 import { useRouter, usePathname } from 'next/navigation';
-import { socket } from '@/sockets';
+import { socket, setupSocketConnection } from '@/sockets';
+
 
 const Header = () => {
     const [show, setShow] = useState(false);
@@ -39,6 +38,10 @@ const Header = () => {
 
     useEffect(() => {
 
+        // Inicialitzar connexió amb el socket
+        console.log('connecting socket');
+        setupSocketConnection(dispatch);
+
         // Si existeix una sessió d'usuari, guardar a la store
         const userSession = localStorage.getItem('user');
         console.log(pathname)
@@ -60,6 +63,11 @@ const Header = () => {
         if (!userSession && pathname !== '/login' && pathname !== '/register' && pathname !== '/') {
             push('/login');
         }
+
+        // Desconnectar amb socket al desmontar el component
+        // return () => {
+        //   socket.disconnect(); // Clean up on component unmount
+        // };
     }, [])
 
     useEffect(() => {

@@ -9,9 +9,6 @@ import Carousel from 'react-bootstrap/Carousel';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { setTiquetId, setRestaurantId } from '@/lib/Features/restaurantSlice';
-// import { socket } from '../sockets';
-import { setupSocketConnection } from '@/sockets';
-
 
 export default function App() {
   const dispatch = useDispatch();
@@ -24,46 +21,6 @@ export default function App() {
     restaurantId = searchParams.get('restaurantId');
     tableId = searchParams.get('tableId');
   }
-
-  // Estat connexió socket
-  // const isSocketListenersSet = useRef(false);
-  // const [isConnected, setIsConnected] = useState(socket.connected);
-
-  // useEffect(() => {    
-  //   function onConnect() {
-  //     setIsConnected(true);
-  //   }
-
-  //   function onDisconnect() {
-  //     setIsConnected(false);
-  //   }
-
-  //   if (!isSocketListenersSet.current) {
-  //     socket.on('connect', onConnect);
-  //     socket.on('disconnect', onDisconnect);
-
-  //     // Update the ref to indicate that listeners have been set up
-  //     isSocketListenersSet.current = true;
-  //   }
-
-  //   // Clean up the event listeners when the component is unmounted
-  //   return () => {
-  //     socket.off('connect', onConnect);
-  //     socket.off('disconnect', onDisconnect);
-  //   };
-  // }, [isConnected]);
-
-  useEffect(() => {
-    console.log('connecting socket');
-
-    setupSocketConnection(dispatch);
-
-    // return () => {
-    //   socket.disconnect(); // Clean up on component unmount
-    // };
-    
-  }, [dispatch]);
-
 
   const [index, setIndex] = useState(0);
   const userToken = useSelector((state: RootState) => state.user.token);

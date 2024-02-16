@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-import { setCategories } from '@/lib/Features/restaurantSlice';
+import { setCategories, setProductes, setIngredients } from '@/lib/Features/restaurantSlice';
 
 export const socket = io('http://localhost:3001');
 
@@ -14,7 +14,9 @@ export const setupSocketConnection = (dispatch: any) => {
     socket.on('restaurant', (restaurant) => {
         // Handle incoming messages
         console.log("restaurant" , restaurant)
-        dispatch(setCategories(restaurant.categories));
+        dispatch(setCategories(restaurant.dades.categories));
+        dispatch(setProductes(restaurant.dades.productes));
+        dispatch(setIngredients(restaurant.dades.ingredients));
         // dispatch({ type: 'RECEIVE_MESSAGE', payload: message });
     });
 
